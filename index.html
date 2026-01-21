@@ -9,32 +9,56 @@
 <style>
 body{
 margin:0;
-font-family:Cairo;
+font-family:'Cairo',sans-serif;
 background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 color:white;
-text-align:center;
 }
 
-header{padding:30px;}
+header{
+text-align:center;
+padding:40px 20px;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:20px;
+}
+
+.brochure{
+background:white;
+color:black;
+border-radius:20px;
+padding:30px;
+margin-top:20px;
+box-shadow:0 0 25px rgba(0,0,0,.3);
+}
+
+.brochure h2{
+text-align:center;
+color:#2c5364;
+font-size:32px;
+margin-bottom:30px;
+}
 
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:20px;
-padding:20px;
 }
 
 .card{
-background:white;
-color:black;
+background:#f5f5f5;
 border-radius:15px;
 overflow:hidden;
-cursor:pointer;
+box-shadow:0 0 10px rgba(0,0,0,.2);
 transition:.3s;
-box-shadow:0 0 10px rgba(0,0,0,.3);
+cursor:pointer;
 }
 
-.card:hover{transform:scale(1.05);}
+.card:hover{
+transform:scale(1.05);
+}
 
 .card img{
 width:100%;
@@ -42,45 +66,30 @@ height:200px;
 object-fit:cover;
 }
 
-.text{padding:15px;font-size:18px;}
-
-#preview{
-background:white;
-color:black;
-margin:20px;
-padding:20px;
-border-radius:15px;
-display:none;
-box-shadow:0 0 15px rgba(0,0,0,.3);
-}
-
-#preview img{
-width:100%;
-max-width:400px;
-border-radius:15px;
-margin-bottom:15px;
-}
-
-button{
-padding:12px 20px;
+.card .text{
+padding:15px;
 font-size:18px;
+line-height:1.8;
+}
+
+.card button{
+width:100%;
+padding:12px;
+border:none;
 background:#2c5364;
 color:white;
-border:none;
-border-radius:10px;
+font-size:18px;
 cursor:pointer;
 }
 
-button:hover{background:#0f2027;}
+.card button:hover{
+background:#0f2027;
+}
 
-#adText{
-margin-top:15px;
-background:#eef;
-padding:15px;
-border-radius:10px;
-font-size:18px;
-line-height:1.8;
-white-space:pre-line;
+footer{
+text-align:center;
+padding:30px;
+opacity:.8;
 }
 </style>
 </head>
@@ -88,70 +97,57 @@ white-space:pre-line;
 <body>
 
 <header>
-<h1>نماذج بروشورات</h1>
-<p>اضغط على أي بروشور لعرض التفاصيل</p>
+<h1>منصة الإعلان الذكي</h1>
+<p>نماذج بروشورات احترافية قابلة للتخصيص</p>
 </header>
+
+<div class="container">
+
+<div class="brochure">
+<h2>نماذج بروشورات</h2>
 
 <div class="grid">
 
-<div class="card" onclick="showBrochure('مدرسي')">
-<img src="https://i.imgur.com/7kJp1cY.jpg">
-<div class="text">بروشور مدرسة</div>
+<div class="card" onclick="alert('تم اختيار بروشور مدرسة')">
+<img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80">
+<div class="text">
+مدرسة المستقبل تقدم بيئة تعليمية متكاملة تجمع بين الإبداع والمعرفة والتقنية الحديثة لبناء جيل واعٍ ومتميز.
+</div>
+<button>اختيار هذا البروشور</button>
 </div>
 
-<div class="card" onclick="showBrochure('مطعم')">
-<img src="https://i.imgur.com/xvV7ZkR.jpg">
-<div class="text">بروشور مطعم</div>
+<div class="card" onclick="alert('تم اختيار بروشور مطعم')">
+<img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80">
+<div class="text">
+مطعم الذوق الملكي يقدم أشهى الأطباق الشرقية والغربية بأجواء راقية وخدمة ممتازة تناسب جميع العائلات.
+</div>
+<button>اختيار هذا البروشور</button>
 </div>
 
-<div class="card" onclick="showBrochure('متجر')">
-<img src="https://i.imgur.com/1KegWPz.jpg">
-<div class="text">بروشور متجر</div>
+<div class="card" onclick="alert('تم اختيار بروشور متجر')">
+<img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80">
+<div class="text">
+متجر الأناقة يوفر أحدث صيحات الموضة بأسعار منافسة وجودة عالية تناسب جميع الأذواق.
+</div>
+<button>اختيار هذا البروشور</button>
+</div>
+
+<div class="card" onclick="alert('تم اختيار بروشور شركة')">
+<img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80">
+<div class="text">
+شركة الريادة تقدم حلولاً مبتكرة في مجال التسويق والإعلان لمساعدة مشروعك على النجاح والانتشار.
+</div>
+<button>اختيار هذا البروشور</button>
+</div>
+
+</div>
 </div>
 
 </div>
 
-<div id="preview"></div>
-
-<script>
-function showBrochure(type){
-
-let data={
-"مدرسي":{
-img:"https://i.imgur.com/7kJp1cY.jpg",
-desc:"بروشور مدرسي احترافي يُستخدم للتعريف بالمدرسة وبرامجها التعليمية وأنشطتها.",
-ad:"مدرسة متميزة تقدم بيئة تعليمية متكاملة تجمع بين الإبداع والتقنية الحديثة لبناء مستقبل مشرق لأبنائنا."
-},
-"مطعم":{
-img:"https://i.imgur.com/xvV7ZkR.jpg",
-desc:"بروشور مطعم لعرض قائمة الطعام والأجواء والعروض.",
-ad:"مطعم يقدم أشهى الأطباق بأجواء راقية وخدمة مميزة تناسب جميع الأذواق."
-},
-"متجر":{
-img:"https://i.imgur.com/1KegWPz.jpg",
-desc:"بروشور متجر للتعريف بالمنتجات والعروض.",
-ad:"متجر يوفر أفضل المنتجات بجودة عالية وأسعار تنافسية."
-}
-};
-
-let p=data[type];
-
-document.getElementById("preview").style.display="block";
-document.getElementById("preview").innerHTML=
-`
-<h2>بروشور ${type}</h2>
-<img src="${p.img}">
-<p>${p.desc}</p>
-<button onclick="generateAd('${p.ad}')">إنشاء إعلان من البروشور</button>
-<div id="adText"></div>
-`;
-}
-
-function generateAd(text){
-document.getElementById("adText").innerText=
-"📢 الإعلان الجاهز:\n\n"+text+"\n\nتواصل معنا اليوم واستفد من أفضل الخدمات.";
-}
-</script>
+<footer>
+© منصة الإعلان الذكي
+</footer>
 
 </body>
 </html>
