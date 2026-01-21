@@ -15,9 +15,7 @@ color:white;
 text-align:center;
 }
 
-header{
-padding:30px;
-}
+header{padding:30px;}
 
 .grid{
 display:grid;
@@ -36,9 +34,7 @@ transition:.3s;
 box-shadow:0 0 10px rgba(0,0,0,.3);
 }
 
-.card:hover{
-transform:scale(1.05);
-}
+.card:hover{transform:scale(1.05);}
 
 .card img{
 width:100%;
@@ -46,10 +42,7 @@ height:200px;
 object-fit:cover;
 }
 
-.text{
-padding:15px;
-font-size:18px;
-}
+.text{padding:15px;font-size:18px;}
 
 #preview{
 background:white;
@@ -66,6 +59,28 @@ width:100%;
 max-width:400px;
 border-radius:15px;
 margin-bottom:15px;
+}
+
+button{
+padding:12px 20px;
+font-size:18px;
+background:#2c5364;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+button:hover{background:#0f2027;}
+
+#adText{
+margin-top:15px;
+background:#eef;
+padding:15px;
+border-radius:10px;
+font-size:18px;
+line-height:1.8;
+white-space:pre-line;
 }
 </style>
 </head>
@@ -104,15 +119,18 @@ function showBrochure(type){
 let data={
 "مدرسي":{
 img:"https://i.imgur.com/7kJp1cY.jpg",
-text:"هذا بروشور مدرسي احترافي يُستخدم للتعريف بالمدرسة، برامجها التعليمية، طاقمها التدريسي، والأنشطة الطلابية. يساعد أولياء الأمور على فهم مستوى المدرسة وجودة التعليم فيها بطريقة جذابة وواضحة."
+desc:"بروشور مدرسي احترافي يُستخدم للتعريف بالمدرسة وبرامجها التعليمية وأنشطتها.",
+ad:"مدرسة متميزة تقدم بيئة تعليمية متكاملة تجمع بين الإبداع والتقنية الحديثة لبناء مستقبل مشرق لأبنائنا."
 },
 "مطعم":{
 img:"https://i.imgur.com/xvV7ZkR.jpg",
-text:"هذا بروشور مطعم احترافي يُستخدم لعرض قائمة الطعام، الأجواء، العروض الخاصة، ومميزات المطعم لجذب العملاء."
+desc:"بروشور مطعم لعرض قائمة الطعام والأجواء والعروض.",
+ad:"مطعم يقدم أشهى الأطباق بأجواء راقية وخدمة مميزة تناسب جميع الأذواق."
 },
 "متجر":{
 img:"https://i.imgur.com/1KegWPz.jpg",
-text:"هذا بروشور متجر يُستخدم للتعريف بالمنتجات والعروض والخصومات لجذب الزبائن وزيادة المبيعات."
+desc:"بروشور متجر للتعريف بالمنتجات والعروض.",
+ad:"متجر يوفر أفضل المنتجات بجودة عالية وأسعار تنافسية."
 }
 };
 
@@ -120,9 +138,18 @@ let p=data[type];
 
 document.getElementById("preview").style.display="block";
 document.getElementById("preview").innerHTML=
-`<h2>بروشور ${type}</h2>
+`
+<h2>بروشور ${type}</h2>
 <img src="${p.img}">
-<p style="font-size:18px;line-height:1.8;">${p.text}</p>`;
+<p>${p.desc}</p>
+<button onclick="generateAd('${p.ad}')">إنشاء إعلان من البروشور</button>
+<div id="adText"></div>
+`;
+}
+
+function generateAd(text){
+document.getElementById("adText").innerText=
+"📢 الإعلان الجاهز:\n\n"+text+"\n\nتواصل معنا اليوم واستفد من أفضل الخدمات.";
 }
 </script>
 
