@@ -3,16 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <title>منصة الإعلان الذكي</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-body{margin:0;font-family:Cairo;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:white;}
-header{text-align:center;padding:30px;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;padding:20px;}
-.card{background:white;color:black;border-radius:15px;overflow:hidden;cursor:pointer;transition:.3s;}
-.card:hover{transform:scale(1.05);}
-.card img{width:100%;height:200px;object-fit:cover;}
-.text{padding:15px;font-size:18px;}
+body{
+margin:0;
+font-family:Cairo;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+text-align:center;
+}
+
+header{
+padding:30px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+padding:20px;
+}
+
+.card{
+background:white;
+color:black;
+border-radius:15px;
+overflow:hidden;
+cursor:pointer;
+transition:.3s;
+box-shadow:0 0 10px rgba(0,0,0,.3);
+}
+
+.card:hover{
+transform:scale(1.05);
+}
+
+.card img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
+
+.text{
+padding:15px;
+font-size:18px;
+}
+
+#preview{
+background:white;
+color:black;
+margin:20px;
+padding:20px;
+border-radius:15px;
+display:none;
+box-shadow:0 0 15px rgba(0,0,0,.3);
+}
+
+#preview img{
+width:100%;
+max-width:400px;
+border-radius:15px;
+margin-bottom:15px;
+}
 </style>
 </head>
 
@@ -20,32 +74,55 @@ header{text-align:center;padding:30px;}
 
 <header>
 <h1>نماذج بروشورات</h1>
-<p>اضغط على أي بروشور للانتقال للصفحة التالية</p>
+<p>اضغط على أي بروشور لعرض التفاصيل</p>
 </header>
 
 <div class="grid">
 
-<div class="card" onclick="go('مدرسة')">
-<img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80">
-<div class="text">بروشور مدرسة تعليمية احترافية</div>
+<div class="card" onclick="showBrochure('مدرسي')">
+<img src="https://i.imgur.com/7kJp1cY.jpg">
+<div class="text">بروشور مدرسة</div>
 </div>
 
-<div class="card" onclick="go('مطعم')">
-<img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80">
-<div class="text">بروشور مطعم فاخر</div>
+<div class="card" onclick="showBrochure('مطعم')">
+<img src="https://i.imgur.com/xvV7ZkR.jpg">
+<div class="text">بروشور مطعم</div>
 </div>
 
-<div class="card" onclick="go('متجر')">
-<img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80">
-<div class="text">بروشور متجر عصري</div>
+<div class="card" onclick="showBrochure('متجر')">
+<img src="https://i.imgur.com/1KegWPz.jpg">
+<div class="text">بروشور متجر</div>
 </div>
 
 </div>
+
+<div id="preview"></div>
 
 <script>
-function go(type){
-localStorage.setItem("type",type);
-window.location="page2.html";
+function showBrochure(type){
+
+let data={
+"مدرسي":{
+img:"https://i.imgur.com/7kJp1cY.jpg",
+text:"هذا بروشور مدرسي احترافي يُستخدم للتعريف بالمدرسة، برامجها التعليمية، طاقمها التدريسي، والأنشطة الطلابية. يساعد أولياء الأمور على فهم مستوى المدرسة وجودة التعليم فيها بطريقة جذابة وواضحة."
+},
+"مطعم":{
+img:"https://i.imgur.com/xvV7ZkR.jpg",
+text:"هذا بروشور مطعم احترافي يُستخدم لعرض قائمة الطعام، الأجواء، العروض الخاصة، ومميزات المطعم لجذب العملاء."
+},
+"متجر":{
+img:"https://i.imgur.com/1KegWPz.jpg",
+text:"هذا بروشور متجر يُستخدم للتعريف بالمنتجات والعروض والخصومات لجذب الزبائن وزيادة المبيعات."
+}
+};
+
+let p=data[type];
+
+document.getElementById("preview").style.display="block";
+document.getElementById("preview").innerHTML=
+`<h2>بروشور ${type}</h2>
+<img src="${p.img}">
+<p style="font-size:18px;line-height:1.8;">${p.text}</p>`;
 }
 </script>
 
