@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>منصة الإعلانات الذكية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+font-family:'Cairo',Arial;
+background:linear-gradient(135deg,#6c5ce7,#00cec9);
+text-align:center;
+}
+
+.box{
+background:white;
+padding:20px;
+margin:20px auto;
+width:95%;
+max-width:1100px;
+border-radius:18px;
+box-shadow:0 0 25px rgba(0,0,0,.3);
+}
+
+select,input,textarea,button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:10px;
+border:1px solid #6c5ce7;
+font-size:18px;
+font-family:'Cairo';
+}
+
+button{
+background:#6c5ce7;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.book{
+display:flex;
+gap:15px;
+margin-top:20px;
+}
+
+.page{
+flex:1;
+border-radius:15px;
+padding:20px;
+min-height:520px;
+box-shadow:0 0 12px rgba(0,0,0,.3);
+text-align:right;
+line-height:2;
+font-size:20px;
+overflow:auto;
+}
+
+.page img{
+width:100%;
+border-radius:12px;
+margin:10px 0;
+}
+
+.nav{
+display:flex;
+justify-content:space-between;
+margin-top:15px;
+}
+
+.videoBox{
+margin-top:25px;
+height:220px;
+border-radius:18px;
+background:linear-gradient(45deg,#fd79a8,#ffeaa7);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:26px;
+font-weight:bold;
+padding:20px;
+color:#2d3436;
+overflow:hidden;
+}
+
+.videoText{
+opacity:0;
+transition:opacity 1.5s ease-in-out;
+text-align:center;
+}
+
+.hidden{display:none;}
+</style>
+</head>
+<body>
+
+<div class="box">
+
+<h1>منصة توليد الإعلانات الذكية</h1>
+
+<select id="type">
+<option value="restaurant">مطعم</option>
+<option value="school">مدرسة</option>
+<option value="store">متجر</option>
+</select>
+
+<input id="name" placeholder="اسم الإعلان">
+
+<textarea id="customText" placeholder="نص إضافي (اختياري)"></textarea>
+
+<button onclick="generate()">إنشاء الإعلان</button>
+
+<div id="result" class="hidden">
+
+<div class="book">
+<div class="page" id="left"></div>
+<div class="page" id="right"></div>
+</div>
+
+<div class="nav">
+<button onclick="prev()">⬅️ السابق</button>
+<button onclick="next()">التالي ➡️</button>
+</div>
+
+<h3>🎬 الفيديو الإعلاني</h3>
+<div class="videoBox">
+<div class="videoText" id="videoText"></div>
+</div>
+
+</div>
+</div>
+
+<script>
+let pages=[];
+let current=0;
+let bg="#f1f2f6";
+
+function generate(){
+let type=document.getElementById("type").value;
+let name=document.getElementById("name").value || "اسم الإعلان";
+let custom=document.getElementById("customText").value;
+
+if(type=="restaurant"){
+bg="#ffeaa7";
+pages=[
+`مطعم ${name}\n\nيقدم لكم تجربة طعام فريدة تجمع بين الجودة العالية والمذاق الأصيل. نحرص على اختيار أفضل المكونات الطازجة يومياً لضمان أعلى مستوى من الجودة.\n\nيتميز مطعمنا بأجواء عائلية راقية تناسب جميع المناسبات، سواء كانت لقاءات عائلية أو اجتماعات عمل أو احتفالات خاصة.\n\nنقدم مجموعة متنوعة من الأطباق المحلية والعالمية التي تناسب جميع الأذواق.`,
+`نؤمن بأن الطعام ليس مجرد وجبة بل تجربة متكاملة تبدأ من الاستقبال وتنتهي بابتسامة رضا.\n\nطاقمنا مدرب على أعلى مستوى لتقديم خدمة احترافية وسريعة.\n\nنحرص دائماً على تطوير قائمتنا وإضافة أطباق جديدة تناسب مختلف الأذواق.\n\nمطعم ${name} هو خيارك الأفضل دائماً.`
+];
+}
+
+if(type=="school"){
+bg="#dff9fb";
+pages=[
+`مدرسة ${name}\n\nمؤسسة تعليمية رائدة تهدف إلى بناء جيل واعٍ ومبدع قادر على مواكبة متطلبات المستقبل.\n\nنوفر بيئة تعليمية آمنة ومحفزة تعتمد على أحدث التقنيات والوسائل التعليمية الحديثة.\n\nنركز على تنمية مهارات التفكير والإبداع لدى الطلاب.`,
+`كادرنا التعليمي يتمتع بخبرة عالية في مجال التعليم والتربية.\n\nنقدم برامج تعليمية متكاملة وأنشطة ثقافية ورياضية متنوعة.\n\nنؤمن بأن التعليم هو الأساس الحقيقي لبناء مجتمع ناجح ومزدهر.\n\nسجل الآن في مدرسة ${name}.`
+];
+}
+
+if(type=="store"){
+bg="#dff9e8";
+pages=[
+`متجر ${name}\n\nوجهتك المثالية للتسوق الذكي حيث تجد أفضل المنتجات الأصلية بأسعار تنافسية.\n\nنحرص على توفير أحدث المنتجات من أفضل العلامات التجارية.\n\nهدفنا هو رضا العميل قبل كل شيء.`,
+`نوفر خدمة توصيل سريعة لجميع المناطق.\n\nعروض موسمية وتخفيضات مستمرة طوال العام.\n\nفريق دعم فني متواجد لخدمتك دائماً.\n\nتسوق الآن من متجر ${name} بثقة.`
+];
+}
+
+if(custom.trim()!="") pages.push(custom);
+
+current=0;
+show();
+startVideo();
+document.getElementById("result").classList.remove("hidden");
+}
+
+function show(){
+left.innerHTML=format(pages[current]);
+right.innerHTML=format(pages[current+1]||"");
+left.style.background=bg;
+right.style.background=bg;
+}
+
+function format(t){
+return `
+<img src="https://source.unsplash.com/500x300/?business">
+<img src="https://source.unsplash.com/500x300/?office,people">
+<p style="white-space:pre-wrap;">${t}</p>
+`;
+}
+
+function next(){if(current<pages.length-2){current+=2;show();}}
+function prev(){if(current>0){current-=2;show();}}
+
+/* فيديو نص */
+let v=0;
+function startVideo(){
+let box=document.getElementById("videoText");
+box.innerText=pages[0];
+box.style.opacity=1;
+
+setInterval(()=>{
+box.style.opacity=0;
+setTimeout(()=>{
+box.innerText=pages[v];
+box.style.opacity=1;
+v++; if(v>=pages.length) v=0;
+},1500);
+},4000);
+}
+</script>
+
+</body>
+</html>
