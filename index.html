@@ -3,12 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>منصة الإعلان الذكي</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
-<!-- Flip -->
-<script src="https://unpkg.com/page-flip/dist/js/page-flip.browser.js"></script>
-<!-- PDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 
 <style>
 body{
@@ -17,159 +14,278 @@ font-family:'Cairo',sans-serif;
 background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 color:white;
 }
-header{text-align:center;padding:30px}
-.container{max-width:1200px;margin:auto;padding:20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
-.card{background:#fff;color:#000;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.35);cursor:pointer}
-.card img{width:100%;height:200px;object-fit:cover}
-.card .text{padding:16px}
-.card button{width:100%;padding:12px;border:0;background:#2c5364;color:#fff;font-size:16px}
 
-.hidden{display:none}
+header{
+text-align:center;
+padding:40px 20px;
+}
 
-.form{background:#fff;color:#000;border-radius:18px;padding:24px;max-width:520px;margin:20px auto}
-input,textarea{width:100%;padding:10px;margin:8px 0;border-radius:10px;border:1px solid #ccc}
-.form button{width:100%;padding:12px;border:0;background:#2c5364;color:#fff;border-radius:10px}
+.container{
+max-width:1200px;
+margin:auto;
+padding:20px;
+}
 
-.actions{text-align:center;margin:20px}
-.actions button{padding:10px 18px;margin:5px;border-radius:10px;border:0;background:#000;color:#fff;cursor:pointer}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
 
-#bookWrap{display:flex;justify-content:center;margin-top:20px}
-#book{width:900px;height:520px}
+.card{
+background:white;
+color:black;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(0,0,0,.4);
+cursor:pointer;
+transition:.3s;
+}
+
+.card:hover{transform:scale(1.05);}
+
+.card img{
+width:100%;
+height:220px;
+object-fit:cover;
+display:block;
+}
+
+.card .text{
+padding:20px;
+font-size:18px;
+}
+
+.card button{
+width:100%;
+padding:14px;
+border:none;
+background:#2c5364;
+color:white;
+font-size:18px;
+cursor:pointer;
+}
+
+.card button:hover{background:#0f2027;}
+
+.hidden{display:none;}
+
+button.back{
+margin:20px;
+padding:10px 20px;
+font-size:16px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+background:#000;
+color:white;
+}
+
+/* البروشور */
+#bookWrap{
+display:flex;
+justify-content:center;
+margin-top:20px;
+}
+
+#book{
+width:900px;
+height:520px;
+}
 
 .page{
-background:#fff;color:#000;
-border-radius:14px;
+background:white;
+color:black;
+border-radius:16px;
 overflow:hidden;
-box-shadow:0 0 25px rgba(0,0,0,.4);
+box-shadow:0 0 30px rgba(0,0,0,.5);
 }
-.page img{width:100%;height:260px;object-fit:cover}
-.page .content{padding:18px;line-height:1.8}
-.dark{background:#000;color:#fff}
-.center{text-align:center}
-footer{text-align:center;padding:20px;opacity:.8}
+
+.page img{
+width:100%;
+height:260px;
+object-fit:cover;
+display:block;
+}
+
+.page .content{
+padding:20px;
+line-height:1.8;
+}
+
+.dark{
+background:black;
+color:white;
+}
+
+.center{text-align:center;}
+
+footer{
+text-align:center;
+padding:30px;
+opacity:.8;
+}
 </style>
 </head>
 
 <body>
+
 <header>
 <h1>منصة الإعلان الذكي</h1>
-<p>اختر نوع البروشور ثم حمّله PDF</p>
+<p>اختر نوع البروشور ثم استعرضه كمجلد احترافي</p>
 </header>
 
+<!-- الصفحة الأولى -->
+<section id="home">
 <div class="container">
+<div class="grid">
 
-<!-- اختيار -->
-<div id="step1" class="grid">
-  <div class="card" onclick="selectType('مدرسة')">
-    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80">
-    <div class="text">بروشور مدرسة</div><button>اختيار</button>
-  </div>
-  <div class="card" onclick="selectType('مطعم')">
-    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80">
-    <div class="text">بروشور مطعم</div><button>اختيار</button>
-  </div>
-  <div class="card" onclick="selectType('متجر')">
-    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80">
-    <div class="text">بروشور متجر</div><button>اختيار</button>
-  </div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80">
+<div class="text">بروشور مدرسة</div>
+<button onclick="openBrochure('school')">اختيار هذا البروشور</button>
 </div>
 
-<!-- بيانات -->
-<div id="step2" class="hidden">
-  <div class="form">
-    <h3>بيانات البروشور</h3>
-    <input id="title" placeholder="اسم البروشور">
-    <textarea id="desc" rows="4" placeholder="عن ماذا البروشور؟"></textarea>
-    <button onclick="generate()">إنشاء البروشور</button>
-  </div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80">
+<div class="text">بروشور مطعم</div>
+<button onclick="openBrochure('restaurant')">اختيار هذا البروشور</button>
 </div>
 
-<!-- أزرار -->
-<div id="actions" class="actions hidden">
-  <button onclick="downloadPDF()">تحميل PDF</button>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80">
+<div class="text">بروشور متجر</div>
+<button onclick="openBrochure('store')">اختيار هذا البروشور</button>
 </div>
 
-<!-- الكتاب -->
-<div id="bookWrap" class="hidden">
-  <div id="book">
-    <div class="page dark center">
-      <img id="img1">
-      <div class="content"><h2 id="rTitle"></h2><p id="rDesc"></p></div>
-    </div>
-    <div class="page">
-      <img id="img2">
-      <div class="content"><h3>خدماتنا</h3><ul><li>جودة عالية</li><li>احترافية</li><li>تميز</li></ul></div>
-    </div>
-    <div class="page dark">
-      <img id="img3">
-      <div class="content"><h3>لماذا نحن؟</h3><p>نقدّم تجربة فريدة تركّز على الجودة.</p></div>
-    </div>
-    <div class="page">
-      <img id="img4">
-      <div class="content"><h3>تواصل معنا</h3><p>📞 0500000000<br>📧 info@example.com</p></div>
-    </div>
-  </div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80">
+<div class="text">بروشور شركة</div>
+<button onclick="openBrochure('company')">اختيار هذا البروشور</button>
 </div>
 
 </div>
+</div>
+</section>
+
+<!-- صفحة البروشور -->
+<section id="brochure" class="hidden">
+<button class="back" onclick="goHome()">⬅ رجوع</button>
+
+<div id="bookWrap">
+<div id="book">
+
+<div class="page dark center">
+<img id="img1">
+<div class="content">
+<h2 id="title">عنوان البروشور</h2>
+<p id="desc">وصف مختصر عن البروشور</p>
+</div>
+</div>
+
+<div class="page">
+<img id="img2">
+<div class="content">
+<h3>خدماتنا</h3>
+<p>نقدم أفضل الخدمات بجودة عالية واحترافية.</p>
+</div>
+</div>
+
+<div class="page dark">
+<img id="img3">
+<div class="content">
+<h3>لماذا نحن؟</h3>
+<p>نركز على التميز والابتكار وخدمة العملاء.</p>
+</div>
+</div>
+
+<div class="page">
+<img id="img4">
+<div class="content">
+<h3>تواصل معنا</h3>
+<p>📞 0500000000<br>📧 info@example.com</p>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
 <footer>© منصة الإعلان الذكي</footer>
 
 <script>
-let selected="", pageFlip;
+let pageFlip;
 
-function selectType(t){
-  selected=t;
-  step1.classList.add("hidden");
-  step2.classList.remove("hidden");
+const data={
+school:{
+title:"مدرسة المستقبل",
+desc:"بيئة تعليمية متطورة لبناء جيل واعٍ ومبدع.",
+imgs:[
+"https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80"
+]
+},
+restaurant:{
+title:"مطعم الذوق الملكي",
+desc:"أشهى الأطباق في أجواء راقية.",
+imgs:[
+"https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1529692236671-f1dc6f38c4e3?auto=format&fit=crop&w=800&q=80"
+]
+},
+store:{
+title:"متجر الأناقة",
+desc:"أحدث صيحات الموضة بجودة عالية.",
+imgs:[
+"https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80"
+]
+},
+company:{
+title:"شركة الريادة",
+desc:"حلول مبتكرة لنمو أعمالك.",
+imgs:[
+"https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80"
+]
+}
+};
+
+function openBrochure(type){
+document.getElementById("home").classList.add("hidden");
+document.getElementById("brochure").classList.remove("hidden");
+
+title.innerText=data[type].title;
+desc.innerText=data[type].desc;
+
+img1.src=data[type].imgs[0];
+img2.src=data[type].imgs[1];
+img3.src=data[type].imgs[2];
+img4.src=data[type].imgs[3];
+
+if(pageFlip) pageFlip.destroy();
+
+pageFlip=new St.PageFlip(book,{
+width:450,
+height:520,
+showCover:true
+});
+pageFlip.loadFromHTML(document.querySelectorAll(".page"));
 }
 
-function generate(){
-  step2.classList.add("hidden");
-  bookWrap.classList.remove("hidden");
-  actions.classList.remove("hidden");
-
-  rTitle.innerText=title.value;
-  rDesc.innerText=desc.value;
-
-  const imgs={
-    "مدرسة":[
-      "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80"
-    ],
-    "مطعم":[
-      "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1529692236671-f1dc6f38c4e3?auto=format&fit=crop&w=800&q=80"
-    ],
-    "متجر":[
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80"
-    ]
-  };
-
-  img1.src=imgs[selected][0];
-  img2.src=imgs[selected][1];
-  img3.src=imgs[selected][2];
-  img4.src=imgs[selected][3];
-
-  if(pageFlip) pageFlip.destroy();
-  pageFlip = new St.PageFlip(book, {
-    width:450, height:520, showCover:true, mobileScrollSupport:false
-  });
-  pageFlip.loadFromHTML(document.querySelectorAll(".page"));
-}
-
-function downloadPDF(){
-  const opt={margin:0, filename:'brochure.pdf', image:{type:'jpeg',quality:0.98},
-  html2canvas:{scale:2}, jsPDF:{unit:'pt',format:'a4',orientation:'landscape'}};
-  html2pdf().set(opt).from(book).save();
+function goHome(){
+document.getElementById("brochure").classList.add("hidden");
+document.getElementById("home").classList.remove("hidden");
 }
 </script>
+
 </body>
 </html>
