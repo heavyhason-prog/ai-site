@@ -14,104 +14,53 @@ font-family:'Cairo',sans-serif;
 background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 color:white;
 }
-
 header{text-align:center;padding:40px 20px;}
 .container{max-width:1200px;margin:auto;padding:20px;}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px;
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;}
 
 .card{
-background:white;
-color:black;
-border-radius:20px;
-overflow:hidden;
+background:white;color:black;border-radius:20px;overflow:hidden;
 box-shadow:0 10px 30px rgba(0,0,0,.4);
-transition:.3s;
 }
-
-.card img{
-width:100%;
-height:220px;
-object-fit:cover;
-}
-
+.card img{width:100%;height:220px;object-fit:cover;}
 .card button{
-width:100%;
-padding:14px;
-border:none;
-background:#2c5364;
-color:white;
-font-size:18px;
-cursor:pointer;
+width:100%;padding:14px;border:none;background:#2c5364;
+color:white;font-size:18px;cursor:pointer;
 }
 
 .hidden{display:none}
 
 .form{
-background:white;
-color:black;
-border-radius:20px;
-padding:30px;
-max-width:500px;
-margin:30px auto;
+background:white;color:black;border-radius:20px;
+padding:30px;max-width:500px;margin:30px auto;
 }
-
 input,textarea{
-width:100%;
-padding:12px;
-margin:10px 0;
-font-size:16px;
-border-radius:10px;
-border:1px solid #ccc;
+width:100%;padding:12px;margin:10px 0;
+border-radius:10px;border:1px solid #ccc;
 }
 
 .form button{
-width:100%;
-padding:14px;
-border:none;
-background:#0f2027;
-color:white;
-font-size:18px;
-border-radius:10px;
-cursor:pointer;
+width:100%;padding:14px;background:#0f2027;
+color:white;border:none;border-radius:10px;font-size:18px;
 }
 
-/* البروشور */
 #bookWrap{display:flex;justify-content:center;margin-top:20px;}
 #book{width:900px;height:520px;}
 
 .page{
-background:white;
-color:black;
-border-radius:16px;
-overflow:hidden;
-box-shadow:0 0 30px rgba(0,0,0,.5);
+background:white;color:black;border-radius:16px;
+overflow:hidden;box-shadow:0 0 30px rgba(0,0,0,.5);
 }
+.page img{width:100%;height:260px;object-fit:cover;}
+.page .content{padding:20px;line-height:1.9;font-size:17px;}
 
-.page img{
-width:100%;
-height:260px;
-object-fit:cover;
-}
-
-.page .content{padding:20px;line-height:1.8;}
 .dark{background:black;color:white;}
 .center{text-align:center;}
 
 button.back{
-margin:20px;
-padding:10px 20px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-background:black;
-color:white;
+margin:20px;padding:10px 20px;border:none;
+border-radius:10px;background:black;color:white;cursor:pointer;
 }
-
 footer{text-align:center;padding:30px;opacity:.8;}
 </style>
 </head>
@@ -120,7 +69,7 @@ footer{text-align:center;padding:30px;opacity:.8;}
 
 <header>
 <h1>منصة الإعلان الذكي</h1>
-<p>اختر → اكتب → شاهد البروشور</p>
+<p>اكتب فكرتك ودع الموقع يولّد بروشور كامل</p>
 </header>
 
 <!-- الصفحة الأولى -->
@@ -143,26 +92,21 @@ footer{text-align:center;padding:30px;opacity:.8;}
 <button onclick="chooseType('store')">بروشور متجر</button>
 </div>
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80">
-<button onclick="chooseType('company')">بروشور شركة</button>
-</div>
-
 </div>
 </div>
 </section>
 
-<!-- الصفحة الثانية (النموذج) -->
+<!-- الصفحة الثانية -->
 <section id="step2" class="hidden">
 <div class="form">
 <h2>بيانات البروشور</h2>
 <input id="bTitle" placeholder="اسم البروشور">
 <textarea id="bDesc" rows="4" placeholder="عن ايش البروشور؟"></textarea>
-<button onclick="createBrochure()">إنشاء البروشور</button>
+<button onclick="createBrochure()">إنشاء البروشور الذكي</button>
 </div>
 </section>
 
-<!-- الصفحة الثالثة (البروشور) -->
+<!-- الصفحة الثالثة -->
 <section id="step3" class="hidden">
 <button class="back" onclick="goHome()">⬅ رجوع</button>
 
@@ -173,31 +117,31 @@ footer{text-align:center;padding:30px;opacity:.8;}
 <img id="img1">
 <div class="content">
 <h2 id="rTitle"></h2>
-<p id="rDesc"></p>
+<p id="page1"></p>
 </div>
 </div>
 
 <div class="page">
 <img id="img2">
 <div class="content">
-<h3>خدماتنا</h3>
-<p>نقدم خدمات احترافية بجودة عالية.</p>
+<h3>لماذا تختارنا؟</h3>
+<p id="page2"></p>
 </div>
 </div>
 
 <div class="page dark">
 <img id="img3">
 <div class="content">
-<h3>لماذا نحن؟</h3>
-<p>نركز على التميز والابتكار.</p>
+<h3>ماذا نقدّم؟</h3>
+<p id="page3"></p>
 </div>
 </div>
 
 <div class="page">
 <img id="img4">
 <div class="content">
-<h3>تواصل معنا</h3>
-<p>📞 0500000000<br>📧 info@example.com</p>
+<h3>رسالتنا</h3>
+<p id="page4"></p>
 </div>
 </div>
 
@@ -219,8 +163,8 @@ school:[
 ],
 restaurant:[
 "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
-"https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80",
 "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80",
+"https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80",
 "https://images.unsplash.com/photo-1529692236671-f1dc6f38c4e3?auto=format&fit=crop&w=800&q=80"
 ],
 store:[
@@ -228,12 +172,6 @@ store:[
 "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80",
 "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80",
 "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80"
-],
-company:[
-"https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80",
-"https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=800&q=80",
-"https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80",
-"https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80"
 ]
 };
 
@@ -243,12 +181,26 @@ step1.classList.add("hidden");
 step2.classList.remove("hidden");
 }
 
+function generateText(title, desc){
+return {
+p1:`${title} ليست مجرد اسم، بل تجربة تعليمية متكاملة. ${desc} نحن نؤمن بأن الاختيار الصحيح اليوم يصنع مستقبلًا أفضل للغد، ولهذا صممنا بيئتنا بعناية.`,
+p2:`في ${title} نوفّر كادرًا مؤهلًا، مناهج حديثة، واهتمامًا فرديًا بكل طالب. لأننا نؤمن أن كل طفل يستحق فرصة حقيقية للتميّز.`,
+p3:`نعتمد أساليب تعليم مبتكرة، تقنيات حديثة، وبرامج تطوير مهارات تواكب متطلبات العصر وتغرس القيم.`,
+p4:`رسالتنا هي بناء جيل واثق، متعلم، وقادر على مواجهة المستقبل بثبات وطموح.`
+};
+}
+
 function createBrochure(){
 step2.classList.add("hidden");
 step3.classList.remove("hidden");
 
+const text=generateText(bTitle.value, bDesc.value);
+
 rTitle.innerText=bTitle.value;
-rDesc.innerText=bDesc.value;
+page1.innerText=text.p1;
+page2.innerText=text.p2;
+page3.innerText=text.p3;
+page4.innerText=text.p4;
 
 img1.src=images[selectedType][0];
 img2.src=images[selectedType][1];
