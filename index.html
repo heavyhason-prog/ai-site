@@ -16,7 +16,7 @@ color:white;
 
 header{text-align:center;padding:30px}
 
-.container{max-width:1200px;margin:auto;padding:20px}
+.container{max-width:1400px;margin:auto;padding:20px}
 
 .hidden{display:none}
 
@@ -38,7 +38,6 @@ gap:20px;
 background:#f5f5f5;
 border-radius:15px;
 overflow:hidden;
-box-shadow:0 0 10px rgba(0,0,0,.2);
 }
 
 .card img{
@@ -55,6 +54,42 @@ background:#2c5364;
 color:white;
 font-size:18px;
 cursor:pointer;
+}
+
+/* ===== المجلد الكبير ===== */
+.folder{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:30px;
+margin-top:30px;
+}
+
+.page{
+background:#fafafa;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 0 15px rgba(0,0,0,.2);
+min-height:520px;
+display:flex;
+flex-direction:column;
+}
+
+.page img{
+width:100%;
+height:260px;
+object-fit:cover;
+}
+
+.page .content{
+padding:25px;
+font-size:20px;
+line-height:2;
+}
+
+.page h3{
+margin-top:0;
+color:#2c5364;
+font-size:26px;
 }
 
 input, textarea{
@@ -78,31 +113,6 @@ border:none;
 cursor:pointer;
 }
 
-/* المجلد */
-.folder{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-margin-top:20px;
-}
-
-.page{
-background:#fafafa;
-border-radius:15px;
-overflow:hidden;
-box-shadow:0 0 10px rgba(0,0,0,.2);
-}
-
-.page img{
-width:100%;
-height:180px;
-object-fit:cover;
-}
-
-.page .content{
-padding:15px;
-}
-
 footer{text-align:center;padding:20px;opacity:.7}
 </style>
 </head>
@@ -111,7 +121,7 @@ footer{text-align:center;padding:20px;opacity:.7}
 
 <header>
 <h1>منصة الإعلان الذكي</h1>
-<p>اختر نوع البروشور ثم أنشئه بشكل احترافي</p>
+<p>أنشئ بروشورك باحتراف وبشكل مجلد</p>
 </header>
 
 <div class="container">
@@ -160,12 +170,12 @@ footer{text-align:center;padding:20px;opacity:.7}
 
 <!-- الصفحة 3 -->
 <div id="page3" class="box hidden">
-<h2>البروشور (شكل مجلد)</h2>
+<h2>البروشور (مجلد 4 صفحات)</h2>
 
 <div class="folder">
 
 <div class="page">
-<img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=600&q=80">
+<img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80">
 <div class="content">
 <h3 id="title1"></h3>
 <p id="text1"></p>
@@ -173,7 +183,7 @@ footer{text-align:center;padding:20px;opacity:.7}
 </div>
 
 <div class="page">
-<img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=600&q=80">
+<img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=800&q=80">
 <div class="content">
 <h3>رؤيتنا</h3>
 <p id="text2"></p>
@@ -181,7 +191,7 @@ footer{text-align:center;padding:20px;opacity:.7}
 </div>
 
 <div class="page">
-<img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80">
+<img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80">
 <div class="content">
 <h3>مميزاتنا</h3>
 <p id="text3"></p>
@@ -189,10 +199,13 @@ footer{text-align:center;padding:20px;opacity:.7}
 </div>
 
 <div class="page">
-<img src="https://images.unsplash.com/photo-1498079022511-d15614cb1c02?auto=format&fit=crop&w=600&q=80">
+<img src="https://images.unsplash.com/photo-1498079022511-d15614cb1c02?auto=format&fit=crop&w=800&q=80">
 <div class="content">
 <h3>تواصل معنا</h3>
-<p>نسعد بخدمتكم ونتطلع للتعاون معكم.</p>
+<p>
+نحن نسعد بخدمتكم ونؤمن بأن النجاح يبدأ بخطوة.
+تواصل معنا لمعرفة المزيد عن خدماتنا وعروضنا.
+</p>
 </div>
 </div>
 
@@ -216,8 +229,8 @@ let desc = document.getElementById('desc').value;
 
 document.getElementById('title1').innerText = name;
 document.getElementById('text1').innerText = desc;
-document.getElementById('text2').innerText = desc + " نعمل وفق رؤية واضحة وخطة مدروسة.";
-document.getElementById('text3').innerText = "جودة عالية، فريق محترف، وتجربة مميزة.";
+document.getElementById('text2').innerText = desc + " نعمل وفق رؤية واضحة ورسالة هادفة.";
+document.getElementById('text3').innerText = "جودة عالية، فريق محترف، تجربة مميزة، واهتمام بالتفاصيل.";
 
 document.getElementById('page2').classList.add('hidden');
 document.getElementById('page3').classList.remove('hidden');
