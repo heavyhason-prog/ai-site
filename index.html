@@ -11,18 +11,15 @@
 <style>
 :root{--main:#00c6ff}
 *{box-sizing:border-box}
-
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
 background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 color:white
 }
-
 section{display:none;padding:20px}
 section.active{display:block}
-
-h1,h2{text-align:center;margin-bottom:20px}
+h1,h2{text-align:center}
 
 /* الصفحة الأولى */
 .grid{
@@ -36,11 +33,7 @@ border-radius:18px;
 overflow:hidden;
 box-shadow:0 0 25px rgba(0,0,0,.35)
 }
-.card img{
-width:100%;
-height:150px;
-object-fit:cover
-}
+.card img{width:100%;height:150px;object-fit:cover}
 .card button{
 width:100%;
 padding:14px;
@@ -73,7 +66,6 @@ cursor:pointer
 /* البروشور */
 #book{
 margin:auto;
-width:100%;
 max-width:420px;
 height:560px
 }
@@ -94,62 +86,35 @@ background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.6));
 color:white;
 padding:20px;
 flex:1;
-line-height:1.9
+line-height:2
 }
 .overlay h2{margin-top:0}
-
-/* موبايل */
-@media(max-width:600px){
-#book{height:520px}
-.overlay{font-size:15px}
-}
 </style>
 </head>
 
 <body>
 
-<!-- الصفحة 1 -->
 <section id="home" class="active">
 <h1>اختر نوع البروشور</h1>
 <div class="grid">
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1509062522246-3755977927d7">
-<button onclick="choose('school')">مدرسة</button>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5">
-<button onclick="choose('restaurant')">مطعم</button>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8">
-<button onclick="choose('store')">متجر</button>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d">
-<button onclick="choose('company')">شركة</button>
-</div>
-
+<div class="card"><img src="https://images.unsplash.com/photo-1509062522246-3755977927d7"><button onclick="choose('school')">مدرسة</button></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5"><button onclick="choose('restaurant')">مطعم</button></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8"><button onclick="choose('store')">متجر</button></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d"><button onclick="choose('company')">شركة</button></div>
 </div>
 </section>
 
-<!-- الصفحة 2 -->
 <section id="form">
 <h2>بيانات البروشور</h2>
-<input id="name" placeholder="اسم البروشور (مثال: مدرسة الفرقان)">
+<input id="name" placeholder="اسم البروشور">
 <textarea id="about" rows="4" placeholder="عن ايش البروشور؟"></textarea>
 <button class="main" onclick="build()">إنشاء البروشور</button>
 </section>
 
-<!-- الصفحة 3 -->
 <section id="result">
-<h2>البروشور النهائي</h2>
+<h2>البروشور</h2>
 
 <div id="book">
-
 <div class="page">
 <img id="i1">
 <div class="overlay">
@@ -169,7 +134,7 @@ line-height:1.9
 <div class="page">
 <img id="i3">
 <div class="overlay">
-<h2>خدماتنا</h2>
+<h2>ماذا نقدم؟</h2>
 <p id="t3"></p>
 </div>
 </div>
@@ -177,120 +142,50 @@ line-height:1.9
 <div class="page">
 <img id="i4">
 <div class="overlay">
-<h2>تواصل معنا</h2>
-<p>
-📞 0500000000<br>
-✉ info@example.com<br>
-📍 المملكة العربية السعودية
-</p>
+<h2>رسالتنا</h2>
+<p id="t4"></p>
 </div>
 </div>
-
 </div>
 
 <button class="main" onclick="show('home')">رجوع</button>
 </section>
 
 <script>
-let type='';
-let flip;
+let type='', flip;
+const rand = a => a[Math.floor(Math.random()*a.length)];
 
-function rand(arr){
-return arr[Math.floor(Math.random()*arr.length)];
-}
-
-const themes={
+const textAI = {
 school:{
-color:'#1e90ff',
-imgs:[
-'https://images.unsplash.com/photo-1524178232363-1fb2b075b655',
-'https://images.unsplash.com/photo-1503676260728-1c00da094a0b',
-'https://images.unsplash.com/photo-1588072432836-e10032774350',
-'https://images.unsplash.com/photo-1601582589907-f92af5ed9db8'
+open:[
+"ليست مجرد مدرسة، بل منظومة تعليمية متكاملة.",
+"رحلة تعليمية تُبنى على القيم والمعرفة.",
+"بيئة تعليمية تصنع الفرق في مستقبل الأبناء."
 ],
-intro:[
-"ليست مجرد مدرسة، بل بيئة تعليمية متكاملة تهتم ببناء شخصية الطالب علميًا وأخلاقيًا.",
-"رحلة تعليمية تبدأ بالقيم وتنتهي بالتميّز والنجاح.",
-"نؤمن أن الاستثمار الحقيقي هو في تعليم الأبناء."
+value:[
+"نؤمن أن التعليم الحقيقي يبدأ من فهم الطالب، وتنمية مهاراته، وبناء شخصيته بثقة.",
+"نعتمد أساليب تعليم حديثة تواكب تطور العالم وتلبي احتياجات الجيل القادم."
 ],
-why:[
-"نقدم مناهج حديثة، كادر تعليمي متميز، وبيئة تعليمية آمنة ومحفزة.",
-"نركز على التفكير والإبداع وبناء الثقة بالنفس.",
-"شراكة حقيقية مع الأسرة لمتابعة الطالب."
+benefit:[
+"كادر تعليمي متميز، متابعة دقيقة، شراكة حقيقية مع الأسرة.",
+"برامج تعليمية، أنشطة إثرائية، وبيئة آمنة ومحفزة."
 ],
-services:[
-"• تعليم تفاعلي حديث\n• أنشطة طلابية\n• متابعة أكاديمية\n• بيئة آمنة\n• كادر مؤهل",
-"• مناهج معتمدة\n• برامج إثرائية\n• دعم تعليمي مستمر"
-]
-},
-
-restaurant:{
-color:'#ff7043',
-imgs:[
-'https://images.unsplash.com/photo-1555396273-367ea4eb4db5',
-'https://images.unsplash.com/photo-1528605248644-14dd04022da1',
-'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe',
-'https://images.unsplash.com/photo-1414235077428-338989a2e8c0'
-],
-intro:[
-"تجربة طعام تجمع بين النكهة والجودة.",
-"كل طبق يُحضّر بعناية ليمنحك متعة حقيقية."
-],
-why:[
-"نستخدم أجود المكونات مع طهاة محترفين.",
-"أجواء راقية وخدمة ممتازة."
-],
-services:[
-"• أطباق متنوعة\n• جلسات عائلية\n• خدمة سريعة\n• أسعار مناسبة"
-]
-},
-
-store:{
-color:'#9c27b0',
-imgs:[
-'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04',
-'https://images.unsplash.com/photo-1521335629791-ce4aec67dd53',
-'https://images.unsplash.com/photo-1604719312566-8912e9227c6a',
-'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb'
-],
-intro:[
-"وجهتك الأولى للتسوق الذكي.",
-"نوفر لك أفضل المنتجات بأسعار منافسة."
-],
-why:[
-"منتجات مختارة بعناية وجودة مضمونة.",
-"تجربة شراء سهلة وسريعة."
-],
-services:[
-"• تنوع كبير\n• عروض مستمرة\n• دعم العملاء"
-]
-},
-
-company:{
-color:'#26a69a',
-imgs:[
-'https://images.unsplash.com/photo-1521737604893-d14cc237f11d',
-'https://images.unsplash.com/photo-1552664730-d307ca884978',
-'https://images.unsplash.com/photo-1503387762-592deb58ef4e',
-'https://images.unsplash.com/photo-1557804506-669a67965ba0'
-],
-intro:[
-"شريكك الاستراتيجي في النجاح.",
-"نحو حلول مبتكرة تحقق نتائج حقيقية."
-],
-why:[
-"فريق محترف وخبرة واسعة.",
-"نركز على الحلول لا الوعود."
-],
-services:[
-"• استشارات\n• تخطيط\n• تنفيذ\n• متابعة"
+end:[
+"معنا يبدأ النجاح… ويستمر.",
+"نصنع المستقبل خطوة بخطوة."
 ]
 }
 };
 
+const images=[
+'https://images.unsplash.com/photo-1524178232363-1fb2b075b655',
+'https://images.unsplash.com/photo-1503676260728-1c00da094a0b',
+'https://images.unsplash.com/photo-1588072432836-e10032774350',
+'https://images.unsplash.com/photo-1601582589907-f92af5ed9db8'
+];
+
 function choose(t){
 type=t;
-document.documentElement.style.setProperty('--main',themes[t].color);
 show('form');
 }
 
@@ -300,31 +195,29 @@ document.getElementById(id).classList.add('active');
 }
 
 function build(){
-const d=themes[type];
-
 title.innerText=name.value;
 
-t1.innerText=
-`${name.value} ${rand(d.intro)}  
-${about.value}`;
+const A=textAI.school;
 
-t2.innerText=rand(d.why);
-t3.innerText=rand(d.services);
+t1.innerText = `
+${name.value} ${rand(A.open)}
+${about.value}
 
-d.imgs.forEach((s,i)=>{
-document.getElementById('i'+(i+1)).src=s;
-});
+${rand(A.value)}
+${rand(A.end)}
+`;
+
+t2.innerText = rand(A.value)+" "+rand(A.benefit);
+t3.innerText = rand(A.benefit);
+t4.innerText = rand(A.end);
+
+images.forEach((s,i)=>document.getElementById('i'+(i+1)).src=s);
 
 show('result');
 
 setTimeout(()=>{
 if(flip) flip.destroy();
-flip=new St.PageFlip(book,{
-width:360,
-height:520,
-size:"stretch",
-mobileScrollSupport:true
-});
+flip=new St.PageFlip(book,{width:360,height:520,size:"stretch"});
 flip.loadFromHTML(document.querySelectorAll('.page'));
 },300);
 }
