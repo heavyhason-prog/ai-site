@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Brochure Generator</title>
+<title>AI Smart Brochure</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@ background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 color:#fff;
 min-height:100vh;
 }
-section{display:none;padding:20px;max-width:900px;margin:auto}
+section{display:none;padding:20px;max-width:950px;margin:auto}
 section.active{display:block}
 h1,h2{text-align:center}
 input,textarea{
@@ -42,10 +42,18 @@ font-weight:700;
 .card{
 background:#fff;
 color:#000;
-border-radius:20px;
+border-radius:22px;
+overflow:hidden;
+margin-bottom:25px;
+box-shadow:0 15px 45px rgba(0,0,0,.4)
+}
+.card img{
+width:100%;
+height:260px;
+object-fit:cover;
+}
+.card .content{
 padding:20px;
-margin-bottom:20px;
-box-shadow:0 10px 40px rgba(0,0,0,.35)
 }
 .badge{
 display:inline-block;
@@ -60,7 +68,7 @@ margin-bottom:10px;
 direction:ltr;
 font-family:Arial,Helvetica,sans-serif;
 opacity:.85;
-margin-top:10px;
+margin-top:12px;
 }
 </style>
 </head>
@@ -68,9 +76,9 @@ margin-top:10px;
 <body>
 
 <section id="home" class="active">
-<h1>🧠 منشئ البروشور بالذكاء الاصطناعي</h1>
+<h1>🧠 منشئ البروشور الذكي</h1>
 <p style="text-align:center;opacity:.9">
-محتوى ذكي • متغيّر • عربي + English
+محتوى احترافي • نصوص متغيرة • تجربة AI
 </p>
 <button onclick="show('form')">ابدأ الآن</button>
 </section>
@@ -78,35 +86,47 @@ margin-top:10px;
 <section id="form">
 <h2>معلومات الجهة</h2>
 <input id="name" placeholder="اسم الجهة (مثال: مدرسة الفرقان)">
-<textarea id="about" rows="4" placeholder="وصف مختصر (اختياري)"></textarea>
+<textarea id="about" rows="4" placeholder="نبذة مختصرة (اختياري)"></textarea>
 <button onclick="generate()">✨ إنشاء بروشور ذكي</button>
 </section>
 
 <section id="result">
-<h2>📘 البروشور الذكي</h2>
+<h2>📘 البروشور</h2>
 
 <div class="card">
-<div class="badge">العنوان الرئيسي</div>
+<img id="img1">
+<div class="content">
+<div class="badge">العنوان</div>
 <h2 id="title"></h2>
 <p class="eng" id="titleEn"></p>
 </div>
+</div>
 
 <div class="card">
+<img id="img2">
+<div class="content">
 <div class="badge">من نحن</div>
 <p id="aboutAr"></p>
 <p class="eng" id="aboutEn"></p>
 </div>
+</div>
 
 <div class="card">
+<img id="img3">
+<div class="content">
 <div class="badge">لماذا نحن؟</div>
 <p id="whyAr"></p>
 <p class="eng" id="whyEn"></p>
 </div>
+</div>
 
 <div class="card">
-<div class="badge">الشعار التسويقي</div>
+<img id="img4">
+<div class="content">
+<div class="badge">الشعار</div>
 <h3 id="slogan"></h3>
 <p class="eng" id="sloganEn"></p>
+</div>
 </div>
 
 <button onclick="show('form')">🔁 إنشاء بروشور جديد</button>
@@ -122,57 +142,70 @@ function pick(arr){
 return arr[Math.floor(Math.random()*arr.length)];
 }
 
+const images=[
+"https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+"https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
+"https://images.unsplash.com/photo-1552664730-d307ca884978",
+"https://images.unsplash.com/photo-1503387762-592deb58ef4e",
+"https://images.unsplash.com/photo-1522202176988-66273c2fd55f"
+];
+
 function generate(){
 const n=name.value||"مؤسستنا";
 const a=about.value||"";
 
 const titles=[
-`مرحبًا بك في ${n} – حيث يبدأ المستقبل`,
-`${n}… تجربة مختلفة تصنع التميز`,
-`في ${n} نعيد تعريف الجودة والاحتراف`
+`${n} حيث تتحول الرؤية إلى واقع`,
+`مرحبًا بك في ${n} – تجربة تصنع الفرق`,
+`${n} منصة للتميّز والابتكار`
 ];
 
 const titlesEn=[
-`Welcome to ${n} – Where the Future Begins`,
-`${n}: Redefining Excellence`,
-`${n} – Innovation Starts Here`
+`${n} – Where Vision Becomes Reality`,
+`${n}: Designed for Excellence`,
+`${n} – Innovation You Can Trust`
 ];
 
 const aboutArList=[
-`${n} ليست مجرد اسم، بل رؤية متكاملة تهدف إلى تقديم قيمة حقيقية تتجاوز التوقعات. نؤمن بأن التطوير المستمر والابتكار هما أساس النجاح. ${a}`,
-`في ${n} نعمل على بناء تجربة متكاملة تجمع بين الجودة، الاحتراف، والاهتمام بأدق التفاصيل لصناعة أثر طويل المدى.`,
-`${n} تمثل نموذجًا حديثًا يجمع بين الخبرة، الطموح، والتقنيات الذكية لتحقيق أفضل النتائج.`
+`${n} تمثل نموذجًا متقدمًا في تقديم الحلول والخدمات باحترافية عالية. نعمل وفق رؤية واضحة تهدف إلى صناعة قيمة مستدامة، مع التركيز على الجودة، التطوير المستمر، وفهم احتياجات المستفيدين بعمق. ${a}`,
+`في ${n} نؤمن أن النجاح الحقيقي يبدأ من التفاصيل الصغيرة، لذلك نعتمد على أنظمة ذكية، فرق متخصصة، ونهج مبتكر يضمن تقديم تجربة استثنائية.`,
+`${n} ليست مجرد جهة، بل منظومة متكاملة تجمع بين الخبرة، الطموح، والتقنيات الحديثة لتحقيق أفضل النتائج.`
 ];
 
 const aboutEnList=[
-`${n} is more than just a name; it represents a complete vision built on innovation, quality, and long-term impact.`,
-`At ${n}, we focus on delivering meaningful experiences powered by strategy, creativity, and smart execution.`,
-`${n} combines expertise and ambition to create real value in a fast-changing world.`
+`${n} represents a modern model built on quality, innovation, and long-term value creation.`,
+`At ${n}, we focus on smart systems, expert teams, and meaningful experiences.`,
+`${n} is a complete ecosystem designed to deliver excellence in every detail.`
 ];
 
 const whyArList=[
-`نتميز بفريق محترف، فكر متجدد، وحلول ذكية مصممة خصيصًا لتلبية احتياجاتك.`,
-`لأننا نركز على النتائج، ونؤمن أن النجاح الحقيقي يُقاس بالأثر والجودة.`,
-`نستخدم أدوات حديثة، تفكير استراتيجي، وتنفيذ دقيق لضمان التميز.`
+`نتميز بقدرتنا على الدمج بين الفكر الاستراتيجي والتنفيذ الذكي، مما يمنحنا أفضلية حقيقية في تحقيق الأهداف.`,
+`لأننا نضع الجودة في صميم عملنا، ونؤمن أن الثقة تُبنى بالنتائج.`,
+`نستخدم أدوات حديثة، تحليلات دقيقة، ونهج مرن يواكب التغيرات.`
 ];
 
 const whyEnList=[
-`We stand out through expertise, innovation, and tailor-made solutions.`,
-`Because real success is measured by impact, quality, and trust.`,
-`Smart tools, strategic thinking, and precise execution define our approach.`
+`We combine strategy, creativity, and execution to deliver real impact.`,
+`Quality, trust, and results are at the core of everything we do.`,
+`Smart thinking and adaptive solutions set us apart.`
 ];
 
 const slogans=[
-`نصنع الفرق بذكاء`,
-`الابتكار يبدأ من هنا`,
-`حلول أذكى… نتائج أقوى`
+`نحو مستقبل أذكى`,
+`نبتكر اليوم لننجح غدًا`,
+`ذكاء في الفكرة، قوة في التنفيذ`
 ];
 
 const slogansEn=[
-`Smart Ideas. Real Impact.`,
-`Innovation Starts Here.`,
-`Smarter Solutions, Stronger Results.`
+`Building a Smarter Future`,
+`Innovating Today for Tomorrow`,
+`Smart Ideas. Strong Execution.`
 ];
+
+img1.src=pick(images);
+img2.src=pick(images);
+img3.src=pick(images);
+img4.src=pick(images);
 
 title.innerText=pick(titles);
 titleEn.innerText=pick(titlesEn);
