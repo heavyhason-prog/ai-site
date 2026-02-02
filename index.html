@@ -77,7 +77,14 @@ flex:1;line-height:2
 }
 .overlay h2{margin-top:0}
 
-/* تحسين الجوال */
+/* زر جديد */
+.new-btn{
+margin-top:25px;
+background:#ffffff;
+color:#203a43;
+font-weight:bold
+}
+
 @media(max-width:600px){
 #book{height:520px}
 .overlay{font-size:15px}
@@ -131,7 +138,7 @@ flex:1;line-height:2
 <div class="page">
 <img id="i2">
 <div class="overlay">
-<h2>رؤيتنا ورسالتنا</h2>
+<h2>رؤيتنا</h2>
 <p id="t2"></p>
 </div>
 </div>
@@ -147,7 +154,7 @@ flex:1;line-height:2
 <div class="page">
 <img id="i4">
 <div class="overlay">
-<h2>ما الذي نقدمه</h2>
+<h2>خدماتنا</h2>
 <p id="t4"></p>
 </div>
 </div>
@@ -170,7 +177,7 @@ flex:1;line-height:2
 
 </div>
 
-<button class="main" onclick="goHome()">رجوع</button>
+<button class="main new-btn" onclick="resetAll()">➕ إنشاء بروشور جديد</button>
 </section>
 
 <script>
@@ -192,76 +199,29 @@ imgs:[
 ],
 text:(n,a)=>[
 `${rand([
-`في ${n} نؤمن أن التعليم رحلة بناء متكاملة.`,
-`${n} ليست مجرد مدرسة بل بيئة تصنع المستقبل.`,
-`مرحبًا بكم في ${n} حيث يبدأ التميز.`
+`في ${n} نؤمن أن التعليم هو الأساس الحقيقي لبناء المستقبل.`,
+`${n} ليست مجرد مدرسة بل بيئة تصنع قادة الغد.`,
+`مرحبًا بكم في ${n} حيث يبدأ التميز الحقيقي.`
 ])} ${a}`,
-
 rand([
-`رؤيتنا تقديم تعليم يجمع بين القيم والمعرفة.`,
-`نطمح لتخريج جيل واثق ومبدع.`,
-`رسالتنا بناء شخصية الطالب علميًا وأخلاقيًا.`
+`رؤيتنا تقديم تعليم عصري متوازن.`,
+`نسعى لصناعة جيل واثق ومبدع.`,
+`رسالتنا غرس القيم مع المعرفة.`
 ]),
-
 rand([
 `كادر تعليمي محترف.`,
-`متابعة دقيقة لكل طالب.`,
-`بيئة تعليمية آمنة ومحفزة.`
+`متابعة مستمرة.`,
+`بيئة تعليمية آمنة.`
 ]),
-
 rand([
 `مناهج حديثة.`,
-`أنشطة طلابية متنوعة.`,
-`تقنيات تعليم متطورة.`
+`أنشطة متنوعة.`,
+`تقنيات متطورة.`
 ]),
-
-rand([
-`جودة تعليم عالية.`,
-`شراكة مع الأسرة.`,
-`نتائج ملموسة.`
-])
-]
-},
-
-restaurant:{
-color:'#ff7043',
-imgs:[
-'https://images.unsplash.com/photo-1555396273-367ea4eb4db5',
-'https://images.unsplash.com/photo-1528605248644-14dd04022da1',
-'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe',
-'https://images.unsplash.com/photo-1414235077428-338989a2e8c0',
-'https://images.unsplash.com/photo-1504674900247-0877df9cc836',
-'https://images.unsplash.com/photo-1555939594-58d7cb561ad1'
-],
-text:(n,a)=>[
-`${rand([
-`${n} تجربة طعام لا تُنسى.`,
-`${n} حيث تلتقي النكهة بالجودة.`,
-`مرحبًا بكم في ${n}.`
-])} ${a}`,
-
-rand([
-`نستخدم أجود المكونات.`,
-`وصفات مبتكرة.`,
-`نكهات أصيلة.`
-]),
-
-rand([
-`جلسات مريحة.`,
-`خدمة راقية.`,
-`أجواء عائلية.`
-]),
-
-rand([
-`أطباق رئيسية.`,
-`مقبلات.`,
-`حلويات مميزة.`
-]),
-
 rand([
 `جودة عالية.`,
-`أسعار مناسبة.`,
-`رضا العملاء.`
+`شراكة مع الأسرة.`,
+`نتائج ملموسة.`
 ])
 ]
 }
@@ -307,8 +267,10 @@ flip.loadFromHTML(document.querySelectorAll('.page'));
 },500);
 }
 
-function goHome(){
+function resetAll(){
 if(flip){flip.destroy();flip=null;}
+name.value='';
+about.value='';
 show('home');
 }
 </script>
