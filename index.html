@@ -9,83 +9,89 @@
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 
 <style>
-:root{--main:#00c6ff}
+:root{
+  --main:#00c6ff;
+  --bg:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+}
 *{box-sizing:border-box}
 body{
-margin:0;
-font-family:'Cairo',sans-serif;
-background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-color:#fff;
-min-height:100vh;
+  margin:0;
+  font-family:'Cairo',sans-serif;
+  background:var(--bg);
+  color:#fff;
+  min-height:100vh;
+  transition: background 0.5s;
 }
 section{display:none;padding:20px;max-width:1100px;margin:auto}
 section.active{display:block}
-h1,h2{text-align:center}
+h1,h2{text-align:center;transition: color 0.5s}
 
-input,textarea{
-width:100%;
-padding:15px;
-border-radius:14px;
-border:none;
-font-size:16px;
-margin-bottom:15px;
+input,textarea,select{
+  width:100%;
+  padding:15px;
+  border-radius:14px;
+  border:none;
+  font-size:16px;
+  margin-bottom:15px;
 }
 
 button{
-width:100%;
-padding:16px;
-border:none;
-border-radius:16px;
-font-size:18px;
-background:var(--main);
-color:#fff;
-cursor:pointer;
-font-weight:700;
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:16px;
+  font-size:18px;
+  background:var(--main);
+  color:#fff;
+  cursor:pointer;
+  font-weight:700;
+  transition: background 0.5s;
 }
 
 #book{
-margin:auto;
-width:100%;
-max-width:420px;
-height:560px;
+  margin:auto;
+  width:100%;
+  max-width:420px;
+  height:560px;
 }
 
 .page{
-background:#fff;
-color:#000;
-border-radius:20px;
-overflow:hidden;
-display:flex;
-flex-direction:column;
+  background:#fff;
+  color:#000;
+  border-radius:20px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transition: background 0.5s;
 }
 
 .page img{
-width:100%;
-height:260px;
-object-fit:cover;
+  width:100%;
+  height:260px;
+  object-fit:cover;
 }
 
 .page .content{
-padding:20px;
-flex:1;
-line-height:1.9;
+  padding:20px;
+  flex:1;
+  line-height:1.9;
 }
 
 .badge{
-display:inline-block;
-background:var(--main);
-color:#fff;
-padding:6px 14px;
-border-radius:20px;
-font-size:14px;
-margin-bottom:10px;
+  display:inline-block;
+  background:var(--main);
+  color:#fff;
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:14px;
+  margin-bottom:10px;
 }
 
 .eng{
-direction:ltr;
-font-family:Arial,Helvetica,sans-serif;
-opacity:.8;
-margin-top:12px;
+  direction:ltr;
+  font-family:Arial,Helvetica,sans-serif;
+  opacity:.8;
+  margin-top:12px;
 }
 </style>
 </head>
@@ -103,6 +109,11 @@ margin-top:12px;
 <section id="form">
 <h2>بيانات الجهة</h2>
 <input id="name" placeholder="اسم الجهة (مثال: مدرسة الفرقان)">
+<select id="type">
+  <option value="school">🏫 مدرسة</option>
+  <option value="restaurant">🍽️ مطعم</option>
+  <option value="store">🛍️ متجر</option>
+</select>
 <textarea id="about" rows="4" placeholder="نبذة مختصرة (اختياري)"></textarea>
 <button onclick="generate()">✨ إنشاء بروشور ذكي</button>
 </section>
@@ -111,43 +122,41 @@ margin-top:12px;
 <h2>📖 البروشور</h2>
 
 <div id="book">
+  <div class="page">
+    <img id="img1">
+    <div class="content">
+      <div class="badge">العنوان</div>
+      <h2 id="title"></h2>
+      <p class="eng" id="titleEn"></p>
+    </div>
+  </div>
 
-<div class="page">
-<img id="img1">
-<div class="content">
-<div class="badge">العنوان</div>
-<h2 id="title"></h2>
-<p class="eng" id="titleEn"></p>
-</div>
-</div>
+  <div class="page">
+    <img id="img2">
+    <div class="content">
+      <div class="badge">من نحن</div>
+      <p id="aboutAr"></p>
+      <p class="eng" id="aboutEn"></p>
+    </div>
+  </div>
 
-<div class="page">
-<img id="img2">
-<div class="content">
-<div class="badge">من نحن</div>
-<p id="aboutAr"></p>
-<p class="eng" id="aboutEn"></p>
-</div>
-</div>
+  <div class="page">
+    <img id="img3">
+    <div class="content">
+      <div class="badge">لماذا نحن؟</div>
+      <p id="whyAr"></p>
+      <p class="eng" id="whyEn"></p>
+    </div>
+  </div>
 
-<div class="page">
-<img id="img3">
-<div class="content">
-<div class="badge">لماذا نحن؟</div>
-<p id="whyAr"></p>
-<p class="eng" id="whyEn"></p>
-</div>
-</div>
-
-<div class="page">
-<img id="img4">
-<div class="content">
-<div class="badge">رؤيتنا</div>
-<p id="visionAr"></p>
-<p class="eng" id="visionEn"></p>
-</div>
-</div>
-
+  <div class="page">
+    <img id="img4">
+    <div class="content">
+      <div class="badge">رؤيتنا</div>
+      <p id="visionAr"></p>
+      <p class="eng" id="visionEn"></p>
+    </div>
+  </div>
 </div>
 
 <button onclick="show('form')">🔁 إنشاء بروشور جديد</button>
@@ -157,100 +166,179 @@ margin-top:12px;
 let flip;
 
 function show(id){
-document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
-document.getElementById(id).classList.add('active');
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
 
 function pick(arr){
-return arr[Math.floor(Math.random()*arr.length)];
+  return arr[Math.floor(Math.random()*arr.length)];
 }
 
-const images=[
-"https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
-"https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
-"https://images.unsplash.com/photo-1552664730-d307ca884978",
-"https://images.unsplash.com/photo-1503387762-592deb58ef4e",
-"https://images.unsplash.com/photo-1522202176988-66273c2fd55f"
-];
-
 function generate(){
-const n = name.value || "مؤسستنا";
-const a = about.value || "";
+  const n = name.value || "مؤسستنا";
+  const a = about.value || "";
+  const type = document.getElementById("type").value;
 
-const titles=[
-`${n} حيث تبدأ الرحلة نحو التميز الحقيقي`,
-`مرحبًا بك في ${n} – لأن الجودة ليست خيارًا بل أسلوب عمل`,
-`${n} تجربة متكاملة تجمع بين الطموح والاحتراف`
-];
+  let titles, titlesEn, aboutArList, aboutEnList, whyArList, whyEnList, visionArList, visionEnList, typeImages, mainColor, bgColor;
 
-const titlesEn=[
-`${n} – Excellence Starts Here`,
-`${n} – Quality. Vision. Impact.`,
-`${n} – Built for Meaningful Success`
-];
+  if(type === "school"){
+    mainColor = "#1e90ff";
+    bgColor = "linear-gradient(135deg,#1c3aa9,#3a5ccc,#1e90ff)";
+    titles = [
+      `${n} حيث تبدأ الرحلة نحو التفوق الأكاديمي`,
+      `مرحبًا بك في ${n} – لأن التعليم هو المستقبل`,
+      `${n} نزرع العلم ونبني العقول`
+    ];
+    titlesEn = [
+      `${n} – Where Learning Shines`,
+      `${n} – Education for the Future`,
+      `${n} – Cultivating Minds`
+    ];
+    aboutArList = [
+      `${n} تهدف إلى تقديم بيئة تعليمية متكاملة، حيث نركز على تطوير الطلاب أكاديميًا وشخصيًا. ${a}`,
+      `في ${n} نسعى لخلق جيل قادر على الابتكار والمشاركة الفاعلة في المجتمع.`
+    ];
+    aboutEnList = [
+      `${n} provides a comprehensive learning environment focused on academic and personal growth.`,
+      `At ${n}, we nurture innovative and socially responsible students.`
+    ];
+    whyArList = [
+      `نحن نستخدم أحدث طرق التدريس والتقنيات لتعزيز التعلم.`,
+      `فريقنا مكون من معلمين متخصصين يحرصون على تطوير كل طالب.`
+    ];
+    whyEnList = [
+      `We use modern teaching methods and technologies to enhance learning.`,
+      `Our team of expert teachers ensures each student thrives.`
+    ];
+    visionArList = [
+      `رؤيتنا بناء جيل متعلم ومبدع قادر على مواجهة تحديات المستقبل.`,
+      `نطمح لأن نكون نموذجًا في التعليم الحديث والمستدام.`
+    ];
+    visionEnList = [
+      `Our vision is to create an educated, creative generation ready for the future.`,
+      `We aim to be a model for modern and sustainable education.`
+    ];
+    typeImages = [
+      "https://images.unsplash.com/photo-1503676260728-1c00da094a0",
+      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d"
+    ];
+  } 
+  else if(type === "restaurant"){
+    mainColor = "#ff6347";
+    bgColor = "linear-gradient(135deg,#a83232,#ff6347,#ffb199)";
+    titles = [
+      `${n} طعم لا يُنسى`,
+      `مرحبًا بك في ${n} – مذاق يجمع الناس`,
+      `${n} تجربة طعام لا مثيل لها`
+    ];
+    titlesEn = [
+      `${n} – Unforgettable Taste`,
+      `${n} – Flavor that Brings People Together`,
+      `${n} – A Culinary Experience`
+    ];
+    aboutArList = [
+      `${n} يقدم أطباقاً مبتكرة تجمع بين الجودة والطعم الرائع. ${a}`,
+      `في ${n} نسعى لإرضاء جميع الأذواق وتجربة طعام لا تُنسى.`
+    ];
+    aboutEnList = [
+      `${n} offers innovative dishes combining quality and taste.`,
+      `At ${n}, we strive to delight every palate with unforgettable experiences.`
+    ];
+    whyArList = [
+      `نحن نختار أفضل المكونات الطازجة لكل طبق.`,
+      `فريق الطهاة لدينا خبراء في تحضير أطباق مبتكرة.`
+    ];
+    whyEnList = [
+      `We select the freshest ingredients for every dish.`,
+      `Our chefs are experts in creating innovative meals.`
+    ];
+    visionArList = [
+      `رؤيتنا تقديم تجربة طعام استثنائية لكل زائر.`,
+      `نسعى لأن نصبح الوجهة الأولى لعشاق الطعام.`
+    ];
+    visionEnList = [
+      `Our vision is to provide an exceptional dining experience.`,
+      `We aim to be the top choice for food enthusiasts.`
+    ];
+    typeImages = [
+      "https://images.unsplash.com/photo-1552664730-d307ca884978",
+      "https://images.unsplash.com/photo-1503387762-592deb58ef4e"
+    ];
+  } 
+  else if(type === "store"){
+    mainColor = "#32cd32";
+    bgColor = "linear-gradient(135deg,#1a6f1a,#32cd32,#a0ffa0)";
+    titles = [
+      `${n} مكانك المثالي للتسوق`,
+      `مرحبًا بك في ${n} – كل ما تحتاجه هنا`,
+      `${n} منتجات عالية الجودة وخدمة مميزة`
+    ];
+    titlesEn = [
+      `${n} – Your Perfect Shopping Destination`,
+      `${n} – Everything You Need, All in One Place`,
+      `${n} – Quality Products, Excellent Service`
+    ];
+    aboutArList = [
+      `${n} يقدم مجموعة متنوعة من المنتجات عالية الجودة لتلبية احتياجاتكم. ${a}`,
+      `في ${n} نركز على تقديم أفضل تجربة تسوق لعملائنا.`
+    ];
+    aboutEnList = [
+      `${n} offers a variety of high-quality products to meet your needs.`,
+      `At ${n}, we focus on providing the best shopping experience.`
+    ];
+    whyArList = [
+      `نحن نحرص على توفير منتجات موثوقة وخدمة عملاء ممتازة.`,
+      `تسوقك معنا تجربة مريحة وسهلة.`
+    ];
+    whyEnList = [
+      `We ensure reliable products and excellent customer service.`,
+      `Shopping with us is easy and convenient.`
+    ];
+    visionArList = [
+      `رؤيتنا أن نصبح الوجهة المفضلة لكل متسوق.`,
+      `نسعى للابتكار وتحسين تجربة التسوق باستمرار.`
+    ];
+    visionEnList = [
+      `Our vision is to be the preferred destination for shoppers.`,
+      `We strive to innovate and enhance the shopping experience.`
+    ];
+    typeImages = [
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+      "https://images.unsplash.com/photo-1503387762-592deb58ef4e"
+    ];
+  }
 
-const aboutArList=[
-`${n} تمثل نموذجًا متقدمًا في تقديم الحلول والخدمات، حيث نعتمد على رؤية واضحة ونهج احترافي يركز على صناعة قيمة حقيقية ومستدامة. نؤمن بأن النجاح لا يتحقق بالصدفة، بل من خلال التخطيط الذكي، التنفيذ المتقن، وفهم احتياجات المستفيدين بعمق. ${a}`,
-`في ${n} نعمل بروح الفريق الواحد، ونسعى إلى بناء تجربة متكاملة تجمع بين الجودة العالية، التطوير المستمر، واستخدام الأدوات الحديثة لضمان أفضل النتائج.`,
-`${n} ليست مجرد جهة تقدم خدمة، بل منظومة متكاملة تهدف إلى إحداث فرق حقيقي من خلال الابتكار، الالتزام، والتركيز على التفاصيل.`
-];
+  // تغيير الألوان حسب النوع
+  document.documentElement.style.setProperty('--main', mainColor);
+  document.body.style.background = bgColor;
 
-const aboutEnList=[
-`${n} is a forward-thinking organization built on quality, innovation, and long-term value creation.`,
-`At ${n}, we design meaningful experiences driven by smart systems and expert execution.`,
-`${n} is not just a service provider, but a complete ecosystem for success.`
-];
+  // اختيار الصور بشكل عشوائي من نوع الجهة
+  img1.src = pick(typeImages);
+  img2.src = pick(typeImages);
+  img3.src = pick(typeImages);
+  img4.src = pick(typeImages);
 
-const whyArList=[
-`لأننا نمتلك القدرة على الدمج بين الرؤية الاستراتيجية والتنفيذ العملي، مما يمنحنا ميزة تنافسية حقيقية.`,
-`نضع الجودة في صميم كل ما نقوم به، ونؤمن أن الثقة تُبنى من خلال النتائج وليس الوعود.`,
-`نعتمد على أدوات حديثة، تفكير تحليلي، ونهج مرن يساعدنا على مواكبة التغيرات وتحقيق التفوق.`
-];
+  title.innerText = pick(titles);
+  titleEn.innerText = pick(titlesEn);
+  aboutAr.innerText = pick(aboutArList);
+  aboutEn.innerText = pick(aboutEnList);
+  whyAr.innerText = pick(whyArList);
+  whyEn.innerText = pick(whyEnList);
+  visionAr.innerText = pick(visionArList);
+  visionEn.innerText = pick(visionEnList);
 
-const whyEnList=[
-`We combine strategic thinking with flawless execution.`,
-`Trust is built through results, not promises.`,
-`Smart tools and adaptive thinking set us apart.`
-];
+  show('result');
 
-const visionArList=[
-`نسعى في ${n} إلى بناء مستقبل أكثر ذكاءً واستدامة، من خلال تقديم حلول مبتكرة تُحدث أثرًا إيجابيًا طويل المدى.`,
-`رؤيتنا تتمثل في أن نكون الخيار الأول لمن يبحث عن الجودة، الاحتراف، والقيمة الحقيقية.`,
-`نطمح إلى الريادة عبر الابتكار المستمر وتطوير تجارب تتجاوز التوقعات.`
-];
-
-const visionEnList=[
-`Our vision is to build a smarter and more sustainable future.`,
-`We aim to be the first choice for quality-driven solutions.`,
-`Innovation and impact define our journey forward.`
-];
-
-img1.src = pick(images);
-img2.src = pick(images);
-img3.src = pick(images);
-img4.src = pick(images);
-
-title.innerText = pick(titles);
-titleEn.innerText = pick(titlesEn);
-aboutAr.innerText = pick(aboutArList);
-aboutEn.innerText = pick(aboutEnList);
-whyAr.innerText = pick(whyArList);
-whyEn.innerText = pick(whyEnList);
-visionAr.innerText = pick(visionArList);
-visionEn.innerText = pick(visionEnList);
-
-show('result');
-
-setTimeout(()=>{
-if(flip) flip.destroy();
-flip = new St.PageFlip(document.getElementById("book"),{
-width:360,
-height:520,
-size:"stretch",
-mobileScrollSupport:true
-});
-flip.loadFromHTML(document.querySelectorAll(".page"));
-},300);
+  setTimeout(()=>{
+    if(flip) flip.destroy();
+    flip = new St.PageFlip(document.getElementById("book"),{
+      width:360,
+      height:520,
+      size:"stretch",
+      mobileScrollSupport:true
+    });
+    flip.loadFromHTML(document.querySelectorAll(".page"));
+  },300);
 }
 </script>
 
