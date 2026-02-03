@@ -12,6 +12,9 @@
 :root{
   --main:#00c6ff;
   --bg:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  --page-bg:#fff;
+  --page-radius:20px;
+  --page-shadow:0 4px 15px rgba(0,0,0,0.3);
 }
 *{box-sizing:border-box}
 body{
@@ -56,19 +59,21 @@ button{
 }
 
 .page{
-  background:#fff;
+  background:var(--page-bg);
   color:#000;
-  border-radius:20px;
+  border-radius:var(--page-radius);
+  box-shadow:var(--page-shadow);
   overflow:hidden;
   display:flex;
   flex-direction:column;
-  transition: background 0.5s;
+  transition: all 0.5s;
 }
 
 .page img{
   width:100%;
   height:260px;
   object-fit:cover;
+  transition: transform 0.5s;
 }
 
 .page .content{
@@ -179,11 +184,16 @@ function generate(){
   const a = about.value || "";
   const type = document.getElementById("type").value;
 
-  let titles, titlesEn, aboutArList, aboutEnList, whyArList, whyEnList, visionArList, visionEnList, typeImages, mainColor, bgColor;
+  let titles, titlesEn, aboutArList, aboutEnList, whyArList, whyEnList, visionArList, visionEnList, typeImages;
+  let mainColor, bgColor, pageBg, pageRadius, pageShadow, imgEffect;
 
   if(type === "school"){
     mainColor = "#1e90ff";
     bgColor = "linear-gradient(135deg,#1c3aa9,#3a5ccc,#1e90ff)";
+    pageBg = "#f0f8ff";
+    pageRadius = "20px";
+    pageShadow = "0 6px 20px rgba(0,0,80,0.4)";
+    imgEffect = "scale(1)";
     titles = [
       `${n} حيث تبدأ الرحلة نحو التفوق الأكاديمي`,
       `مرحبًا بك في ${n} – لأن التعليم هو المستقبل`,
@@ -203,7 +213,7 @@ function generate(){
       `At ${n}, we nurture innovative and socially responsible students.`
     ];
     whyArList = [
-      `نحن نستخدم أحدث طرق التدريس والتقنيات لتعزيز التعلم.`,
+      `نستخدم أحدث طرق التدريس والتقنيات لتعزيز التعلم.`,
       `فريقنا مكون من معلمين متخصصين يحرصون على تطوير كل طالب.`
     ];
     whyEnList = [
@@ -226,6 +236,10 @@ function generate(){
   else if(type === "restaurant"){
     mainColor = "#ff6347";
     bgColor = "linear-gradient(135deg,#a83232,#ff6347,#ffb199)";
+    pageBg = "#fff0f0";
+    pageRadius = "30px";
+    pageShadow = "0 8px 25px rgba(150,0,0,0.5)";
+    imgEffect = "scale(1.05)";
     titles = [
       `${n} طعم لا يُنسى`,
       `مرحبًا بك في ${n} – مذاق يجمع الناس`,
@@ -245,7 +259,7 @@ function generate(){
       `At ${n}, we strive to delight every palate with unforgettable experiences.`
     ];
     whyArList = [
-      `نحن نختار أفضل المكونات الطازجة لكل طبق.`,
+      `نختار أفضل المكونات الطازجة لكل طبق.`,
       `فريق الطهاة لدينا خبراء في تحضير أطباق مبتكرة.`
     ];
     whyEnList = [
@@ -268,6 +282,10 @@ function generate(){
   else if(type === "store"){
     mainColor = "#32cd32";
     bgColor = "linear-gradient(135deg,#1a6f1a,#32cd32,#a0ffa0)";
+    pageBg = "#f0fff0";
+    pageRadius = "15px";
+    pageShadow = "0 5px 18px rgba(0,80,0,0.4)";
+    imgEffect = "scale(1.02)";
     titles = [
       `${n} مكانك المثالي للتسوق`,
       `مرحبًا بك في ${n} – كل ما تحتاجه هنا`,
@@ -287,7 +305,7 @@ function generate(){
       `At ${n}, we focus on providing the best shopping experience.`
     ];
     whyArList = [
-      `نحن نحرص على توفير منتجات موثوقة وخدمة عملاء ممتازة.`,
+      `نحرص على توفير منتجات موثوقة وخدمة عملاء ممتازة.`,
       `تسوقك معنا تجربة مريحة وسهلة.`
     ];
     whyEnList = [
@@ -308,15 +326,18 @@ function generate(){
     ];
   }
 
-  // تغيير الألوان حسب النوع
+  // تطبيق الألوان والستايلات
   document.documentElement.style.setProperty('--main', mainColor);
   document.body.style.background = bgColor;
+  document.documentElement.style.setProperty('--page-bg', pageBg);
+  document.documentElement.style.setProperty('--page-radius', pageRadius);
+  document.documentElement.style.setProperty('--page-shadow', pageShadow);
 
-  // اختيار الصور بشكل عشوائي من نوع الجهة
-  img1.src = pick(typeImages);
-  img2.src = pick(typeImages);
-  img3.src = pick(typeImages);
-  img4.src = pick(typeImages);
+  // اختيار الصور بشكل عشوائي
+  img1.src = pick(typeImages); img1.style.transform = imgEffect;
+  img2.src = pick(typeImages); img2.style.transform = imgEffect;
+  img3.src = pick(typeImages); img3.style.transform = imgEffect;
+  img4.src = pick(typeImages); img4.style.transform = imgEffect;
 
   title.innerText = pick(titles);
   titleEn.innerText = pick(titlesEn);
