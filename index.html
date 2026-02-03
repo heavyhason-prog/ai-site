@@ -65,21 +65,23 @@ button{
   box-shadow:var(--page-shadow);
   overflow:hidden;
   display:flex;
-  flex-direction:column;
+  flex-direction: row; /* الصورة على اليسار والنص على اليمين */
   transition: all 0.5s;
 }
 
 .page img{
-  width:100%;
-  height:260px;
-  object-fit:cover;
+  width:50%;  /* نصف الصفحة للصورة */
+  height:100%; /* تغطي ارتفاع الصفحة بالكامل */
+  object-fit:cover; 
+  display:block;
   transition: transform 0.5s;
 }
 
 .page .content{
+  width:50%;  /* نصف الصفحة للنصوص */
   padding:20px;
-  flex:1;
   line-height:1.9;
+  overflow-y:auto;
 }
 
 .badge{
@@ -185,8 +187,6 @@ button{
 
 <script>
 let flip;
-
-// تحميل صوت تقليب الصفحات
 const flipSound = new Audio("https://www.soundjay.com/button/sounds/button-16.mp3");
 
 function show(id){
@@ -286,9 +286,7 @@ function generate(){
     });
     flip.loadFromHTML(document.querySelectorAll(".page"));
 
-    // تشغيل الصوت عند تقليب الصفحة
     flip.on("flip", ()=>{ flipSound.play(); });
-
   },300);
 }
 </script>
