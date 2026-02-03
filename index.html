@@ -130,7 +130,7 @@ button{
   <div class="page">
     <img id="img1">
     <div class="content">
-      <div class="badge">العنوان</div>
+      <div class="badge" id="badge1">العنوان</div>
       <h2 id="title"></h2>
       <p class="eng" id="titleEn"></p>
     </div>
@@ -139,7 +139,7 @@ button{
   <div class="page">
     <img id="img2">
     <div class="content">
-      <div class="badge">من نحن</div>
+      <div class="badge" id="badge2">من نحن</div>
       <p id="aboutAr"></p>
       <p class="eng" id="aboutEn"></p>
     </div>
@@ -148,7 +148,7 @@ button{
   <div class="page">
     <img id="img3">
     <div class="content">
-      <div class="badge">لماذا نحن؟</div>
+      <div class="badge" id="badge3">لماذا نحن؟</div>
       <p id="whyAr"></p>
       <p class="eng" id="whyEn"></p>
     </div>
@@ -157,7 +157,7 @@ button{
   <div class="page">
     <img id="img4">
     <div class="content">
-      <div class="badge">رؤيتنا</div>
+      <div class="badge" id="badge4">رؤيتنا</div>
       <p id="visionAr"></p>
       <p class="eng" id="visionEn"></p>
     </div>
@@ -180,150 +180,56 @@ function pick(arr){
 }
 
 function generate(){
-  const n = document.getElementById("name").value || "مؤسستنا";
-  const a = document.getElementById("about").value || "";
+  const n = name.value || "مؤسستنا";
+  const a = about.value || "";
   const type = document.getElementById("type").value;
 
   let titles, titlesEn, aboutArList, aboutEnList, whyArList, whyEnList, visionArList, visionEnList, typeImages;
   let mainColor, bgColor, pageBg, pageRadius, pageShadow, imgEffect;
+  let icon = ""; // الأيقونة للبادج
+  let textIcons = []; // الرموز الصغيرة داخل النصوص
 
   if(type === "school"){
-    mainColor = "#1e90ff";
-    bgColor = "linear-gradient(135deg,#1c3aa9,#3a5ccc,#1e90ff)";
-    pageBg = "#f0f8ff";
-    pageRadius = "20px";
-    pageShadow = "0 6px 20px rgba(0,0,80,0.4)";
-    imgEffect = "scale(1)";
-    titles = [
-      `${n} حيث تبدأ الرحلة نحو التفوق الأكاديمي`,
-      `مرحبًا بك في ${n} – لأن التعليم هو المستقبل`,
-      `${n} نزرع العلم ونبني العقول`
-    ];
-    titlesEn = [
-      `${n} – Where Learning Shines`,
-      `${n} – Education for the Future`,
-      `${n} – Cultivating Minds`
-    ];
-    aboutArList = [
-      `${n} تهدف إلى تقديم بيئة تعليمية متكاملة، حيث نركز على تطوير الطلاب أكاديميًا وشخصيًا. ${a}`,
-      `في ${n} نسعى لخلق جيل قادر على الابتكار والمشاركة الفاعلة في المجتمع.`
-    ];
-    aboutEnList = [
-      `${n} provides a comprehensive learning environment focused on academic and personal growth.`,
-      `At ${n}, we nurture innovative and socially responsible students.`
-    ];
-    whyArList = [
-      `نستخدم أحدث طرق التدريس والتقنيات لتعزيز التعلم.`,
-      `فريقنا مكون من معلمين متخصصين يحرصون على تطوير كل طالب.`
-    ];
-    whyEnList = [
-      `We use modern teaching methods and technologies to enhance learning.`,
-      `Our team of expert teachers ensures each student thrives.`
-    ];
-    visionArList = [
-      `رؤيتنا بناء جيل متعلم ومبدع قادر على مواجهة تحديات المستقبل.`,
-      `نطمح لأن نكون نموذجًا في التعليم الحديث والمستدام.`
-    ];
-    visionEnList = [
-      `Our vision is to create an educated, creative generation ready for the future.`,
-      `We aim to be a model for modern and sustainable education.`
-    ];
-    typeImages = [
-      "https://images.unsplash.com/photo-1503676260728-1c00da094a0",
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d"
-    ];
-  } 
+    mainColor = "#1e90ff"; bgColor = "linear-gradient(135deg,#1c3aa9,#3a5ccc,#1e90ff)";
+    pageBg = "#f0f8ff"; pageRadius = "20px"; pageShadow = "0 6px 20px rgba(0,0,80,0.4)"; imgEffect="scale(1)";
+    icon = "📚"; textIcons = ["📖","✏️"];
+    titles = [`${n} حيث تبدأ الرحلة نحو التفوق الأكاديمي`,`مرحبًا بك في ${n} – لأن التعليم هو المستقبل`,`${n} نزرع العلم ونبني العقول`];
+    titlesEn = [`${n} – Where Learning Shines`,`${n} – Education for the Future`,`${n} – Cultivating Minds`];
+    aboutArList = [`${textIcons[0]} ${n} تهدف إلى تقديم بيئة تعليمية متكاملة، حيث نركز على تطوير الطلاب أكاديميًا وشخصيًا. ${a}`];
+    aboutEnList = [`${textIcons[0]} ${n} provides a comprehensive learning environment focused on academic and personal growth.`];
+    whyArList = [`${textIcons[1]} نستخدم أحدث طرق التدريس والتقنيات لتعزيز التعلم.`];
+    whyEnList = [`${textIcons[1]} We use modern teaching methods and technologies to enhance learning.`];
+    visionArList = [`${textIcons[0]} رؤيتنا بناء جيل متعلم ومبدع قادر على مواجهة تحديات المستقبل.`];
+    visionEnList = [`${textIcons[0]} Our vision is to create an educated, creative generation ready for the future.`];
+    typeImages = ["https://images.unsplash.com/photo-1503676260728-1c00da094a0","https://images.unsplash.com/photo-1521737604893-d14cc237f11d"];
+  }
   else if(type === "restaurant"){
-    mainColor = "#ff6347";
-    bgColor = "linear-gradient(135deg,#a83232,#ff6347,#ffb199)";
-    pageBg = "#fff0f0";
-    pageRadius = "30px";
-    pageShadow = "0 8px 25px rgba(150,0,0,0.5)";
-    imgEffect = "scale(1.05)";
-    titles = [
-      `${n} طعم لا يُنسى`,
-      `مرحبًا بك في ${n} – مذاق يجمع الناس`,
-      `${n} تجربة طعام لا مثيل لها`
-    ];
-    titlesEn = [
-      `${n} – Unforgettable Taste`,
-      `${n} – Flavor that Brings People Together`,
-      `${n} – A Culinary Experience`
-    ];
-    aboutArList = [
-      `${n} يقدم أطباقاً مبتكرة تجمع بين الجودة والطعم الرائع. ${a}`,
-      `في ${n} نسعى لإرضاء جميع الأذواق وتجربة طعام لا تُنسى.`
-    ];
-    aboutEnList = [
-      `${n} offers innovative dishes combining quality and taste.`,
-      `At ${n}, we strive to delight every palate with unforgettable experiences.`
-    ];
-    whyArList = [
-      `نختار أفضل المكونات الطازجة لكل طبق.`,
-      `فريق الطهاة لدينا خبراء في تحضير أطباق مبتكرة.`
-    ];
-    whyEnList = [
-      `We select the freshest ingredients for every dish.`,
-      `Our chefs are experts in creating innovative meals.`
-    ];
-    visionArList = [
-      `رؤيتنا تقديم تجربة طعام استثنائية لكل زائر.`,
-      `نسعى لأن نصبح الوجهة الأولى لعشاق الطعام.`
-    ];
-    visionEnList = [
-      `Our vision is to provide an exceptional dining experience.`,
-      `We aim to be the top choice for food enthusiasts.`
-    ];
-    typeImages = [
-      "https://images.unsplash.com/photo-1552664730-d307ca884978",
-      "https://images.unsplash.com/photo-1503387762-592deb58ef4e"
-    ];
-  } 
+    mainColor = "#ff6347"; bgColor = "linear-gradient(135deg,#a83232,#ff6347,#ffb199)";
+    pageBg = "#fff0f0"; pageRadius = "30px"; pageShadow = "0 8px 25px rgba(150,0,0,0.5)"; imgEffect="scale(1.05)";
+    icon = "🍴"; textIcons = ["🍕","🍹"];
+    titles = [`${n} طعم لا يُنسى`,`مرحبًا بك في ${n} – مذاق يجمع الناس`,`${n} تجربة طعام لا مثيل لها`];
+    titlesEn = [`${n} – Unforgettable Taste`,`${n} – Flavor that Brings People Together`,`${n} – A Culinary Experience`];
+    aboutArList = [`${textIcons[0]} ${n} يقدم أطباقاً مبتكرة تجمع بين الجودة والطعم الرائع. ${a}`];
+    aboutEnList = [`${textIcons[0]} ${n} offers innovative dishes combining quality and taste.`];
+    whyArList = [`${textIcons[1]} نختار أفضل المكونات الطازجة لكل طبق.`];
+    whyEnList = [`${textIcons[1]} We select the freshest ingredients for every dish.`];
+    visionArList = [`${textIcons[0]} رؤيتنا تقديم تجربة طعام استثنائية لكل زائر.`];
+    visionEnList = [`${textIcons[0]} Our vision is to provide an exceptional dining experience.`];
+    typeImages = ["https://images.unsplash.com/photo-1552664730-d307ca884978","https://images.unsplash.com/photo-1503387762-592deb58ef4e"];
+  }
   else if(type === "store"){
-    mainColor = "#32cd32";
-    bgColor = "linear-gradient(135deg,#1a6f1a,#32cd32,#a0ffa0)";
-    pageBg = "#f0fff0";
-    pageRadius = "15px";
-    pageShadow = "0 5px 18px rgba(0,80,0,0.4)";
-    imgEffect = "scale(1.02)";
-    titles = [
-      `${n} مكانك المثالي للتسوق`,
-      `مرحبًا بك في ${n} – كل ما تحتاجه هنا`,
-      `${n} منتجات عالية الجودة وخدمة مميزة`
-    ];
-    titlesEn = [
-      `${n} – Your Perfect Shopping Destination`,
-      `${n} – Everything You Need, All in One Place`,
-      `${n} – Quality Products, Excellent Service`
-    ];
-    aboutArList = [
-      `${n} يقدم مجموعة متنوعة من المنتجات عالية الجودة لتلبية احتياجاتكم. ${a}`,
-      `في ${n} نركز على تقديم أفضل تجربة تسوق لعملائنا.`
-    ];
-    aboutEnList = [
-      `${n} offers a variety of high-quality products to meet your needs.`,
-      `At ${n}, we focus on providing the best shopping experience.`
-    ];
-    whyArList = [
-      `نحرص على توفير منتجات موثوقة وخدمة عملاء ممتازة.`,
-      `تسوقك معنا تجربة مريحة وسهلة.`
-    ];
-    whyEnList = [
-      `We ensure reliable products and excellent customer service.`,
-      `Shopping with us is easy and convenient.`
-    ];
-    visionArList = [
-      `رؤيتنا أن نصبح الوجهة المفضلة لكل متسوق.`,
-      `نسعى للابتكار وتحسين تجربة التسوق باستمرار.`
-    ];
-    visionEnList = [
-      `Our vision is to be the preferred destination for shoppers.`,
-      `We strive to innovate and enhance the shopping experience.`
-    ];
-    typeImages = [
-      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
-      "https://images.unsplash.com/photo-1503387762-592deb58ef4e"
-    ];
+    mainColor = "#32cd32"; bgColor = "linear-gradient(135deg,#1a6f1a,#32cd32,#a0ffa0)";
+    pageBg = "#f0fff0"; pageRadius = "15px"; pageShadow = "0 5px 18px rgba(0,80,0,0.4)"; imgEffect="scale(1.02)";
+    icon = "🛍️"; textIcons = ["🛒","💳"];
+    titles = [`${n} مكانك المثالي للتسوق`,`مرحبًا بك في ${n} – كل ما تحتاجه هنا`,`${n} منتجات عالية الجودة وخدمة مميزة`];
+    titlesEn = [`${n} – Your Perfect Shopping Destination`,`${n} – Everything You Need, All in One Place`,`${n} – Quality Products, Excellent Service`];
+    aboutArList = [`${textIcons[0]} ${n} يقدم مجموعة متنوعة من المنتجات عالية الجودة لتلبية احتياجاتكم. ${a}`];
+    aboutEnList = [`${textIcons[0]} ${n} offers a variety of high-quality products to meet your needs.`];
+    whyArList = [`${textIcons[1]} نحرص على توفير منتجات موثوقة وخدمة عملاء ممتازة.`];
+    whyEnList = [`${textIcons[1]} We ensure reliable products and excellent customer service.`];
+    visionArList = [`${textIcons[0]} رؤيتنا أن نصبح الوجهة المفضلة لكل متسوق.`];
+    visionEnList = [`${textIcons[0]} Our vision is to be the preferred destination for shoppers.`];
+    typeImages = ["https://images.unsplash.com/photo-1522202176988-66273c2fd55f","https://images.unsplash.com/photo-1503387762-592deb58ef4e"];
   }
 
   // تطبيق الألوان والستايلات
@@ -333,20 +239,27 @@ function generate(){
   document.documentElement.style.setProperty('--page-radius', pageRadius);
   document.documentElement.style.setProperty('--page-shadow', pageShadow);
 
-  // اختيار الصور بشكل عشوائي
-  document.getElementById("img1").src = pick(typeImages); document.getElementById("img1").style.transform = imgEffect;
-  document.getElementById("img2").src = pick(typeImages); document.getElementById("img2").style.transform = imgEffect;
-  document.getElementById("img3").src = pick(typeImages); document.getElementById("img3").style.transform = imgEffect;
-  document.getElementById("img4").src = pick(typeImages); document.getElementById("img4").style.transform = imgEffect;
+  // اختيار الصور وتأثيرها
+  img1.src = pick(typeImages); img1.style.transform = imgEffect;
+  img2.src = pick(typeImages); img2.style.transform = imgEffect;
+  img3.src = pick(typeImages); img3.style.transform = imgEffect;
+  img4.src = pick(typeImages); img4.style.transform = imgEffect;
 
-  document.getElementById("title").innerText = pick(titles);
-  document.getElementById("titleEn").innerText = pick(titlesEn);
-  document.getElementById("aboutAr").innerText = pick(aboutArList);
-  document.getElementById("aboutEn").innerText = pick(aboutEnList);
-  document.getElementById("whyAr").innerText = pick(whyArList);
-  document.getElementById("whyEn").innerText = pick(whyEnList);
-  document.getElementById("visionAr").innerText = pick(visionArList);
-  document.getElementById("visionEn").innerText = pick(visionEnList);
+  // إضافة الأيقونات للبادج
+  badge1.innerText = icon + " العنوان";
+  badge2.innerText = icon + " من نحن";
+  badge3.innerText = icon + " لماذا نحن؟";
+  badge4.innerText = icon + " رؤيتنا";
+
+  // تعبئة النصوص
+  title.innerText = pick(titles);
+  titleEn.innerText = pick(titlesEn);
+  aboutAr.innerText = pick(aboutArList);
+  aboutEn.innerText = pick(aboutEnList);
+  whyAr.innerText = pick(whyArList);
+  whyEn.innerText = pick(whyEnList);
+  visionAr.innerText = pick(visionArList);
+  visionEn.innerText = pick(visionEnList);
 
   show('result');
 
