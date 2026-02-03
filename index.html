@@ -180,8 +180,8 @@ function pick(arr){
 }
 
 function generate(){
-  const n = name.value || "مؤسستنا";
-  const a = about.value || "";
+  const n = document.getElementById("name").value || "مؤسستنا";
+  const a = document.getElementById("about").value || "";
   const type = document.getElementById("type").value;
 
   let titles, titlesEn, aboutArList, aboutEnList, whyArList, whyEnList, visionArList, visionEnList, typeImages;
@@ -334,19 +334,19 @@ function generate(){
   document.documentElement.style.setProperty('--page-shadow', pageShadow);
 
   // اختيار الصور بشكل عشوائي
-  img1.src = pick(typeImages); img1.style.transform = imgEffect;
-  img2.src = pick(typeImages); img2.style.transform = imgEffect;
-  img3.src = pick(typeImages); img3.style.transform = imgEffect;
-  img4.src = pick(typeImages); img4.style.transform = imgEffect;
+  document.getElementById("img1").src = pick(typeImages); document.getElementById("img1").style.transform = imgEffect;
+  document.getElementById("img2").src = pick(typeImages); document.getElementById("img2").style.transform = imgEffect;
+  document.getElementById("img3").src = pick(typeImages); document.getElementById("img3").style.transform = imgEffect;
+  document.getElementById("img4").src = pick(typeImages); document.getElementById("img4").style.transform = imgEffect;
 
-  title.innerText = pick(titles);
-  titleEn.innerText = pick(titlesEn);
-  aboutAr.innerText = pick(aboutArList);
-  aboutEn.innerText = pick(aboutEnList);
-  whyAr.innerText = pick(whyArList);
-  whyEn.innerText = pick(whyEnList);
-  visionAr.innerText = pick(visionArList);
-  visionEn.innerText = pick(visionEnList);
+  document.getElementById("title").innerText = pick(titles);
+  document.getElementById("titleEn").innerText = pick(titlesEn);
+  document.getElementById("aboutAr").innerText = pick(aboutArList);
+  document.getElementById("aboutEn").innerText = pick(aboutEnList);
+  document.getElementById("whyAr").innerText = pick(whyArList);
+  document.getElementById("whyEn").innerText = pick(whyEnList);
+  document.getElementById("visionAr").innerText = pick(visionArList);
+  document.getElementById("visionEn").innerText = pick(visionEnList);
 
   show('result');
 
