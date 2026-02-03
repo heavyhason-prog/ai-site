@@ -2,127 +2,236 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>منصة البروشورات الذكية</title>
+<title>AI Smart Brochure</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
+:root{--main:#00c6ff}
+*{box-sizing:border-box}
+
 body{
   margin:0;
-  font-family:'Cairo',Arial;
-  background:linear-gradient(135deg,#6c5ce7,#00cec9);
-  text-align:center;
+  font-family:'Cairo',sans-serif;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  color:#fff;
+  min-height:100vh;
 }
 
-.box{
-  background:white;
-  margin:30px auto;
-  padding:25px;
-  width:95%;
-  max-width:900px;
-  border-radius:18px;
-  box-shadow:0 0 25px rgba(0,0,0,.3);
+section{
+  display:none;
+  padding:20px;
+  max-width:950px;
+  margin:auto
 }
+section.active{display:block}
 
-.page{display:none;}
-.page.active{display:block;}
+h1,h2{text-align:center}
 
-h1{color:#6c5ce7}
-
-input, textarea{
+input,textarea{
   width:100%;
   padding:15px;
-  font-size:18px;
-  border-radius:12px;
-  border:1px solid #6c5ce7;
-  font-family:'Cairo';
+  border-radius:14px;
+  border:none;
+  font-size:16px;
+  margin-bottom:15px;
 }
-
-textarea{min-height:120px}
 
 button{
-  margin-top:20px;
-  padding:12px 30px;
-  font-size:18px;
+  width:100%;
+  padding:16px;
   border:none;
-  border-radius:12px;
-  background:#6c5ce7;
-  color:white;
+  border-radius:16px;
+  font-size:18px;
+  background:var(--main);
+  color:#fff;
   cursor:pointer;
-  font-weight:bold;
+  font-weight:700;
 }
 
-.result{
-  text-align:right;
-  font-size:20px;
-  line-height:2;
-  background:#f7f7ff;
-  padding:20px;
-  border-radius:15px;
+.card{
+  background:#fff;
+  color:#000;
+  border-radius:22px;
+  overflow:hidden;
+  margin-bottom:25px;
+  box-shadow:0 15px 45px rgba(0,0,0,.4)
+}
+
+.card img{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+}
+
+.card .content{padding:20px}
+
+.badge{
+  display:inline-block;
+  background:var(--main);
+  color:#fff;
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:14px;
+  margin-bottom:10px;
+}
+
+.eng{
+  direction:ltr;
+  font-family:Arial,Helvetica,sans-serif;
+  opacity:.85;
+  margin-top:12px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
+<h1 style="color:#ff7675;text-align:center;">🔥 AI SITE UPDATED 🔥</h1>
 
-  <!-- الصفحة 1 -->
-  <div class="page active" id="page1">
-    <h1>📘 اسم البروشور</h1>
-    <input id="title" placeholder="مثال: عطر الفخامة">
-    <button onclick="nextPage(2)">التالي ➡️</button>
+<section id="home" class="active">
+  <h1>🧠 منشئ البروشور الذكي</h1>
+  <p style="text-align:center;opacity:.9">
+    محتوى احترافي • نصوص متغيرة • تجربة AI
+  </p>
+  <button onclick="show('form')">ابدأ الآن</button>
+</section>
+
+<section id="form">
+  <h2>معلومات الجهة</h2>
+  <input id="name" placeholder="اسم الجهة (مثال: مدرسة الفرقان)">
+  <textarea id="about" rows="4" placeholder="نبذة مختصرة (اختياري)"></textarea>
+  <button onclick="generate()">✨ إنشاء بروشور ذكي</button>
+</section>
+
+<section id="result">
+  <h2>📘 البروشور</h2>
+
+  <div class="card">
+    <img id="img1">
+    <div class="content">
+      <div class="badge">العنوان</div>
+      <h2 id="title"></h2>
+      <p class="eng" id="titleEn"></p>
+    </div>
   </div>
 
-  <!-- الصفحة 2 -->
-  <div class="page" id="page2">
-    <h1>📝 عن ماذا البروشور؟</h1>
-    <textarea id="about" placeholder="اكتب فكرة المنتج أو الخدمة"></textarea>
-    <button onclick="nextPage(3)">إنشاء البروشور ✨</button>
+  <div class="card">
+    <img id="img2">
+    <div class="content">
+      <div class="badge">من نحن</div>
+      <p id="aboutAr"></p>
+      <p class="eng" id="aboutEn"></p>
+    </div>
   </div>
 
-  <!-- الصفحة 3 -->
-  <div class="page" id="page3">
-    <h1>🤖 البروشور الذكي</h1>
-    <div class="result" id="output"></div>
+  <div class="card">
+    <img id="img3">
+    <div class="content">
+      <div class="badge">لماذا نحن؟</div>
+      <p id="whyAr"></p>
+      <p class="eng" id="whyEn"></p>
+    </div>
   </div>
 
-</div>
+  <div class="card">
+    <img id="img4">
+    <div class="content">
+      <div class="badge">الشعار</div>
+      <h3 id="slogan"></h3>
+      <p class="eng" id="sloganEn"></p>
+    </div>
+  </div>
+
+  <button onclick="show('form')">🔁 إنشاء بروشور جديد</button>
+</section>
 
 <script>
-function nextPage(n){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page'+n).classList.add('active');
-
-  if(n===3) generate();
+function show(id){
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
 
+function pick(arr){
+  return arr[Math.floor(Math.random()*arr.length)];
+}
+
+const images=[
+  "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+  "https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
+  "https://images.unsplash.com/photo-1552664730-d307ca884978",
+  "https://images.unsplash.com/photo-1503387762-592deb58ef4e",
+  "https://images.unsplash.com/photo-1522202176988-66273c2fd55f"
+];
+
 function generate(){
-  const title = document.getElementById("title").value;
-  const about = document.getElementById("about").value;
+  const n=name.value||"مؤسستنا";
+  const a=about.value||"";
 
-  const intros=[
-    "لأن الانطباع الأول يدوم.",
-    "اكتشف معنى التميز الحقيقي.",
-    "تجربة صُممت لتناسب ذوقك."
+  const titles=[
+    `${n} حيث تتحول الرؤية إلى واقع`,
+    `مرحبًا بك في ${n} – تجربة تصنع الفرق`,
+    `${n} منصة للتميّز والابتكار`
   ];
 
-  const bodies=[
-    `${title} هو خيارك المثالي إذا كنت تبحث عن الجودة والاحتراف.`,
-    `هذا البروشور يسلّط الضوء على ${about} بأسلوب عصري وجذاب.`,
-    `نقدّم لك ${about} بطريقة تترك أثراً لا يُنسى.`
+  const titlesEn=[
+    `${n} – Where Vision Becomes Reality`,
+    `${n}: Designed for Excellence`,
+    `${n} – Innovation You Can Trust`
   ];
 
-  const endings=[
-    "الآن هو الوقت المناسب للتميّز.",
-    "اختيارك الذكي يبدأ من هنا.",
-    "لا تفوّت الفرصة."
+  const aboutArList=[
+    `${n} تمثل نموذجًا متقدمًا في تقديم الحلول والخدمات باحترافية عالية. ${a}`,
+    `في ${n} نؤمن أن النجاح يبدأ من التفاصيل.`,
+    `${n} منظومة تجمع بين الخبرة والطموح والتقنية.`
   ];
 
-  function pick(a){return a[Math.floor(Math.random()*a.length)]}
+  const aboutEnList=[
+    `${n} is built on quality and innovation.`,
+    `At ${n}, smart systems drive success.`,
+    `${n} delivers excellence in every detail.`
+  ];
 
-  document.getElementById("output").innerHTML=
-    `<strong>${pick(intros)}</strong><br><br>
-     ${pick(bodies)}<br><br>
-     <strong>${pick(endings)}</strong>`;
+  const whyArList=[
+    `نمزج الفكر الاستراتيجي بالتنفيذ الذكي.`,
+    `الجودة والثقة أساس عملنا.`,
+    `حلول مرنة تواكب المستقبل.`
+  ];
+
+  const whyEnList=[
+    `Strategy meets execution.`,
+    `Quality and trust first.`,
+    `Smart adaptive solutions.`
+  ];
+
+  const slogans=[
+    `نحو مستقبل أذكى`,
+    `نبتكر اليوم لننجح غدًا`,
+    `ذكاء في الفكرة، قوة في التنفيذ`
+  ];
+
+  const slogansEn=[
+    `Building a Smarter Future`,
+    `Innovating Today for Tomorrow`,
+    `Smart Ideas. Strong Execution.`
+  ];
+
+  img1.src=pick(images);
+  img2.src=pick(images);
+  img3.src=pick(images);
+  img4.src=pick(images);
+
+  title.innerText=pick(titles);
+  titleEn.innerText=pick(titlesEn);
+  aboutAr.innerText=pick(aboutArList);
+  aboutEn.innerText=pick(aboutEnList);
+  whyAr.innerText=pick(whyArList);
+  whyEn.innerText=pick(whyEnList);
+  slogan.innerText=pick(slogans);
+  sloganEn.innerText=pick(slogansEn);
+
+  show('result');
 }
 </script>
 
