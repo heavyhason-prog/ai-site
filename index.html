@@ -6,10 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 
 <style>
 :root{--main:#00c6ff}
 *{box-sizing:border-box}
+
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
@@ -17,9 +19,17 @@ background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 color:#fff;
 min-height:100vh;
 }
-section{display:none;padding:20px;max-width:950px;margin:auto}
+
+section{
+display:none;
+padding:20px;
+max-width:1100px;
+margin:auto;
+}
 section.active{display:block}
+
 h1,h2{text-align:center}
+
 input,textarea{
 width:100%;
 padding:15px;
@@ -28,6 +38,7 @@ border:none;
 font-size:16px;
 margin-bottom:15px;
 }
+
 button{
 width:100%;
 padding:16px;
@@ -39,22 +50,34 @@ color:#fff;
 cursor:pointer;
 font-weight:700;
 }
-.card{
+
+#book{
+margin:auto;
+width:100%;
+max-width:420px;
+height:560px;
+}
+
+.page{
 background:#fff;
 color:#000;
-border-radius:22px;
+border-radius:20px;
 overflow:hidden;
-margin-bottom:25px;
-box-shadow:0 15px 45px rgba(0,0,0,.4)
+display:flex;
+flex-direction:column;
 }
-.card img{
+
+.page img{
 width:100%;
 height:260px;
 object-fit:cover;
 }
-.card .content{
+
+.page .content{
 padding:20px;
+flex:1;
 }
+
 .badge{
 display:inline-block;
 background:var(--main);
@@ -64,36 +87,40 @@ border-radius:20px;
 font-size:14px;
 margin-bottom:10px;
 }
+
 .eng{
 direction:ltr;
 font-family:Arial,Helvetica,sans-serif;
-opacity:.85;
-margin-top:12px;
+opacity:.8;
+margin-top:10px;
 }
 </style>
 </head>
 
 <body>
 
+<!-- الصفحة الأولى -->
 <section id="home" class="active">
-<h1>🧠 منشئ البروشور الذكي</h1>
-<p style="text-align:center;opacity:.9">
-محتوى احترافي • نصوص متغيرة • تجربة AI
-</p>
-<button onclick="show('form')">ابدأ الآن</button>
+<h1>📘 منشئ البروشور الذكي</h1>
+<p style="text-align:center;opacity:.9">تقليب صفحات • محتوى AI • تجربة احترافية</p>
+<button onclick="show('form')">ابدأ</button>
 </section>
 
+<!-- الإدخال -->
 <section id="form">
-<h2>معلومات الجهة</h2>
+<h2>بيانات الجهة</h2>
 <input id="name" placeholder="اسم الجهة (مثال: مدرسة الفرقان)">
 <textarea id="about" rows="4" placeholder="نبذة مختصرة (اختياري)"></textarea>
-<button onclick="generate()">✨ إنشاء بروشور ذكي</button>
+<button onclick="generate()">✨ إنشاء البروشور</button>
 </section>
 
+<!-- النتيجة -->
 <section id="result">
-<h2>📘 البروشور</h2>
+<h2>📖 البروشور</h2>
 
-<div class="card">
+<div id="book">
+
+<div class="page">
 <img id="img1">
 <div class="content">
 <div class="badge">العنوان</div>
@@ -102,7 +129,7 @@ margin-top:12px;
 </div>
 </div>
 
-<div class="card">
+<div class="page">
 <img id="img2">
 <div class="content">
 <div class="badge">من نحن</div>
@@ -111,7 +138,7 @@ margin-top:12px;
 </div>
 </div>
 
-<div class="card">
+<div class="page">
 <img id="img3">
 <div class="content">
 <div class="badge">لماذا نحن؟</div>
@@ -120,7 +147,7 @@ margin-top:12px;
 </div>
 </div>
 
-<div class="card">
+<div class="page">
 <img id="img4">
 <div class="content">
 <div class="badge">الشعار</div>
@@ -129,19 +156,26 @@ margin-top:12px;
 </div>
 </div>
 
+</div>
+
 <button onclick="show('form')">🔁 إنشاء بروشور جديد</button>
 </section>
 
 <script>
+let flip;
+
+/* تنقل */
 function show(id){
 document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
 document.getElementById(id).classList.add('active');
 }
 
+/* عشوائي */
 function pick(arr){
 return arr[Math.floor(Math.random()*arr.length)];
 }
 
+/* صور */
 const images=[
 "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
 "https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
@@ -151,8 +185,8 @@ const images=[
 ];
 
 function generate(){
-const n=name.value||"مؤسستنا";
-const a=about.value||"";
+const n = name.value || "مؤسستنا";
+const a = about.value || "";
 
 const titles=[
 `${n} حيث تتحول الرؤية إلى واقع`,
@@ -167,56 +201,67 @@ const titlesEn=[
 ];
 
 const aboutArList=[
-`${n} تمثل نموذجًا متقدمًا في تقديم الحلول والخدمات باحترافية عالية. نعمل وفق رؤية واضحة تهدف إلى صناعة قيمة مستدامة، مع التركيز على الجودة، التطوير المستمر، وفهم احتياجات المستفيدين بعمق. ${a}`,
-`في ${n} نؤمن أن النجاح الحقيقي يبدأ من التفاصيل الصغيرة، لذلك نعتمد على أنظمة ذكية، فرق متخصصة، ونهج مبتكر يضمن تقديم تجربة استثنائية.`,
-`${n} ليست مجرد جهة، بل منظومة متكاملة تجمع بين الخبرة، الطموح، والتقنيات الحديثة لتحقيق أفضل النتائج.`
+`${n} منظومة متكاملة تقدم حلولًا احترافية مبنية على الجودة والتطوير المستمر. ${a}`,
+`في ${n} نؤمن أن التميز يبدأ من الفكرة وينتهي بنتيجة ملموسة.`,
+`${n} تجربة ذكية تجمع بين الخبرة والتقنية.`
 ];
 
 const aboutEnList=[
-`${n} represents a modern model built on quality, innovation, and long-term value creation.`,
-`At ${n}, we focus on smart systems, expert teams, and meaningful experiences.`,
-`${n} is a complete ecosystem designed to deliver excellence in every detail.`
+`${n} is built on innovation and long-term value.`,
+`Smart systems and expert teams drive success.`,
+`${n} delivers excellence in every detail.`
 ];
 
 const whyArList=[
-`نتميز بقدرتنا على الدمج بين الفكر الاستراتيجي والتنفيذ الذكي، مما يمنحنا أفضلية حقيقية في تحقيق الأهداف.`,
-`لأننا نضع الجودة في صميم عملنا، ونؤمن أن الثقة تُبنى بالنتائج.`,
-`نستخدم أدوات حديثة، تحليلات دقيقة، ونهج مرن يواكب التغيرات.`
+`نصنع الفرق بالاستراتيجية والتنفيذ.`,
+`الجودة والثقة أساس عملنا.`,
+`نواكب التغيير بمرونة وذكاء.`
 ];
 
 const whyEnList=[
-`We combine strategy, creativity, and execution to deliver real impact.`,
-`Quality, trust, and results are at the core of everything we do.`,
-`Smart thinking and adaptive solutions set us apart.`
+`Strategy meets execution.`,
+`Quality you can trust.`,
+`Innovation that delivers.`
 ];
 
 const slogans=[
 `نحو مستقبل أذكى`,
-`نبتكر اليوم لننجح غدًا`,
-`ذكاء في الفكرة، قوة في التنفيذ`
+`ذكاء يصنع الفرق`,
+`قيمة تتجاوز التوقعات`
 ];
 
 const slogansEn=[
-`Building a Smarter Future`,
-`Innovating Today for Tomorrow`,
-`Smart Ideas. Strong Execution.`
+`A Smarter Future`,
+`Innovation That Matters`,
+`Beyond Expectations`
 ];
 
-img1.src=pick(images);
-img2.src=pick(images);
-img3.src=pick(images);
-img4.src=pick(images);
+img1.src = pick(images);
+img2.src = pick(images);
+img3.src = pick(images);
+img4.src = pick(images);
 
-title.innerText=pick(titles);
-titleEn.innerText=pick(titlesEn);
-aboutAr.innerText=pick(aboutArList);
-aboutEn.innerText=pick(aboutEnList);
-whyAr.innerText=pick(whyArList);
-whyEn.innerText=pick(whyEnList);
-slogan.innerText=pick(slogans);
-sloganEn.innerText=pick(slogansEn);
+title.innerText = pick(titles);
+titleEn.innerText = pick(titlesEn);
+aboutAr.innerText = pick(aboutArList);
+aboutEn.innerText = pick(aboutEnList);
+whyAr.innerText = pick(whyArList);
+whyEn.innerText = pick(whyEnList);
+slogan.innerText = pick(slogans);
+sloganEn.innerText = pick(slogansEn);
 
 show('result');
+
+setTimeout(()=>{
+if(flip) flip.destroy();
+flip = new St.PageFlip(document.getElementById("book"),{
+width:360,
+height:520,
+size:"stretch",
+mobileScrollSupport:true
+});
+flip.loadFromHTML(document.querySelectorAll(".page"));
+},300);
 }
 </script>
 
