@@ -11,7 +11,6 @@
 <style>
 :root{--main:#00c6ff}
 *{box-sizing:border-box}
-
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
@@ -19,15 +18,8 @@ background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 color:#fff;
 min-height:100vh;
 }
-
-section{
-display:none;
-padding:20px;
-max-width:1100px;
-margin:auto;
-}
+section{display:none;padding:20px;max-width:1100px;margin:auto}
 section.active{display:block}
-
 h1,h2{text-align:center}
 
 input,textarea{
@@ -76,6 +68,7 @@ object-fit:cover;
 .page .content{
 padding:20px;
 flex:1;
+line-height:1.9;
 }
 
 .badge{
@@ -92,29 +85,28 @@ margin-bottom:10px;
 direction:ltr;
 font-family:Arial,Helvetica,sans-serif;
 opacity:.8;
-margin-top:10px;
+margin-top:12px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- الصفحة الأولى -->
 <section id="home" class="active">
 <h1>📘 منشئ البروشور الذكي</h1>
-<p style="text-align:center;opacity:.9">تقليب صفحات • محتوى AI • تجربة احترافية</p>
+<p style="text-align:center;opacity:.9">
+نصوص ذكية • تقليب صفحات • تجربة تحسسك بالذكاء الاصطناعي
+</p>
 <button onclick="show('form')">ابدأ</button>
 </section>
 
-<!-- الإدخال -->
 <section id="form">
 <h2>بيانات الجهة</h2>
 <input id="name" placeholder="اسم الجهة (مثال: مدرسة الفرقان)">
 <textarea id="about" rows="4" placeholder="نبذة مختصرة (اختياري)"></textarea>
-<button onclick="generate()">✨ إنشاء البروشور</button>
+<button onclick="generate()">✨ إنشاء بروشور ذكي</button>
 </section>
 
-<!-- النتيجة -->
 <section id="result">
 <h2>📖 البروشور</h2>
 
@@ -150,9 +142,9 @@ margin-top:10px;
 <div class="page">
 <img id="img4">
 <div class="content">
-<div class="badge">الشعار</div>
-<h3 id="slogan"></h3>
-<p class="eng" id="sloganEn"></p>
+<div class="badge">رؤيتنا</div>
+<p id="visionAr"></p>
+<p class="eng" id="visionEn"></p>
 </div>
 </div>
 
@@ -164,18 +156,15 @@ margin-top:10px;
 <script>
 let flip;
 
-/* تنقل */
 function show(id){
 document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
 document.getElementById(id).classList.add('active');
 }
 
-/* عشوائي */
 function pick(arr){
 return arr[Math.floor(Math.random()*arr.length)];
 }
 
-/* صور */
 const images=[
 "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
 "https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
@@ -189,51 +178,51 @@ const n = name.value || "مؤسستنا";
 const a = about.value || "";
 
 const titles=[
-`${n} حيث تتحول الرؤية إلى واقع`,
-`مرحبًا بك في ${n} – تجربة تصنع الفرق`,
-`${n} منصة للتميّز والابتكار`
+`${n} حيث تبدأ الرحلة نحو التميز الحقيقي`,
+`مرحبًا بك في ${n} – لأن الجودة ليست خيارًا بل أسلوب عمل`,
+`${n} تجربة متكاملة تجمع بين الطموح والاحتراف`
 ];
 
 const titlesEn=[
-`${n} – Where Vision Becomes Reality`,
-`${n}: Designed for Excellence`,
-`${n} – Innovation You Can Trust`
+`${n} – Excellence Starts Here`,
+`${n} – Quality. Vision. Impact.`,
+`${n} – Built for Meaningful Success`
 ];
 
 const aboutArList=[
-`${n} منظومة متكاملة تقدم حلولًا احترافية مبنية على الجودة والتطوير المستمر. ${a}`,
-`في ${n} نؤمن أن التميز يبدأ من الفكرة وينتهي بنتيجة ملموسة.`,
-`${n} تجربة ذكية تجمع بين الخبرة والتقنية.`
+`${n} تمثل نموذجًا متقدمًا في تقديم الحلول والخدمات، حيث نعتمد على رؤية واضحة ونهج احترافي يركز على صناعة قيمة حقيقية ومستدامة. نؤمن بأن النجاح لا يتحقق بالصدفة، بل من خلال التخطيط الذكي، التنفيذ المتقن، وفهم احتياجات المستفيدين بعمق. ${a}`,
+`في ${n} نعمل بروح الفريق الواحد، ونسعى إلى بناء تجربة متكاملة تجمع بين الجودة العالية، التطوير المستمر، واستخدام الأدوات الحديثة لضمان أفضل النتائج.`,
+`${n} ليست مجرد جهة تقدم خدمة، بل منظومة متكاملة تهدف إلى إحداث فرق حقيقي من خلال الابتكار، الالتزام، والتركيز على التفاصيل.`
 ];
 
 const aboutEnList=[
-`${n} is built on innovation and long-term value.`,
-`Smart systems and expert teams drive success.`,
-`${n} delivers excellence in every detail.`
+`${n} is a forward-thinking organization built on quality, innovation, and long-term value creation.`,
+`At ${n}, we design meaningful experiences driven by smart systems and expert execution.`,
+`${n} is not just a service provider, but a complete ecosystem for success.`
 ];
 
 const whyArList=[
-`نصنع الفرق بالاستراتيجية والتنفيذ.`,
-`الجودة والثقة أساس عملنا.`,
-`نواكب التغيير بمرونة وذكاء.`
+`لأننا نمتلك القدرة على الدمج بين الرؤية الاستراتيجية والتنفيذ العملي، مما يمنحنا ميزة تنافسية حقيقية.`,
+`نضع الجودة في صميم كل ما نقوم به، ونؤمن أن الثقة تُبنى من خلال النتائج وليس الوعود.`,
+`نعتمد على أدوات حديثة، تفكير تحليلي، ونهج مرن يساعدنا على مواكبة التغيرات وتحقيق التفوق.`
 ];
 
 const whyEnList=[
-`Strategy meets execution.`,
-`Quality you can trust.`,
-`Innovation that delivers.`
+`We combine strategic thinking with flawless execution.`,
+`Trust is built through results, not promises.`,
+`Smart tools and adaptive thinking set us apart.`
 ];
 
-const slogans=[
-`نحو مستقبل أذكى`,
-`ذكاء يصنع الفرق`,
-`قيمة تتجاوز التوقعات`
+const visionArList=[
+`نسعى في ${n} إلى بناء مستقبل أكثر ذكاءً واستدامة، من خلال تقديم حلول مبتكرة تُحدث أثرًا إيجابيًا طويل المدى.`,
+`رؤيتنا تتمثل في أن نكون الخيار الأول لمن يبحث عن الجودة، الاحتراف، والقيمة الحقيقية.`,
+`نطمح إلى الريادة عبر الابتكار المستمر وتطوير تجارب تتجاوز التوقعات.`
 ];
 
-const slogansEn=[
-`A Smarter Future`,
-`Innovation That Matters`,
-`Beyond Expectations`
+const visionEnList=[
+`Our vision is to build a smarter and more sustainable future.`,
+`We aim to be the first choice for quality-driven solutions.`,
+`Innovation and impact define our journey forward.`
 ];
 
 img1.src = pick(images);
@@ -247,8 +236,8 @@ aboutAr.innerText = pick(aboutArList);
 aboutEn.innerText = pick(aboutEnList);
 whyAr.innerText = pick(whyArList);
 whyEn.innerText = pick(whyEnList);
-slogan.innerText = pick(slogans);
-sloganEn.innerText = pick(slogansEn);
+visionAr.innerText = pick(visionArList);
+visionEn.innerText = pick(visionEnList);
 
 show('result');
 
