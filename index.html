@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Smart Brochure PRO</title>
+<title>AI Brochure ULTRA</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -10,62 +10,107 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{--main:#00c6ff}
+:root{--main:#00e5ff}
 *{box-sizing:border-box}
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+background:#0f172a;
 color:#fff;
-min-height:100vh;
+overflow-x:hidden;
 }
+
+/* Glow background */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,229,255,.25),transparent 40%);
+pointer-events:none;
+transition:.1s;
+}
+
 section{display:none;padding:20px;max-width:1100px;margin:auto}
 section.active{display:block}
+
 input,textarea,select{
-width:100%;padding:14px;border-radius:12px;border:none;margin-bottom:12px
+width:100%;
+padding:14px;
+border-radius:12px;
+border:none;
+margin-bottom:12px;
+background:rgba(255,255,255,.08);
+color:#fff;
+backdrop-filter:blur(6px);
 }
+
 button{
-width:100%;padding:14px;border:none;border-radius:14px;
-background:var(--main);color:#fff;font-weight:700;cursor:pointer
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+background:linear-gradient(45deg,var(--main),#00ffa6);
+color:#000;
+font-weight:900;
+cursor:pointer;
 }
+
 #book{margin:auto;max-width:420px;height:560px}
+
 .page{
-background:#fff;color:#000;border-radius:18px;overflow:hidden;
-display:flex;flex-direction:column;transition:.3s
+background:rgba(255,255,255,.95);
+color:#000;
+border-radius:20px;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+box-shadow:0 0 25px rgba(0,229,255,.25);
+transition:.3s;
 }
-.page:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.page:hover{transform:translateY(-6px) scale(1.01)}
+
 .page img{width:100%;height:240px;object-fit:cover}
+
 .content{padding:18px;line-height:1.8}
+
 .badge{
-background:var(--main);color:#fff;padding:6px 14px;border-radius:20px;
-display:inline-block;margin-bottom:8px
+background:var(--main);
+color:#000;
+padding:6px 14px;
+border-radius:20px;
+display:inline-block;
+margin-bottom:8px;
+font-weight:700;
 }
-.icon-anim{display:inline-block;transition:.3s}
-.icon-anim:hover{transform:scale(1.3) rotate(10deg)}
-.eng{direction:ltr;font-family:Arial;margin-top:10px;opacity:.7}
+
+.eng{direction:ltr;font-family:Arial;opacity:.7;margin-top:10px}
 </style>
 </head>
 
 <body>
 
 <section id="home" class="active">
-<h1>📘 منشئ البروشور الذكي PRO</h1>
-<button onclick="showSection('form')">ابدأ</button>
+<h1>🚀 AI Smart Brochure ULTRA</h1>
+<button onclick="show('form')">ابدأ</button>
 </section>
 
 <section id="form">
-<select id="typeSelect">
+
+<select id="type">
 <option value="school">مدرسة</option>
 <option value="restaurant">مطعم</option>
 <option value="store">متجر</option>
 </select>
 
-<input id="nameInput" placeholder="اسم الجهة">
-<textarea id="aboutInput" placeholder="نبذة"></textarea>
-<textarea id="servicesInput" placeholder="الخدمات / المميزات"></textarea>
-<textarea id="goalsInput" placeholder="الرؤية / الأهداف"></textarea>
+<input id="name" placeholder="اسم الجهة">
+<textarea id="about" placeholder="نبذة"></textarea>
+<textarea id="services" placeholder="الخدمات"></textarea>
+<textarea id="goals" placeholder="الرؤية / الأهداف"></textarea>
 
-<button onclick="generateBrochure()">✨ إنشاء بروشور</button>
+<label>📸 رفع صور (اختياري)</label>
+<input type="file" id="upload" accept="image/*" multiple>
+
+<button onclick="generate()">✨ إنشاء ULTRA</button>
 </section>
 
 <section id="result">
@@ -77,87 +122,96 @@ display:inline-block;margin-bottom:8px
 
 <div class="page"><img id="img2"><div class="content"><div class="badge">من نحن</div><p id="aboutAr"></p><p class="eng" id="aboutEn"></p></div></div>
 
-<div class="page"><img id="img3"><div class="content"><div class="badge">لماذا نحن</div><p id="whyAr"></p><p class="eng" id="whyEn"></p></div></div>
+<div class="page"><img id="img3"><div class="content"><div class="badge">لماذا نحن</div><p id="whyAr"></p></div></div>
 
-<div class="page"><img id="img4"><div class="content"><div class="badge">رؤيتنا</div><p id="visionAr"></p><p class="eng" id="visionEn"></p></div></div>
-
-<div class="page"><div class="content"><div class="badge">الخدمات</div><p id="servicesAr"></p></div></div>
+<div class="page"><img id="img4"><div class="content"><div class="badge">الرؤية</div><p id="visionAr"></p></div></div>
 
 </div>
 
 <button onclick="downloadPDF()">📄 تحميل PDF</button>
-<button onclick="showSection('form')">🔁 جديد</button>
+<button onclick="show('form')">🔁 جديد</button>
 </section>
 
 <script>
 let flip;
 
-/* تبديل الصفحات */
-function showSection(id){
+/* Glow mouse */
+document.addEventListener("mousemove",e=>{
+document.body.style.setProperty("--x",e.clientX+"px");
+document.body.style.setProperty("--y",e.clientY+"px");
+});
+
+function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* صور */
-const images=[
+const defaultImgs=[
 "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
 "https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
 "https://images.unsplash.com/photo-1552664730-d307ca884978",
 "https://images.unsplash.com/photo-1503387762-592deb58ef4e"
 ];
 
-/* إنشاء البروشور */
-function generateBrochure(){
+function generate(){
 
-const type=document.getElementById("typeSelect").value;
-const name=document.getElementById("nameInput").value||"مؤسستنا";
-const about=document.getElementById("aboutInput").value||"نحن جهة تسعى للتميز والجودة.";
-const services=document.getElementById("servicesInput").value||"جودة عالية، احترافية، تجربة مميزة.";
-const goals=document.getElementById("goalsInput").value||"أن نكون الأفضل في مجالنا.";
+const type=document.getElementById("type").value;
+const name=document.getElementById("name").value||"مؤسستنا";
+const about=document.getElementById("about").value||"جهة احترافية تقدم أفضل الخدمات.";
+const services=document.getElementById("services").value||"جودة، احتراف، تجربة مميزة.";
+const goals=document.getElementById("goals").value||"الريادة والابتكار.";
 
-/* تغيير اللون حسب النوع */
-if(type==="school") document.documentElement.style.setProperty('--main','#2b7cff');
+/* ألوان حسب النوع */
+if(type==="school") document.documentElement.style.setProperty('--main','#3b82f6');
 if(type==="restaurant") document.documentElement.style.setProperty('--main','#ff6b2b');
-if(type==="store") document.documentElement.style.setProperty('--main','#00b894');
+if(type==="store") document.documentElement.style.setProperty('--main','#00ffa6');
 
 /* صور */
-document.getElementById("img1").src=images[Math.floor(Math.random()*images.length)];
-document.getElementById("img2").src=images[Math.floor(Math.random()*images.length)];
-document.getElementById("img3").src=images[Math.floor(Math.random()*images.length)];
-document.getElementById("img4").src=images[Math.floor(Math.random()*images.length)];
+let files=document.getElementById("upload").files;
+let imgs=[...defaultImgs];
 
-/* نصوص */
-document.getElementById("title").innerHTML="🌟 "+name;
+if(files.length){
+imgs=[];
+for(let f of files){imgs.push(URL.createObjectURL(f))}
+}
 
-document.getElementById("aboutAr").innerHTML="📘 "+about+"<br><br>نقدم: "+services;
-document.getElementById("aboutEn").innerHTML=name+" provides excellence and professional services.";
+for(let i=1;i<=4;i++){
+document.getElementById("img"+i).src=imgs[i-1]||defaultImgs[i-1];
+}
 
-document.getElementById("whyAr").innerHTML="🚀 نتميز بالجودة، الابتكار، وفريق محترف.";
-document.getElementById("whyEn").innerHTML="High quality, innovation, and expert team.";
+/* نص ذكي حسب النوع */
+document.getElementById("title").innerText=name;
 
-document.getElementById("visionAr").innerHTML="🌟 "+goals;
-document.getElementById("visionEn").innerHTML="Our goal is leadership and innovation.";
+let aboutText=`${about}\n\nنقدم خدمات تشمل: ${services}`;
+let whyText=`نتميز بالجودة والابتكار وفريق احترافي.`;
+let visionText=`هدفنا: ${goals}`;
 
-document.getElementById("servicesAr").innerHTML="⭐ "+services;
+if(type==="school"){
+whyText="نركز على التعليم الحديث، تنمية المهارات، وبناء مستقبل الطلاب.";
+}
+if(type==="restaurant"){
+whyText="نقدم تجربة طعام فريدة، جودة عالية، ونكهات مميزة.";
+}
+if(type==="store"){
+whyText="منتجات عالية الجودة، أسعار تنافسية، وخدمة عملاء ممتازة.";
+}
 
-showSection("result");
+document.getElementById("aboutAr").innerText=aboutText;
+document.getElementById("aboutEn").innerText=name+" provides excellence and premium services.";
+document.getElementById("whyAr").innerText=whyText;
+document.getElementById("visionAr").innerText=visionText;
 
-/* تشغيل التقليب */
+show("result");
+
 setTimeout(()=>{
-if(flip) flip.destroy();
-flip=new St.PageFlip(document.getElementById("book"),{
-width:360,
-height:520,
-size:"stretch",
-mobileScrollSupport:true
-});
+if(flip)flip.destroy();
+flip=new St.PageFlip(book,{width:360,height:520});
 flip.loadFromHTML(document.querySelectorAll(".page"));
 },300);
 }
 
-/* تحميل PDF */
 function downloadPDF(){
-html2pdf().from(document.getElementById("book")).save("brochure.pdf");
+html2pdf().from(document.getElementById("book")).save("AI-Brochure.pdf");
 }
 </script>
 
