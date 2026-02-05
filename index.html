@@ -2,23 +2,27 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI BROCHURE — GOD MODE</title>
+<title>OMNI-LEVEL AI BROCHURE</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --main:#00d0ff;
+  --main:#00cfff;
   --bg:#0b0f14;
   --card:#121821;
   --text:#e8f0f7;
+}
+.light{
+  --bg:#f4f7fb;
+  --card:#ffffff;
+  --text:#111;
 }
 
 body{
   margin:0;
   font-family:Cairo;
-  background:linear-gradient(135deg,#020409,#0b0f14);
+  background:var(--bg);
   color:var(--text);
 }
 
@@ -31,30 +35,30 @@ header{
 }
 
 .box{
-  max-width:950px;
+  max-width:900px;
   margin:auto;
   background:var(--card);
-  padding:20px;
-  border-radius:14px;
+  padding:18px;
+  border-radius:12px;
 }
 
 input,textarea,select{
   width:100%;
-  padding:12px;
-  margin:7px 0;
+  padding:11px;
+  margin:6px 0;
   border:none;
   border-radius:8px;
-  background:#0b0f14;
-  color:white;
+  background:var(--bg);
+  color:var(--text);
 }
 
 button{
   width:100%;
-  padding:14px;
-  margin-top:8px;
+  padding:13px;
+  margin-top:6px;
   border:none;
   border-radius:10px;
-  background:linear-gradient(90deg,#00d0ff,#0099ff);
+  background:linear-gradient(90deg,#00cfff,#0099ff);
   color:white;
   font-weight:700;
   cursor:pointer;
@@ -65,43 +69,48 @@ button{
   margin:25px auto;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:16px;
+  gap:15px;
 }
 
 .page{
   background:var(--card);
   padding:18px;
   border-radius:12px;
-  box-shadow:0 8px 20px rgba(0,0,0,.4);
-  transition:.25s;
+  box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
-.page:hover{transform:translateY(-5px) scale(1.02)}
 
-.title{font-weight:900;color:var(--main);margin-bottom:6px}
-.desc{font-size:14px;line-height:1.7;opacity:.95}
+.title{font-weight:900;color:var(--main)}
+.desc{font-size:14px;line-height:1.7}
 </style>
 </head>
 
 <body>
 
-<header>🚀 AI BROCHURE — GOD MODE ∞</header>
+<header>🚀 OMNI-LEVEL AI BROCHURE</header>
 
 <div class="box">
 
-<input id="name" placeholder="اسم الجهة / المشروع">
+<input id="name" placeholder="اسم الجهة">
 <select id="type">
 <option value="school">مدرسة</option>
 <option value="restaurant">مطعم</option>
 <option value="store">متجر</option>
 </select>
 
-<input id="audience" placeholder="الفئة المستهدفة">
-<textarea id="extra" rows="3" placeholder="اكتب أي تفاصيل إضافية تريد إدخالها"></textarea>
+<select id="tone">
+<option value="formal">رسمي</option>
+<option value="marketing">تسويقي</option>
+<option value="simple">بسيط</option>
+</select>
 
-<button onclick="generate()">⚡ إنشاء البروشور</button>
-<button onclick="saveData()">💾 حفظ</button>
-<button onclick="loadData()">📂 استيراد</button>
-<button onclick="window.print()">📄 تصدير PDF</button>
+<input id="audience" placeholder="الفئة المستهدفة">
+<textarea id="extra" rows="3" placeholder="تفاصيل إضافية تريد إضافتها"></textarea>
+
+<button onclick="generate()">⚡ إنشاء</button>
+<button onclick="save()">💾 حفظ</button>
+<button onclick="load()">📂 استيراد</button>
+<button onclick="toggleTheme()">🎨 تغيير الثيم</button>
+<button onclick="window.print()">📄 PDF</button>
 
 </div>
 
@@ -109,51 +118,47 @@ button{
 
 <script>
 
-function smartText(name,type,audience,extra){
+function buildText(name,type,tone,audience,extra){
 
-let style={};
-
-if(type==="school"){
-style={
-intro:`${name} مؤسسة تعليمية رائدة تهدف إلى بناء جيل مبدع ومتعلم.`,
-why:`نقدم بيئة تعليمية حديثة، مع معلمين محترفين وتقنيات تعليم متقدمة.`,
-vision:`نسعى لصناعة مستقبل تعليمي ذكي يركز على الإبداع والتفكير.`,
-services:`تعليم متطور • أنشطة • تطوير مهارات • متابعة طلاب`,
-marketing:`${name} الخيار الأفضل لكل ولي أمر يبحث عن تعليم قوي وآمن.`
+let base={
+school:{
+intro:`${name} مؤسسة تعليمية متقدمة تركز على بناء جيل مبدع.`,
+services:`تعليم حديث • أنشطة • تطوير مهارات • متابعة`,
+vision:`بناء مستقبل تعليمي ذكي ومستدام.`
+},
+restaurant:{
+intro:`${name} يقدم تجربة طعام استثنائية.`,
+services:`وجبات • توصيل • جلسات • عروض`,
+vision:`أن نصبح الوجهة الأولى لعشاق الطعام.`
+},
+store:{
+intro:`${name} متجر يقدم منتجات عالية الجودة.`,
+services:`بيع • شحن • عروض • دعم`,
+vision:`أن نكون المتجر المفضل لكل عميل.`
+}
 };
+
+let style=base[type];
+
+if(tone==="marketing"){
+style.intro+=" نحن نقدم قيمة حقيقية وتجربة مميزة.";
+style.vision+=" نركز على الابتكار والنمو.";
 }
 
-if(type==="restaurant"){
-style={
-intro:`${name} يقدم تجربة طعام فريدة بنكهات مميزة وجودة عالية.`,
-why:`مكونات طازجة • طهاة محترفون • سرعة في الخدمة • نظافة.`,
-vision:`أن نصبح الوجهة الأولى لعشاق الطعام.`,
-services:`وجبات مميزة • جلسات رائعة • توصيل • عروض`,
-marketing:`${name} حيث يجتمع الطعم الرائع مع الجودة.`
-};
+if(tone==="formal"){
+style.intro="تُعد "+style.intro;
+style.vision="تتمثل رؤيتنا في "+style.vision;
 }
 
-if(type==="store"){
-style={
-intro:`${name} متجر يقدم منتجات عالية الجودة بأسعار تنافسية.`,
-why:`منتجات أصلية • شحن سريع • دعم ممتاز • ضمان.`,
-vision:`نسعى لنكون المتجر المفضل لكل عميل.`,
-services:`بيع • عروض • توصيل • دعم`,
-marketing:`${name} يوفر لك أفضل قيمة مقابل السعر.`
-};
-}
-
-if(extra.length>3){
-style.marketing += " " + extra;
-}
+let marketing=`${name} يقدم أفضل الحلول للفئة ${audience}.`;
+if(extra.length>3) marketing+=" "+extra;
 
 return [
 {t:"من نحن",d:style.intro},
-{t:"لماذا نحن",d:style.why},
 {t:"خدماتنا",d:style.services},
 {t:"رؤيتنا",d:style.vision},
-{t:"التسويق",d:style.marketing},
-{t:"الفئة المستهدفة",d:`هذا المشروع موجه إلى ${audience}.`}
+{t:"الفئة المستهدفة",d:audience},
+{t:"التسويق",d:marketing}
 ];
 }
 
@@ -161,13 +166,14 @@ function generate(){
 
 let name=document.getElementById("name").value||"مؤسستنا";
 let type=document.getElementById("type").value;
+let tone=document.getElementById("tone").value;
 let audience=document.getElementById("audience").value||"الجميع";
 let extra=document.getElementById("extra").value||"";
 
 let pages=document.getElementById("pages");
 pages.innerHTML="";
 
-let data=smartText(name,type,audience,extra);
+let data=buildText(name,type,tone,audience,extra);
 
 data.forEach(p=>{
 let div=document.createElement("div");
@@ -175,27 +181,31 @@ div.className="page";
 div.innerHTML=`<div class="title">${p.t}</div><div class="desc">${p.d}</div>`;
 pages.appendChild(div);
 });
-
 }
 
-function saveData(){
-let data={
+function save(){
+localStorage.setItem("brochure",JSON.stringify({
 name:name.value,
 type:type.value,
+tone:tone.value,
 audience:audience.value,
 extra:extra.value
-};
-localStorage.setItem("ai_brochure",JSON.stringify(data));
+}));
 alert("تم الحفظ");
 }
 
-function loadData(){
-let d=JSON.parse(localStorage.getItem("ai_brochure")||"{}");
+function load(){
+let d=JSON.parse(localStorage.getItem("brochure")||"{}");
 name.value=d.name||"";
 type.value=d.type||"school";
+tone.value=d.tone||"formal";
 audience.value=d.audience||"";
 extra.value=d.extra||"";
 generate();
+}
+
+function toggleTheme(){
+document.body.classList.toggle("light");
 }
 
 </script>
