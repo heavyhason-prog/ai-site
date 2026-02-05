@@ -2,168 +2,68 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI GOD MODE – Interactive Experience</title>
+<title>AI GOD MODE ∞</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{
---main:#00f5ff;
---bg:#020617;
-}
-
+:root{--main:#00f5ff}
 *{box-sizing:border-box}
-
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:var(--bg);
+background:#020617;
 color:#fff;
 overflow-x:hidden;
 }
 
-/* Glow Mouse Effect */
+/* Glow */
 body::before{
 content:"";
 position:fixed;
 inset:0;
-background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.18),transparent 40%);
+background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.25),transparent 40%);
 pointer-events:none;
 }
 
 /* Layout */
-section{
-display:none;
-padding:20px;
-max-width:1100px;
-margin:auto;
-animation:fade .6s ease;
+.container{max-width:1100px;margin:auto;padding:20px}
+.card{
+background:#fff;color:#000;border-radius:20px;
+box-shadow:0 0 30px rgba(0,255,255,.2);
+padding:20px;margin-bottom:20px;transition:.3s;
 }
+.card:hover{transform:translateY(-6px)}
 
-section.active{display:block}
-
-@keyframes fade{
-from{opacity:0;transform:translateY(20px)}
-to{opacity:1;transform:none}
-}
-
-h1,h2{text-align:center}
-
-/* Inputs */
 input,textarea,select{
-width:100%;
-padding:14px;
-border:none;
-border-radius:12px;
-margin-bottom:12px;
-background:rgba(255,255,255,.08);
-color:#fff;
+width:100%;padding:14px;border:none;border-radius:12px;margin-bottom:12px;
+background:rgba(255,255,255,.08);color:#fff
 }
 
 button{
-width:100%;
-padding:14px;
-border:none;
-border-radius:14px;
+width:100%;padding:14px;border:none;border-radius:14px;
 background:linear-gradient(45deg,var(--main),#00ffa6);
-font-weight:900;
-cursor:pointer;
-transition:.2s;
+font-weight:900;cursor:pointer;margin-top:6px
 }
 
-button:hover{transform:scale(1.04)}
+.slider{position:relative;height:320px;overflow:hidden;border-radius:20px}
+.slider img{width:100%;height:100%;object-fit:cover;position:absolute;opacity:0;transition:1s}
+.slider img.active{opacity:1}
 
-/* Interactive Cards */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:18px;
-}
+.counter{font-size:28px;font-weight:900;color:var(--main)}
+.badge{background:var(--main);color:#000;padding:6px 14px;border-radius:20px;display:inline-block;margin-bottom:8px;font-weight:700}
 
-.card{
-background:#fff;
-color:#000;
-border-radius:20px;
-overflow:hidden;
-box-shadow:0 0 30px rgba(0,255,255,.15);
-transform:translateY(30px);
-opacity:0;
-transition:.6s;
-}
-
-.card.show{
-transform:none;
-opacity:1;
-}
-
-.card img{
-width:100%;
-height:200px;
-object-fit:cover;
-}
-
-.content{padding:18px;line-height:1.8}
-
-.badge{
-background:var(--main);
-padding:6px 14px;
-border-radius:20px;
-display:inline-block;
-margin-bottom:10px;
-font-weight:700;
-}
-
-/* Stats */
-.stats{
-display:flex;
-justify-content:space-around;
-flex-wrap:wrap;
-gap:10px;
-margin-top:20px;
-}
-
-.stat{
-background:rgba(255,255,255,.05);
-padding:20px;
-border-radius:16px;
-text-align:center;
-min-width:140px;
-}
-
-.stat span{
-font-size:26px;
-font-weight:900;
-display:block;
-}
-
-/* Image slider */
-.slider{
-position:relative;
-overflow:hidden;
-border-radius:20px;
-margin-bottom:20px;
-}
-
-.slider img{
-width:100%;
-height:300px;
-object-fit:cover;
-transition:1s;
-}
 </style>
 </head>
 
 <body>
 
-<section id="home" class="active">
-<h1>🔥 AI GOD MODE</h1>
-<p style="text-align:center">تجربة تفاعلية حية بالكامل</p>
-<button onclick="show('form')">ابدأ</button>
-</section>
+<div class="container">
 
-<section id="form">
+<h1>🔥 AI GOD MODE ∞</h1>
+
 <select id="type">
 <option value="school">مدرسة</option>
 <option value="restaurant">مطعم</option>
@@ -174,58 +74,51 @@ transition:1s;
 <textarea id="about" placeholder="نبذة"></textarea>
 <textarea id="services" placeholder="الخدمات"></textarea>
 <textarea id="goals" placeholder="الأهداف"></textarea>
-
 <input type="file" id="upload" multiple accept="image/*">
 
-<button onclick="generate()">✨ إنشاء التجربة</button>
-</section>
+<button onclick="generate()">✨ إنشاء التجربة الخارقة</button>
 
-<section id="result">
+<div id="result" style="display:none">
 
-<h2>🚀 Interactive Experience</h2>
+<div class="slider" id="slider"></div>
 
-<div class="slider">
-<img id="slideImg">
+<div class="card">
+<div class="badge">من نحن</div>
+<p id="aboutAr"></p>
 </div>
 
-<div class="grid">
-
-<div class="card"><img id="img1"><div class="content"><div class="badge">العنوان</div><h3 id="title"></h3></div></div>
-
-<div class="card"><img id="img2"><div class="content"><div class="badge">من نحن</div><p id="aboutAr"></p></div></div>
-
-<div class="card"><img id="img3"><div class="content"><div class="badge">لماذا نحن</div><p id="whyAr"></p></div></div>
-
-<div class="card"><img id="img4"><div class="content"><div class="badge">الرؤية</div><p id="visionAr"></p></div></div>
-
+<div class="card">
+<div class="badge">خدماتنا</div>
+<p id="servicesAr"></p>
 </div>
 
-<div class="stats">
-<div class="stat"><span id="s1">0</span>رضا العملاء</div>
-<div class="stat"><span id="s2">0</span>نمو سنوي</div>
-<div class="stat"><span id="s3">0</span>مشاريع</div>
+<div class="card">
+<div class="badge">رؤيتنا</div>
+<p id="visionAr"></p>
 </div>
 
-<br>
+<div class="card">
+<div class="badge">إحصائيات</div>
+<div class="counter" id="c1">0</div>
+<div class="counter" id="c2">0</div>
+<div class="counter" id="c3">0</div>
+</div>
 
 <button onclick="downloadPDF()">📄 تحميل PDF</button>
 <button onclick="recordVideo()">🎥 تسجيل فيديو</button>
-<button onclick="show('form')">🔁 جديد</button>
 
-</section>
+</div>
+</div>
 
 <script>
-/* Glow Mouse */
+
+/* Glow */
 document.addEventListener("mousemove",e=>{
 document.body.style.setProperty("--x",e.clientX+"px");
 document.body.style.setProperty("--y",e.clientY+"px");
 });
 
-function show(id){
-document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).classList.add("active");
-}
-
+/* Default images */
 const imgsDefault=[
 "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
 "https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
@@ -233,84 +126,83 @@ const imgsDefault=[
 "https://images.unsplash.com/photo-1503387762-592deb58ef4e"
 ];
 
-let sliderIndex=0,sliderImgs=[];
-
+/* Generate */
 function generate(){
 
 let nameVal=name.value||"مؤسستنا";
-let aboutVal=about.value||"نقدم أفضل تجربة احترافية متكاملة.";
-let servicesVal=services.value||"جودة – احتراف – تجربة عميل.";
-let goalsVal=goals.value||"الريادة والابتكار والنمو المستمر.";
+let aboutVal=about.value||"نقدم تجربة احترافية متكاملة بأعلى جودة.";
+let servicesVal=services.value||"خدمات احترافية، جودة، ابتكار، دعم كامل.";
+let goalsVal=goals.value||"الريادة، التوسع، التميز، الابتكار.";
 
+/* AI text generator */
+aboutAr.innerText=`${nameVal} — ${aboutVal} نعمل على تقديم أفضل تجربة ممكنة لعملائنا مع فريق احترافي وتقنيات حديثة.`;
+servicesAr.innerText=`نقدم: ${servicesVal} مع ضمان الجودة والاحترافية العالية.`;
+visionAr.innerText=`هدفنا: ${goalsVal} ونطمح للوصول لأعلى مستويات النجاح.`;
+
+/* Images */
 let files=upload.files;
-sliderImgs=[...imgsDefault];
-
+let imgs=[...imgsDefault];
 if(files.length){
-sliderImgs=[];
-for(let f of files){sliderImgs.push(URL.createObjectURL(f))}
+imgs=[];
+for(let f of files){imgs.push(URL.createObjectURL(f))}
 }
 
-slideImg.src=sliderImgs[0];
+slider.innerHTML="";
+imgs.forEach((src,i)=>{
+let img=document.createElement("img");
+img.src=src;
+if(i==0)img.classList.add("active");
+slider.appendChild(img);
+});
 
+let index=0;
 setInterval(()=>{
-sliderIndex=(sliderIndex+1)%sliderImgs.length;
-slideImg.src=sliderImgs[sliderIndex];
+let imgsEl=document.querySelectorAll("#slider img");
+imgsEl.forEach(i=>i.classList.remove("active"));
+index=(index+1)%imgsEl.length;
+imgsEl[index].classList.add("active");
 },3000);
 
-img1.src=sliderImgs[0];
-img2.src=sliderImgs[1]||sliderImgs[0];
-img3.src=sliderImgs[2]||sliderImgs[0];
-img4.src=sliderImgs[3]||sliderImgs[0];
+/* Counters */
+animate("c1",80+Math.random()*20);
+animate("c2",10+Math.random()*30);
+animate("c3",50+Math.random()*200);
 
-title.innerText=nameVal;
-aboutAr.innerText=aboutVal+" خدماتنا: "+servicesVal;
-whyAr.innerText="نتميز بالابتكار والجودة العالية وفريق عمل محترف يركز على تقديم أفضل النتائج.";
-visionAr.innerText="رؤيتنا: "+goalsVal;
-
-animateNumber("s1",80+Math.floor(Math.random()*20),"%");
-animateNumber("s2",10+Math.floor(Math.random()*20),"%");
-animateNumber("s3",50+Math.floor(Math.random()*200),"");
-
-show("result");
-
-setTimeout(()=>{
-document.querySelectorAll(".card").forEach((c,i)=>{
-setTimeout(()=>c.classList.add("show"),i*200);
-});
-},200);
+result.style.display="block";
 }
 
-/* Animate numbers */
-function animateNumber(id,target,suffix){
+function animate(id,val){
 let el=document.getElementById(id);
-let n=0;
-let step=target/40;
-let int=setInterval(()=>{
-n+=step;
-if(n>=target){n=target;clearInterval(int)}
-el.innerText=Math.floor(n)+suffix;
-},30);
+let i=0;
+let t=setInterval(()=>{
+i+=Math.ceil(val/40);
+if(i>=val){i=val;clearInterval(t)}
+el.innerText=Math.floor(i);
+},40);
 }
 
+/* PDF */
 function downloadPDF(){
-html2pdf().from(document.getElementById("result")).save("AI-GOD-MODE.pdf");
+html2pdf().from(result).save("AI-GOD-MODE.pdf");
 }
 
+/* Video */
 async function recordVideo(){
 let stream=await navigator.mediaDevices.getDisplayMedia({video:true});
-let recorder=new MediaRecorder(stream);
+let rec=new MediaRecorder(stream);
 let chunks=[];
-recorder.ondataavailable=e=>chunks.push(e.data);
-recorder.onstop=()=>{
+rec.ondataavailable=e=>chunks.push(e.data);
+rec.onstop=()=>{
 let blob=new Blob(chunks,{type:"video/webm"});
 let a=document.createElement("a");
 a.href=URL.createObjectURL(blob);
 a.download="AI-GOD-MODE.webm";
 a.click();
 };
-recorder.start();
-setTimeout(()=>recorder.stop(),8000);
+rec.start();
+setTimeout(()=>rec.stop(),8000);
 }
+
 </script>
 
 </body>
