@@ -2,292 +2,184 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Smart Brochure</title>
+<title>AI Smart Brochure PRO</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{
-  --main:#00c6ff;
-  --bg:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-  --page-bg:#fff;
-  --page-radius:20px;
-  --page-shadow:0 4px 15px rgba(0,0,0,0.3);
-}
+:root{--main:#00c6ff}
 *{box-sizing:border-box}
 body{
-  margin:0;
-  font-family:'Cairo',sans-serif;
-  background:var(--bg);
-  color:#fff;
-  min-height:100vh;
-  transition: background 0.5s;
+margin:0;
+font-family:'Cairo',sans-serif;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:#fff;
+min-height:100vh;
 }
+
 section{display:none;padding:20px;max-width:1100px;margin:auto}
 section.active{display:block}
-h1,h2{text-align:center;transition: color 0.5s}
 
 input,textarea,select{
-  width:100%;
-  padding:15px;
-  border-radius:14px;
-  border:none;
-  font-size:16px;
-  margin-bottom:15px;
+width:100%;
+padding:14px;
+border-radius:12px;
+border:none;
+margin-bottom:12px;
 }
 
 button{
-  width:100%;
-  padding:16px;
-  border:none;
-  border-radius:16px;
-  font-size:18px;
-  background:var(--main);
-  color:#fff;
-  cursor:pointer;
-  font-weight:700;
-  transition: background 0.5s;
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+background:var(--main);
+color:#fff;
+font-weight:700;
+cursor:pointer;
 }
 
-#book{
-  margin:auto;
-  width:100%;
-  max-width:420px;
-  height:560px;
-}
+#book{margin:auto;max-width:420px;height:560px}
 
 .page{
-  background:var(--page-bg);
-  color:#000;
-  border-radius:var(--page-radius);
-  box-shadow:var(--page-shadow);
-  overflow:hidden;
-  display:flex;
-  flex-direction: row; /* الصورة على اليسار والنص على اليمين */
-  transition: all 0.5s;
+background:#fff;
+color:#000;
+border-radius:18px;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+transition:.3s;
+}
+.page:hover{
+transform:translateY(-6px);
+box-shadow:0 10px 30px rgba(0,0,0,.5);
 }
 
 .page img{
-  width:50%;  /* نصف الصفحة للصورة */
-  height:100%; /* تغطي ارتفاع الصفحة بالكامل */
-  object-fit:cover; 
-  display:block;
-  transition: transform 0.5s;
+width:100%;
+height:240px;
+object-fit:cover;
 }
 
-.page .content{
-  width:50%;  /* نصف الصفحة للنصوص */
-  padding:20px;
-  line-height:1.9;
-  overflow-y:auto;
-}
+.content{padding:18px;line-height:1.8}
 
 .badge{
-  display:inline-block;
-  background:var(--main);
-  color:#fff;
-  padding:6px 14px;
-  border-radius:20px;
-  font-size:14px;
-  margin-bottom:10px;
+background:var(--main);
+color:#fff;
+padding:6px 14px;
+border-radius:20px;
+display:inline-block;
+margin-bottom:8px;
 }
 
-.eng{
-  direction:ltr;
-  font-family:Arial,Helvetica,sans-serif;
-  opacity:.8;
-  margin-top:12px;
+.icon-anim{
+display:inline-block;
+transition:.3s;
+}
+.icon-anim:hover{
+transform:scale(1.3) rotate(10deg);
 }
 
-/* حركة الأيقونات داخل النصوص */
-.icon-anim {
-  display:inline-block;
-  transition: transform 0.3s;
-}
-.icon-anim:hover {
-  transform: scale(1.3) rotate(10deg);
-}
-
-/* تأثير الظل عند المرور على الصفحة */
-.page:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
+.eng{direction:ltr;font-family:Arial;margin-top:10px;opacity:.7}
 </style>
 </head>
 
 <body>
 
 <section id="home" class="active">
-<h1>📘 منشئ البروشور الذكي</h1>
-<p style="text-align:center;opacity:.9">
-نصوص ذكية • تقليب صفحات • تجربة تحسسك بالذكاء الاصطناعي
-</p>
+<h1>📘 منشئ البروشور الذكي PRO</h1>
 <button onclick="show('form')">ابدأ</button>
 </section>
 
 <section id="form">
-<h2>بيانات الجهة</h2>
-<input id="name" placeholder="اسم الجهة (مثال: مدرسة الفرقان)">
 <select id="type">
-  <option value="school">🏫 مدرسة</option>
-  <option value="restaurant">🍽️ مطعم</option>
-  <option value="store">🛍️ متجر</option>
+<option value="school">مدرسة</option>
+<option value="restaurant">مطعم</option>
+<option value="store">متجر</option>
 </select>
-<textarea id="about" rows="4" placeholder="نبذة مختصرة (اختياري)"></textarea>
-<button onclick="generate()">✨ إنشاء بروشور ذكي</button>
+
+<input id="name" placeholder="اسم الجهة">
+<textarea id="about" placeholder="نبذة"></textarea>
+<textarea id="services" placeholder="الخدمات / المميزات"></textarea>
+<textarea id="goals" placeholder="الرؤية / الأهداف"></textarea>
+
+<button onclick="generate()">✨ إنشاء بروشور</button>
 </section>
 
 <section id="result">
 <h2>📖 البروشور</h2>
-
 <div id="book">
-  <div class="page">
-    <img id="img1">
-    <div class="content">
-      <div class="badge" id="badge1">العنوان</div>
-      <h2 id="title"></h2>
-      <p class="eng" id="titleEn"></p>
-    </div>
-  </div>
 
-  <div class="page">
-    <img id="img2">
-    <div class="content">
-      <div class="badge" id="badge2">من نحن</div>
-      <p id="aboutAr"></p>
-      <p class="eng" id="aboutEn"></p>
-    </div>
-  </div>
+<div class="page"><img id="img1"><div class="content"><div class="badge">العنوان</div><h2 id="title"></h2></div></div>
 
-  <div class="page">
-    <img id="img3">
-    <div class="content">
-      <div class="badge" id="badge3">لماذا نحن؟</div>
-      <p id="whyAr"></p>
-      <p class="eng" id="whyEn"></p>
-    </div>
-  </div>
+<div class="page"><img id="img2"><div class="content"><div class="badge">من نحن</div><p id="aboutAr"></p><p class="eng" id="aboutEn"></p></div></div>
 
-  <div class="page">
-    <img id="img4">
-    <div class="content">
-      <div class="badge" id="badge4">رؤيتنا</div>
-      <p id="visionAr"></p>
-      <p class="eng" id="visionEn"></p>
-    </div>
-  </div>
+<div class="page"><img id="img3"><div class="content"><div class="badge">لماذا نحن</div><p id="whyAr"></p><p class="eng" id="whyEn"></p></div></div>
+
+<div class="page"><img id="img4"><div class="content"><div class="badge">رؤيتنا</div><p id="visionAr"></p><p class="eng" id="visionEn"></p></div></div>
+
+<div class="page"><div class="content"><div class="badge">الخدمات</div><p id="servicesAr"></p></div></div>
+
 </div>
 
-<button onclick="show('form')">🔁 إنشاء بروشور جديد</button>
+<button onclick="downloadPDF()">📄 تحميل PDF</button>
+<button onclick="show('form')">🔁 جديد</button>
 </section>
 
 <script>
 let flip;
-const flipSound = new Audio("https://www.soundjay.com/button/sounds/button-16.mp3");
 
 function show(id){
-  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
 }
 
-function pick(arr){
-  return arr[Math.floor(Math.random()*arr.length)];
-}
+const imgs=[
+"https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+"https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
+"https://images.unsplash.com/photo-1552664730-d307ca884978",
+"https://images.unsplash.com/photo-1503387762-592deb58ef4e"
+];
 
 function generate(){
-  const n = name.value || "مؤسستنا";
-  const a = about.value || "";
-  const type = document.getElementById("type").value;
+const type=type.value;
+const n=name.value||"مؤسستنا";
+const about=about.value||"نحن جهة تسعى للتميز والنجاح.";
+const services=services.value||"جودة عالية، احترافية، تجربة مميزة.";
+const goals=goals.value||"أن نكون الأفضل في مجالنا.";
 
-  let titles, titlesEn, aboutArList, aboutEnList, whyArList, whyEnList, visionArList, visionEnList, typeImages;
-  let mainColor, bgColor, pageBg, pageRadius, pageShadow, imgEffect;
-  let icon = "";
-  let textIcons = [];
+img1.src=imgs[Math.floor(Math.random()*imgs.length)];
+img2.src=imgs[Math.floor(Math.random()*imgs.length)];
+img3.src=imgs[Math.floor(Math.random()*imgs.length)];
+img4.src=imgs[Math.floor(Math.random()*imgs.length)];
 
-  if(type === "school"){
-    mainColor = "#1e90ff"; bgColor = "linear-gradient(135deg,#1c3aa9,#3a5ccc,#1e90ff)";
-    pageBg = "#f0f8ff"; pageRadius = "20px"; pageShadow = "0 6px 20px rgba(0,0,80,0.4)"; imgEffect="scale(1)";
-    icon = "📚"; textIcons = ["📖","✏️"];
-    titles = [`${n} حيث تبدأ الرحلة نحو التفوق الأكاديمي`,`مرحبًا بك في ${n} – لأن التعليم هو المستقبل`,`${n} نزرع العلم ونبني العقول`];
-    titlesEn = [`${n} – Where Learning Shines`,`${n} – Education for the Future`,`${n} – Cultivating Minds`];
-    aboutArList = [`${textIcons[0]} ${n} تهدف إلى تقديم بيئة تعليمية متكاملة، حيث نركز على تطوير الطلاب أكاديميًا وشخصيًا. ${a}`];
-    aboutEnList = [`${textIcons[0]} ${n} provides a comprehensive learning environment focused on academic and personal growth.`];
-    whyArList = [`${textIcons[1]} نستخدم أحدث طرق التدريس والتقنيات لتعزيز التعلم.`];
-    whyEnList = [`${textIcons[1]} We use modern teaching methods and technologies to enhance learning.`];
-    visionArList = [`${textIcons[0]} رؤيتنا بناء جيل متعلم ومبدع قادر على مواجهة تحديات المستقبل.`];
-    visionEnList = [`${textIcons[0]} Our vision is to create an educated, creative generation ready for the future.`];
-    typeImages = ["https://images.unsplash.com/photo-1503676260728-1c00da094a0","https://images.unsplash.com/photo-1521737604893-d14cc237f11d"];
-  }
-  else if(type === "restaurant"){
-    mainColor = "#ff6347"; bgColor = "linear-gradient(135deg,#a83232,#ff6347,#ffb199)";
-    pageBg = "#fff0f0"; pageRadius = "30px"; pageShadow = "0 8px 25px rgba(150,0,0,0.5)"; imgEffect="scale(1.05)";
-    icon = "🍴"; textIcons = ["🍕","🍹"];
-    titles = [`${n} طعم لا يُنسى`,`مرحبًا بك في ${n} – مذاق يجمع الناس`,`${n} تجربة طعام لا مثيل لها`];
-    titlesEn = [`${n} – Unforgettable Taste`,`${n} – Flavor that Brings People Together`,`${n} – A Culinary Experience`];
-    aboutArList = [`${textIcons[0]} ${n} يقدم أطباقاً مبتكرة تجمع بين الجودة والطعم الرائع. ${a}`];
-    aboutEnList = [`${textIcons[0]} ${n} offers innovative dishes combining quality and taste.`];
-    whyArList = [`${textIcons[1]} نختار أفضل المكونات الطازجة لكل طبق.`];
-    whyEnList = [`${textIcons[1]} We select the freshest ingredients for every dish.`];
-    visionArList = [`${textIcons[0]} رؤيتنا تقديم تجربة طعام استثنائية لكل زائر.`];
-    visionEnList = [`${textIcons[0]} Our vision is to provide an exceptional dining experience.`];
-    typeImages = ["https://images.unsplash.com/photo-1552664730-d307ca884978","https://images.unsplash.com/photo-1503387762-592deb58ef4e"];
-  }
-  else if(type === "store"){
-    mainColor = "#32cd32"; bgColor = "linear-gradient(135deg,#1a6f1a,#32cd32,#a0ffa0)";
-    pageBg = "#f0fff0"; pageRadius = "15px"; pageShadow = "0 5px 18px rgba(0,80,0,0.4)"; imgEffect="scale(1.02)";
-    icon = "🛍️"; textIcons = ["🛒","💳"];
-    titles = [`${n} مكانك المثالي للتسوق`,`مرحبًا بك في ${n} – كل ما تحتاجه هنا`,`${n} منتجات عالية الجودة وخدمة مميزة`];
-    titlesEn = [`${n} – Your Perfect Shopping Destination`,`${n} – Everything You Need, All in One Place`,`${n} – Quality Products, Excellent Service`];
-    aboutArList = [`${textIcons[0]} ${n} يقدم مجموعة متنوعة من المنتجات عالية الجودة لتلبية احتياجاتكم. ${a}`];
-    aboutEnList = [`${textIcons[0]} ${n} offers a variety of high-quality products to meet your needs.`];
-    whyArList = [`${textIcons[1]} نحرص على توفير منتجات موثوقة وخدمة عملاء ممتازة.`];
-    whyEnList = [`${textIcons[1]} We ensure reliable products and excellent customer service.`];
-    visionArList = [`${textIcons[0]} رؤيتنا أن نصبح الوجهة المفضلة لكل متسوق.`];
-    visionEnList = [`${textIcons[0]} Our vision is to be the preferred destination for shoppers.`];
-    typeImages = ["https://images.unsplash.com/photo-1522202176988-66273c2fd55f","https://images.unsplash.com/photo-1503387762-592deb58ef4e"];
-  }
+title.innerHTML=`<span class="icon-anim">🌟</span> ${n}`;
 
-  document.documentElement.style.setProperty('--main', mainColor);
-  document.body.style.background = bgColor;
-  document.documentElement.style.setProperty('--page-bg', pageBg);
-  document.documentElement.style.setProperty('--page-radius', pageRadius);
-  document.documentElement.style.setProperty('--page-shadow', pageShadow);
+aboutAr.innerHTML=`📘 ${about}<br><br>نقدم: ${services}`;
+aboutEn.innerHTML=`${n} provides excellence and professional services.`;
 
-  img1.src = pick(typeImages); img1.style.transform = imgEffect;
-  img2.src = pick(typeImages); img2.style.transform = imgEffect;
-  img3.src = pick(typeImages); img3.style.transform = imgEffect;
-  img4.src = pick(typeImages); img4.style.transform = imgEffect;
+whyAr.innerHTML=`🚀 نتميز بالجودة، الابتكار، وفريق محترف.`;
+whyEn.innerHTML=`High quality, innovation, and expert team.`;
 
-  badge1.innerText = icon + " العنوان";
-  badge2.innerText = icon + " من نحن";
-  badge3.innerText = icon + " لماذا نحن؟";
-  badge4.innerText = icon + " رؤيتنا";
+visionAr.innerHTML=`🌟 ${goals}`;
+visionEn.innerHTML=`Our goal is leadership and innovation.`;
 
-  aboutAr.innerHTML = pick(aboutArList).replace(/([\u{1F300}-\u{1FAFF}])/gu, `<span class="icon-anim">$1</span>`);
-  aboutEn.innerHTML = pick(aboutEnList).replace(/([\u{1F300}-\u{1FAFF}])/gu, `<span class="icon-anim">$1</span>`);
-  whyAr.innerHTML = pick(whyArList).replace(/([\u{1F300}-\u{1FAFF}])/gu, `<span class="icon-anim">$1</span>`);
-  whyEn.innerHTML = pick(whyEnList).replace(/([\u{1F300}-\u{1FAFF}])/gu, `<span class="icon-anim">$1</span>`);
-  visionAr.innerHTML = pick(visionArList).replace(/([\u{1F300}-\u{1FAFF}])/gu, `<span class="icon-anim">$1</span>`);
-  visionEn.innerHTML = pick(visionEnList).replace(/([\u{1F300}-\u{1FAFF}])/gu, `<span class="icon-anim">$1</span>`);
+servicesAr.innerHTML=`⭐ ${services}`;
 
-  show('result');
+show('result');
 
-  setTimeout(()=>{
-    if(flip) flip.destroy();
-    flip = new St.PageFlip(document.getElementById("book"),{
-      width:360,
-      height:520,
-      size:"stretch",
-      mobileScrollSupport:true
-    });
-    flip.loadFromHTML(document.querySelectorAll(".page"));
+setTimeout(()=>{
+if(flip)flip.destroy();
+flip=new St.PageFlip(book,{width:360,height:520});
+flip.loadFromHTML(document.querySelectorAll(".page"));
+},300);
+}
 
-    flip.on("flip", ()=>{ flipSound.play(); });
-  },300);
+function downloadPDF(){
+html2pdf().from(document.getElementById("book")).save("brochure.pdf");
 }
 </script>
 
