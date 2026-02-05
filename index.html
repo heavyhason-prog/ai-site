@@ -2,184 +2,207 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Brochure MAX</title>
+<title>AI Smart Brochure — DEV</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{--main:#00f5ff}
+:root{
+  --main:#00c3ff;
+  --bg:#0d1117;
+  --card:#161b22;
+  --text:#e6edf3;
+}
+
 *{box-sizing:border-box}
 body{
-margin:0;
-font-family:'Cairo',sans-serif;
-background:#020617;
-color:#fff;
-overflow-x:hidden;
+  margin:0;
+  font-family:Cairo;
+  background:linear-gradient(135deg,#0d1117,#020409);
+  color:var(--text);
+  min-height:100vh;
 }
 
-/* Glow effect */
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.25),transparent 40%);
-pointer-events:none;
+/* HEADER */
+header{
+  padding:20px;
+  text-align:center;
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:1px;
+  color:var(--main);
 }
 
-section{display:none;padding:20px;max-width:1100px;margin:auto}
-section.active{display:block}
-
-input,textarea,select{
-width:100%;padding:14px;border:none;border-radius:12px;margin-bottom:12px;
-background:rgba(255,255,255,.08);color:#fff
+/* CONTROLS */
+.controls{
+  max-width:900px;
+  margin:auto;
+  background:var(--card);
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 0 20px rgba(0,0,0,.5);
 }
 
-button{
-width:100%;padding:14px;border:none;border-radius:14px;
-background:linear-gradient(45deg,var(--main),#00ffa6);
-font-weight:900;cursor:pointer
+.controls input, .controls textarea, .controls select{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:8px;
+  border:none;
+  outline:none;
+  background:#0d1117;
+  color:white;
+  font-size:14px;
 }
 
-#book{margin:auto;max-width:420px;height:560px}
+.controls button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(90deg,#00c3ff,#0099ff);
+  color:white;
+  font-weight:700;
+  font-size:16px;
+  cursor:pointer;
+  transition:.2s;
+}
+.controls button:hover{
+  transform:scale(1.02);
+}
+
+/* BOOK */
+#book{
+  max-width:1100px;
+  margin:40px auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
 
 .page{
-background:#fff;color:#000;border-radius:20px;overflow:hidden;
-display:flex;flex-direction:column;box-shadow:0 0 30px rgba(0,255,255,.2)
+  background:var(--card);
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,.4);
+  transition:.3s;
+  position:relative;
+  overflow:hidden;
 }
-.page img{width:100%;height:230px;object-fit:cover}
-.content{padding:18px;line-height:1.8}
-.badge{background:var(--main);padding:6px 14px;border-radius:20px;display:inline-block;margin-bottom:8px;font-weight:700}
 
+.page:hover{
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:0 15px 35px rgba(0,0,0,.6);
+}
+
+.badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  background:var(--main);
+  color:black;
+  padding:4px 10px;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.title{
+  font-size:20px;
+  font-weight:900;
+  margin-bottom:8px;
+  color:#00c3ff;
+}
+
+.desc{
+  font-size:14px;
+  line-height:1.7;
+  opacity:.9;
+}
+
+.footer{
+  text-align:center;
+  margin:40px 0;
+  opacity:.6;
+}
 </style>
 </head>
 
 <body>
 
-<section id="home" class="active">
-<h1>🔥 AI Brochure MAX</h1>
-<button onclick="show('form')">ابدأ</button>
-</section>
+<header>🚀 AI SMART BROCHURE — DEV BUILD</header>
 
-<section id="form">
+<div class="controls">
+
+<input id="title" placeholder="عنوان المشروع / المنتج">
+<input id="audience" placeholder="الفئة المستهدفة (طلاب - شركة - متجر - لعبة)">
 <select id="type">
-<option value="school">مدرسة</option>
-<option value="restaurant">مطعم</option>
-<option value="store">متجر</option>
+<option value="business">بزنس</option>
+<option value="app">تطبيق</option>
+<option value="game">لعبة</option>
+<option value="ai">ذكاء صناعي</option>
 </select>
 
-<input id="name" placeholder="اسم الجهة">
-<textarea id="about" placeholder="نبذة"></textarea>
-<textarea id="services" placeholder="الخدمات"></textarea>
-<textarea id="goals" placeholder="الأهداف"></textarea>
+<textarea id="details" rows="3" placeholder="اكتب وصف أو فكرة..."></textarea>
 
-<input type="file" id="upload" multiple accept="image/*">
-
-<button onclick="generate()">✨ إنشاء MAX</button>
-</section>
-
-<section id="result">
-<h2>📖 البروشور</h2>
-
-<div id="book">
-
-<div class="page"><img id="img1"><div class="content"><div class="badge">العنوان</div><h2 id="title"></h2></div></div>
-
-<div class="page"><img id="img2"><div class="content"><div class="badge">من نحن</div><p id="aboutAr"></p></div></div>
-
-<div class="page"><img id="img3"><div class="content"><div class="badge">لماذا نحن</div><p id="whyAr"></p></div></div>
-
-<div class="page"><img id="img4"><div class="content"><div class="badge">الرؤية</div><p id="visionAr"></p></div></div>
-
-<div class="page"><div class="content"><div class="badge">إحصائيات</div><p id="stats"></p></div></div>
+<button onclick="generate()">⚡ إنشاء البروشور</button>
 
 </div>
 
-<button onclick="downloadPDF()">📄 PDF</button>
-<button onclick="recordVideo()">🎥 تسجيل فيديو</button>
-<button onclick="show('form')">🔁 جديد</button>
-</section>
+<div id="book"></div>
+
+<div class="footer">DEV MODE — Full Dynamic Generation</div>
 
 <script>
-let flip;
+function smartText(title,audience,type,details){
 
-/* Glow mouse */
-document.addEventListener("mousemove",e=>{
-document.body.style.setProperty("--x",e.clientX+"px");
-document.body.style.setProperty("--y",e.clientY+"px");
-});
+let intro = `نقدم لكم ${title}، حل متطور مصمم خصيصًا لـ ${audience}.`;
+let vision = `رؤيتنا هي تقديم تجربة فريدة باستخدام أحدث التقنيات في مجال ${type}.`;
+let features = `
+✔ واجهة حديثة وسريعة  
+✔ أداء عالي بدون تقطيع  
+✔ تصميم جذاب ومتجاوب  
+✔ قابل للتطوير مستقبلاً  
+✔ أمان عالي وحماية البيانات
+`;
+let marketing = `يهدف ${title} إلى إحداث نقلة نوعية في السوق من خلال تقديم قيمة حقيقية للمستخدمين.`;
 
-function show(id){
-document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).classList.add("active");
+if(details.length>5){
+  marketing += " " + details;
 }
 
-const imgsDefault=[
-"https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
-"https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
-"https://images.unsplash.com/photo-1552664730-d307ca884978",
-"https://images.unsplash.com/photo-1503387762-592deb58ef4e"
+return [
+{t:"الرؤية",d:vision},
+{t:"المميزات",d:features},
+{t:"عن المشروع",d:intro},
+{t:"التسويق",d:marketing}
 ];
+}
 
 function generate(){
 
-let nameVal=name.value||"مؤسستنا";
-let aboutVal=about.value||"نقدم تجربة احترافية متكاملة.";
-let servicesVal=services.value||"جودة، احتراف، تجربة.";
-let goalsVal=goals.value||"الريادة والابتكار.";
+let title = document.getElementById("title").value || "مشروع ذكي";
+let audience = document.getElementById("audience").value || "الجميع";
+let type = document.getElementById("type").value;
+let details = document.getElementById("details").value;
 
-let files=upload.files;
-let imgs=[...imgsDefault];
-if(files.length){
-imgs=[];
-for(let f of files){imgs.push(URL.createObjectURL(f))}
-}
+let book = document.getElementById("book");
+book.innerHTML = "";
 
-for(let i=1;i<=4;i++){
-document.getElementById("img"+i).src=imgs[i-1]||imgsDefault[i-1];
-}
+let pages = smartText(title,audience,type,details);
 
-title.innerText=nameVal;
-aboutAr.innerText=aboutVal+" - خدماتنا: "+servicesVal;
-whyAr.innerText="نتميز بالجودة والابتكار وفريق احترافي.";
-visionAr.innerText="هدفنا: "+goalsVal;
-
-stats.innerHTML=`
-⭐ رضا العملاء: ${80+Math.floor(Math.random()*20)}%<br>
-📈 نمو سنوي: ${10+Math.floor(Math.random()*20)}%<br>
-🏆 مشاريع ناجحة: ${50+Math.floor(Math.random()*200)}
+pages.forEach((p,i)=>{
+let page = document.createElement("div");
+page.className="page";
+page.innerHTML=`
+<div class="badge">${type.toUpperCase()}</div>
+<div class="title">${p.t}</div>
+<div class="desc">${p.d}</div>
 `;
+book.appendChild(page);
+});
 
-show("result");
-
-setTimeout(()=>{
-if(flip)flip.destroy();
-flip=new St.PageFlip(book,{width:360,height:520});
-flip.loadFromHTML(document.querySelectorAll(".page"));
-},300);
-}
-
-function downloadPDF(){
-html2pdf().from(book).save("Brochure-MAX.pdf");
-}
-
-/* تسجيل فيديو */
-async function recordVideo(){
-let stream=await navigator.mediaDevices.getDisplayMedia({video:true});
-let recorder=new MediaRecorder(stream);
-let chunks=[];
-recorder.ondataavailable=e=>chunks.push(e.data);
-recorder.onstop=()=>{
-let blob=new Blob(chunks,{type:"video/webm"});
-let a=document.createElement("a");
-a.href=URL.createObjectURL(blob);
-a.download="brochure-video.webm";
-a.click();
-};
-recorder.start();
-setTimeout(()=>recorder.stop(),8000);
 }
 </script>
 
