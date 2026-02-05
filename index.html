@@ -2,35 +2,35 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI SMART BROCHURE — ULTRA</title>
+<title>AI BROCHURE — GOD MODE</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --main:#00c3ff;
-  --bg:#0d1117;
-  --card:#161b22;
-  --text:#e6edf3;
+  --main:#00d0ff;
+  --bg:#0b0f14;
+  --card:#121821;
+  --text:#e8f0f7;
 }
 
 body{
   margin:0;
   font-family:Cairo;
-  background:linear-gradient(135deg,#0d1117,#020409);
+  background:linear-gradient(135deg,#020409,#0b0f14);
   color:var(--text);
 }
 
 header{
   text-align:center;
-  padding:20px;
-  font-size:26px;
+  padding:18px;
   font-weight:900;
+  font-size:24px;
   color:var(--main);
 }
 
-.controls{
+.box{
   max-width:950px;
   margin:auto;
   background:var(--card);
@@ -38,13 +38,13 @@ header{
   border-radius:14px;
 }
 
-.controls input,.controls textarea,.controls select{
+input,textarea,select{
   width:100%;
   padding:12px;
-  margin:8px 0;
-  border-radius:8px;
+  margin:7px 0;
   border:none;
-  background:#0d1117;
+  border-radius:8px;
+  background:#0b0f14;
   color:white;
 }
 
@@ -54,150 +54,150 @@ button{
   margin-top:8px;
   border:none;
   border-radius:10px;
-  background:linear-gradient(90deg,#00c3ff,#0099ff);
+  background:linear-gradient(90deg,#00d0ff,#0099ff);
   color:white;
   font-weight:700;
   cursor:pointer;
 }
 
-#book{
+#pages{
   max-width:1100px;
-  margin:30px auto;
+  margin:25px auto;
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:18px;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:16px;
 }
 
 .page{
   background:var(--card);
-  padding:20px;
-  border-radius:14px;
-  box-shadow:0 10px 25px rgba(0,0,0,.4);
-  transition:.3s;
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 8px 20px rgba(0,0,0,.4);
+  transition:.25s;
 }
+.page:hover{transform:translateY(-5px) scale(1.02)}
 
-.page:hover{
-  transform:translateY(-6px) scale(1.02);
-}
-
-.title{
-  font-weight:900;
-  color:#00c3ff;
-  margin-bottom:6px;
-}
-
-.desc{
-  font-size:14px;
-  line-height:1.7;
-  opacity:.9;
-}
+.title{font-weight:900;color:var(--main);margin-bottom:6px}
+.desc{font-size:14px;line-height:1.7;opacity:.95}
 </style>
 </head>
 
 <body>
 
-<header>🚀 AI SMART BROCHURE — ULTRA AI</header>
+<header>🚀 AI BROCHURE — GOD MODE ∞</header>
 
-<div class="controls">
+<div class="box">
 
-<input id="title" placeholder="اسم المشروع">
-<input id="audience" placeholder="الفئة المستهدفة">
+<input id="name" placeholder="اسم الجهة / المشروع">
 <select id="type">
-<option value="بزنس">بزنس</option>
-<option value="تطبيق">تطبيق</option>
-<option value="لعبة">لعبة</option>
-<option value="ذكاء صناعي">ذكاء صناعي</option>
+<option value="school">مدرسة</option>
+<option value="restaurant">مطعم</option>
+<option value="store">متجر</option>
 </select>
 
-<textarea id="details" rows="3" placeholder="اكتب الفكرة أو الوصف"></textarea>
+<input id="audience" placeholder="الفئة المستهدفة">
+<textarea id="extra" rows="3" placeholder="اكتب أي تفاصيل إضافية تريد إدخالها"></textarea>
 
-<button onclick="generate()">⚡ إنشاء</button>
-<button onclick="saveProject()">💾 حفظ</button>
-<button onclick="loadProject()">📂 استيراد</button>
-<button onclick="exportPDF()">📄 تصدير PDF</button>
+<button onclick="generate()">⚡ إنشاء البروشور</button>
+<button onclick="saveData()">💾 حفظ</button>
+<button onclick="loadData()">📂 استيراد</button>
+<button onclick="window.print()">📄 تصدير PDF</button>
 
 </div>
 
-<div id="book"></div>
+<div id="pages"></div>
 
 <script>
-function aiEngine(title,audience,type,details){
 
-let intro=`${title} هو مشروع متطور موجه إلى ${audience} ويهدف إلى تقديم تجربة استثنائية في مجال ${type}.`;
+function smartText(name,type,audience,extra){
 
-let vision=`نسعى إلى بناء نظام ذكي يعتمد على أحدث التقنيات لتوفير أداء عالي وسرعة واستقرار.`;
+let style={};
 
-let features=`
-• واجهة حديثة  
-• سرعة عالية  
-• أمان قوي  
-• تصميم احترافي  
-• قابل للتطوير  
-• تجربة مستخدم ممتازة
-`;
+if(type==="school"){
+style={
+intro:`${name} مؤسسة تعليمية رائدة تهدف إلى بناء جيل مبدع ومتعلم.`,
+why:`نقدم بيئة تعليمية حديثة، مع معلمين محترفين وتقنيات تعليم متقدمة.`,
+vision:`نسعى لصناعة مستقبل تعليمي ذكي يركز على الإبداع والتفكير.`,
+services:`تعليم متطور • أنشطة • تطوير مهارات • متابعة طلاب`,
+marketing:`${name} الخيار الأفضل لكل ولي أمر يبحث عن تعليم قوي وآمن.`
+};
+}
 
-let marketing=`يقدم ${title} قيمة حقيقية للسوق من خلال الابتكار وتوفير حلول فعالة.`;
+if(type==="restaurant"){
+style={
+intro:`${name} يقدم تجربة طعام فريدة بنكهات مميزة وجودة عالية.`,
+why:`مكونات طازجة • طهاة محترفون • سرعة في الخدمة • نظافة.`,
+vision:`أن نصبح الوجهة الأولى لعشاق الطعام.`,
+services:`وجبات مميزة • جلسات رائعة • توصيل • عروض`,
+marketing:`${name} حيث يجتمع الطعم الرائع مع الجودة.`
+};
+}
 
-if(details.length>5) marketing+=" "+details;
+if(type==="store"){
+style={
+intro:`${name} متجر يقدم منتجات عالية الجودة بأسعار تنافسية.`,
+why:`منتجات أصلية • شحن سريع • دعم ممتاز • ضمان.`,
+vision:`نسعى لنكون المتجر المفضل لكل عميل.`,
+services:`بيع • عروض • توصيل • دعم`,
+marketing:`${name} يوفر لك أفضل قيمة مقابل السعر.`
+};
+}
 
-let future=`في المستقبل سيتم إضافة ذكاء صناعي متقدم وتحليل بيانات وتحسينات مستمرة.`;
+if(extra.length>3){
+style.marketing += " " + extra;
+}
 
 return [
-{t:"الرؤية",d:vision},
-{t:"المميزات",d:features},
-{t:"عن المشروع",d:intro},
-{t:"التسويق",d:marketing},
-{t:"المستقبل",d:future}
+{t:"من نحن",d:style.intro},
+{t:"لماذا نحن",d:style.why},
+{t:"خدماتنا",d:style.services},
+{t:"رؤيتنا",d:style.vision},
+{t:"التسويق",d:style.marketing},
+{t:"الفئة المستهدفة",d:`هذا المشروع موجه إلى ${audience}.`}
 ];
 }
 
 function generate(){
 
-let title=document.getElementById("title").value||"مشروع ذكي";
-let audience=document.getElementById("audience").value||"الجميع";
+let name=document.getElementById("name").value||"مؤسستنا";
 let type=document.getElementById("type").value;
-let details=document.getElementById("details").value;
+let audience=document.getElementById("audience").value||"الجميع";
+let extra=document.getElementById("extra").value||"";
 
-let book=document.getElementById("book");
-book.innerHTML="";
+let pages=document.getElementById("pages");
+pages.innerHTML="";
 
-let pages=aiEngine(title,audience,type,details);
+let data=smartText(name,type,audience,extra);
 
-pages.forEach(p=>{
-let page=document.createElement("div");
-page.className="page";
-page.innerHTML=`
-<div class="title">${p.t}</div>
-<div class="desc">${p.d}</div>
-`;
-book.appendChild(page);
+data.forEach(p=>{
+let div=document.createElement("div");
+div.className="page";
+div.innerHTML=`<div class="title">${p.t}</div><div class="desc">${p.d}</div>`;
+pages.appendChild(div);
 });
 
 }
 
-function saveProject(){
+function saveData(){
 let data={
-title:title.value,
-audience:audience.value,
+name:name.value,
 type:type.value,
-details:details.value
+audience:audience.value,
+extra:extra.value
 };
-localStorage.setItem("brochure",JSON.stringify(data));
+localStorage.setItem("ai_brochure",JSON.stringify(data));
 alert("تم الحفظ");
 }
 
-function loadProject(){
-let data=JSON.parse(localStorage.getItem("brochure")||"{}");
-title.value=data.title||"";
-audience.value=data.audience||"";
-type.value=data.type||"بزنس";
-details.value=data.details||"";
+function loadData(){
+let d=JSON.parse(localStorage.getItem("ai_brochure")||"{}");
+name.value=d.name||"";
+type.value=d.type||"school";
+audience.value=d.audience||"";
+extra.value=d.extra||"";
 generate();
 }
 
-function exportPDF(){
-window.print();
-}
 </script>
 
 </body>
