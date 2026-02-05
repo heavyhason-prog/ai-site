@@ -2,230 +2,169 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI OMEGA ∞∞∞</title>
+<title>PAGEFLIP PRO 😎</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
-<!-- PageFlip -->
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 
-<!-- PDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <style>
-body{margin:0;font-family:Cairo;background:#020617;color:#fff}
-.container{max-width:1100px;margin:auto;padding:20px}
+body{
+  margin:0;
+  font-family:'Cairo',sans-serif;
+  background:linear-gradient(135deg,#0f172a,#020617);
+  color:#fff;
+  overflow:hidden;
+}
 
-input,textarea,select{
-width:100%;padding:12px;margin:8px 0;border:none;border-radius:10px
+#ui{
+  position:fixed;
+  top:0;
+  right:0;
+  width:320px;
+  height:100%;
+  background:#020617;
+  padding:20px;
+  box-shadow:-5px 0 25px rgba(0,0,0,.6);
+  overflow:auto;
+  z-index:10;
+}
+
+input,textarea,select,button{
+  width:100%;
+  margin-bottom:10px;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  font-family:'Cairo';
 }
 
 button{
-width:100%;padding:14px;border:none;border-radius:12px;
-background:#00f5ff;font-weight:900;cursor:pointer
+  background:linear-gradient(90deg,#00f5ff,#00ff9c);
+  font-weight:900;
+  cursor:pointer;
+  transition:.2s;
 }
 
-/* Book */
+button:hover{transform:scale(1.05)}
+
+#book-container{
+  position:absolute;
+  left:0;
+  top:0;
+  width:calc(100% - 320px);
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
 #book{
-width:420px;height:560px;margin:20px auto;
+  width:900px;
+  height:600px;
 }
 
 .page{
-background:#fff;color:#000;border-radius:16px;
-overflow:hidden;display:flex;flex-direction:column;
-padding:20px;
+  background:white;
+  color:#111;
+  display:flex;
+  overflow:hidden;
+  border-radius:12px;
 }
 
-.slider{height:200px;position:relative;overflow:hidden;border-radius:10px;margin-bottom:10px}
-.slider img{width:100%;height:100%;object-fit:cover;position:absolute;opacity:0;transition:1s}
-.slider img.active{opacity:1}
-
-.counter{font-size:24px;color:#00f5ff;font-weight:900}
-
-.chat{
-position:fixed;bottom:20px;left:20px;background:#111;
-padding:12px;border-radius:14px;width:260px
+.page img{
+  width:50%;
+  height:100%;
+  object-fit:cover;
 }
-.chat-log{height:160px;overflow:auto;font-size:13px;margin-bottom:6px}
+
+.page .text{
+  width:50%;
+  padding:25px;
+}
+
+h1{margin:0;font-size:28px}
+p{line-height:1.7}
 </style>
 </head>
 
 <body>
 
-<div class="container">
-<h1>🚀 AI OMEGA ∞∞∞</h1>
+<div id="ui">
+<h2>⚡ PAGEFLIP PRO</h2>
 
 <select id="type">
-<option value="school">مدرسة</option>
-<option value="restaurant">مطعم</option>
-<option value="store">متجر</option>
+<option>مدرسة</option>
+<option>مطعم</option>
+<option>متجر</option>
 </select>
 
-<input id="name" placeholder="اسم الجهة">
-<textarea id="about" placeholder="نبذة"></textarea>
-<textarea id="services" placeholder="الخدمات"></textarea>
+<input id="name" placeholder="اسم المشروع">
+<textarea id="desc" placeholder="نبذة"></textarea>
+<textarea id="services" placeholder="الخدمات (افصل بينها بفاصلة)"></textarea>
 <textarea id="goals" placeholder="الأهداف"></textarea>
 
-<button onclick="generate()">⚡ إنشاء OMEGA</button>
-
-<div id="result" style="display:none">
-
-<div id="book">
-
-<div class="page">
-<h3>من نحن</h3>
-<div class="slider" id="slider"></div>
-<p id="aboutAr"></p>
+<button onclick="createBook()">✨ إنشاء البروشور</button>
+<button onclick="book.flipPrev()">⬅️ السابق</button>
+<button onclick="book.flipNext()">➡️ التالي</button>
 </div>
 
-<div class="page">
-<h3>خدماتنا</h3>
-<p id="servicesAr"></p>
-</div>
-
-<div class="page">
-<h3>رؤيتنا</h3>
-<p id="visionAr"></p>
-</div>
-
-<div class="page">
-<h3>إحصائيات</h3>
-<div class="counter" id="c1">0</div>
-<div class="counter" id="c2">0</div>
-<div class="counter" id="c3">0</div>
-</div>
-
-</div>
-
-<button onclick="downloadPDF()">📄 PDF</button>
-<button onclick="recordVideo()">🎥 فيديو</button>
-<button onclick="speak()">🎤 قراءة</button>
-
-</div>
-</div>
-
-<div class="chat">
-<div class="chat-log" id="chatLog"></div>
-<input id="chatInput" placeholder="اسأل..." onkeypress="if(event.key==='Enter')ask()">
+<div id="book-container">
+<div id="book"></div>
 </div>
 
 <script>
+let book;
 
-let flip;
-
-const imgs=[
-"https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
-"https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
-"https://images.unsplash.com/photo-1552664730-d307ca884978",
-"https://images.unsplash.com/photo-1503387762-592deb58ef4e"
-];
-
-function generate(){
-
-let t=type.value,n=name.value||"مؤسستنا";
-
-let aboutText={
-school:`${n} مؤسسة تعليمية رائدة تهدف إلى بناء جيل واعٍ ومتميز عبر بيئة تعليمية حديثة وأساليب مبتكرة.`,
-restaurant:`${n} يقدم تجربة طعام استثنائية تجمع بين الجودة العالية والمذاق الفريد والخدمة الراقية.`,
-store:`${n} متجر متكامل يوفر منتجات عالية الجودة بأسعار تنافسية وتجربة تسوق مريحة.`
-};
-
-let servicesText={
-school:"تعليم حديث • أنشطة • تطوير مهارات • متابعة طلاب",
-restaurant:"وجبات مميزة • خدمة سريعة • جودة عالية • أجواء رائعة",
-store:"منتجات متنوعة • عروض • توصيل • دعم العملاء"
-};
-
-let visionText={
-school:"بناء جيل مبدع وقائد للمستقبل.",
-restaurant:"أن نكون الوجهة الأولى لعشاق الطعام.",
-store:"أن نصبح الخيار الأول للتسوق الذكي."
-};
-
-aboutAr.innerText=aboutText[t];
-servicesAr.innerText=servicesText[t];
-visionAr.innerText=visionText[t];
-
-/* slider */
-slider.innerHTML="";
-imgs.forEach((s,i)=>{
-let im=document.createElement("img");
-im.src=s;if(i==0)im.classList.add("active");
-slider.appendChild(im);
-});
-let i=0;
-setInterval(()=>{
-let all=document.querySelectorAll("#slider img");
-all.forEach(e=>e.classList.remove("active"));
-i=(i+1)%all.length;
-all[i].classList.add("active");
-},3000);
-
-/* counters */
-animate("c1",80+Math.random()*20);
-animate("c2",10+Math.random()*30);
-animate("c3",50+Math.random()*200);
-
-result.style.display="block";
-
-/* PageFlip start */
-setTimeout(()=>{
-if(flip) flip.destroy();
-flip = new St.PageFlip(document.getElementById("book"),{
-width:420,
-height:560,
-size:"stretch",
-mobileScrollSupport:true
-});
-flip.loadFromHTML(document.querySelectorAll(".page"));
-},300);
+function pageTemplate(title,text,img){
+  return `
+  <div class="page">
+    <img src="${img}">
+    <div class="text">
+      <h1>${title}</h1>
+      <p>${text}</p>
+    </div>
+  </div>`;
 }
 
-function animate(id,val){
-let el=document.getElementById(id),i=0;
-let t=setInterval(()=>{
-i+=Math.ceil(val/40);
-if(i>=val){i=val;clearInterval(t)}
-el.innerText=Math.floor(i);
-},40);
-}
+function createBook(){
 
-/* chat */
-function ask(){
-let q=chatInput.value;
-chatLog.innerHTML+=`<div>🧑: ${q}</div>`;
-let r="هذه معلومات: "+aboutAr.innerText+" "+servicesAr.innerText;
-chatLog.innerHTML+=`<div>🤖: ${r}</div>`;
-chatInput.value="";
-chatLog.scrollTop=9999;
-}
+  const name = document.getElementById("name").value || "مشروعي";
+  const desc = document.getElementById("desc").value || "وصف احترافي للمشروع يوضح الرؤية والرسالة.";
+  const services = document.getElementById("services").value.split(",");
+  const goals = document.getElementById("goals").value || "نهدف إلى التميز والابتكار وتقديم أفضل جودة.";
 
-/* speech */
-function speak(){
-let u=new SpeechSynthesisUtterance(aboutAr.innerText+" "+servicesAr.innerText+" "+visionAr.innerText);
-u.lang="ar-SA";
-speechSynthesis.speak(u);
-}
+  const bookEl = document.getElementById("book");
+  bookEl.innerHTML="";
 
-function downloadPDF(){
-html2pdf().from(book).save("OMEGA.pdf");
-}
+  const pages = [];
 
-async function recordVideo(){
-let s=await navigator.mediaDevices.getDisplayMedia({video:true});
-let r=new MediaRecorder(s),c=[];
-r.ondataavailable=e=>c.push(e.data);
-r.onstop=()=>{
-let b=new Blob(c,{type:"video/webm"});
-let a=document.createElement("a");
-a.href=URL.createObjectURL(b);
-a.download="OMEGA.webm";
-a.click();
-};
-r.start();setTimeout(()=>r.stop(),8000);
-}
+  pages.push(pageTemplate(name,desc,"https://images.unsplash.com/photo-1522202176988-66273c2fd55f"));
 
+  pages.push(pageTemplate("الخدمات",services.join("<br>"),"https://images.unsplash.com/photo-1556740749-887f6717d7e4"));
+
+  pages.push(pageTemplate("الأهداف",goals,"https://images.unsplash.com/photo-1507679799987-c73779587ccf"));
+
+  pages.push(pageTemplate("رؤيتنا","أن نصبح الخيار الأول ونقدم تجربة استثنائية.","https://images.unsplash.com/photo-1492724441997-5dc865305da7"));
+
+  pages.push(pageTemplate("تواصل معنا","📞 000000000<br>📧 email@email.com","https://images.unsplash.com/photo-1519389950473-47ba0277781c"));
+
+  bookEl.innerHTML = pages.join("");
+
+  if(book) book.destroy();
+
+  book = new St.PageFlip(bookEl,{
+    width:450,
+    height:600,
+    size:"stretch",
+    maxShadowOpacity:0.5,
+    showCover:true,
+    mobileScrollSupport:false
+  });
+
+  book.loadFromHTML(document.querySelectorAll(".page"));
+}
 </script>
 
 </body>
