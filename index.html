@@ -2,52 +2,49 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Brochure — Interactive</title>
+<title>AI GOD MODE</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{--main:#00f5ff}
-*{box-sizing:border-box}
+:root{--main:#00ffe5}
 body{
 margin:0;
-font-family:'Cairo',sans-serif;
+font-family:Cairo;
 background:#020617;
 color:#fff;
-overflow-x:hidden;
 }
 
-/* Glow */
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.25),transparent 40%);
-pointer-events:none;
+header{
+text-align:center;
+padding:16px;
+font-weight:900;
+color:var(--main);
+font-size:22px;
 }
 
-section{display:none;padding:20px;max-width:900px;margin:auto}
-section.active{display:block}
+.box{max-width:900px;margin:auto;padding:20px}
 
 input,textarea,select{
-width:100%;padding:14px;border:none;border-radius:12px;margin-bottom:12px;
-background:rgba(255,255,255,.08);color:#fff
+width:100%;padding:13px;margin-bottom:10px;
+border:none;border-radius:10px;
+background:rgba(255,255,255,.08);
+color:white;
 }
 
 button{
-width:100%;padding:14px;border:none;border-radius:14px;
+width:100%;padding:13px;border:none;
+border-radius:12px;
 background:linear-gradient(45deg,var(--main),#00ffa6);
-font-weight:900;cursor:pointer
+font-weight:900;cursor:pointer;
 }
 
-/* Chat UI */
 .chat{
-background:rgba(255,255,255,.05);
-border-radius:16px;
-padding:15px;
-height:420px;
+background:#02121a;
+border-radius:14px;
+padding:14px;
+height:430px;
 overflow:auto;
 box-shadow:0 0 25px rgba(0,255,255,.15);
 }
@@ -55,26 +52,21 @@ box-shadow:0 0 25px rgba(0,255,255,.15);
 .msg{
 margin-bottom:12px;
 padding:12px;
-border-radius:12px;
-line-height:1.7;
+border-radius:10px;
+line-height:1.8;
 }
 
-.user{background:#004b50}
-.ai{background:#021b24;border:1px solid rgba(0,255,255,.2)}
-
-.row{display:flex;gap:10px}
-.row input{flex:1}
+.user{background:#004f52}
+.ai{background:#001e26;border:1px solid rgba(0,255,255,.2)}
 </style>
 </head>
 
 <body>
 
-<section id="home" class="active">
-<h1>🤖 AI Brochure Interactive</h1>
-<button onclick="show('form')">ابدأ</button>
-</section>
+<header>🤖 AI GOD MODE</header>
 
-<section id="form">
+<div class="box">
+
 <select id="type">
 <option value="school">مدرسة</option>
 <option value="restaurant">مطعم</option>
@@ -86,38 +78,23 @@ line-height:1.7;
 <textarea id="services" placeholder="الخدمات"></textarea>
 <textarea id="goals" placeholder="الأهداف"></textarea>
 
-<button onclick="startAI()">🚀 تشغيل AI</button>
-</section>
-
-<section id="chatPage">
-<h2>💬 اسأل البروشور</h2>
+<button onclick="start()">🚀 تشغيل الذكاء</button>
 
 <div class="chat" id="chat"></div>
 
-<div class="row">
-<input id="q" placeholder="اكتب سؤالك... (من أنتم / الخدمات / الرؤية / لماذا نحن)">
+<input id="q" placeholder="اكتب: تقرير / تسويق / وصف / خطة / أو اسأل أي شيء">
 <button onclick="ask()">إرسال</button>
+
+<button onclick="html2pdf().from(chat).save('AI-GOD-MODE.pdf')">📄 تصدير PDF</button>
+
 </div>
 
-<button onclick="downloadPDF()">📄 تصدير المحادثة PDF</button>
-<button onclick="show('form')">🔁 جديد</button>
-</section>
-
 <script>
-/* Glow */
-document.addEventListener("mousemove",e=>{
-document.body.style.setProperty("--x",e.clientX+"px");
-document.body.style.setProperty("--y",e.clientY+"px");
-});
 
-function show(id){
-document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).classList.add("active");
-}
-
+let memory=[];
 let data={};
 
-function startAI(){
+function start(){
 data={
 type:type.value,
 name:name.value||"مؤسستنا",
@@ -125,55 +102,64 @@ about:about.value||"نقدم تجربة احترافية متكاملة.",
 services:services.value||"جودة، احتراف، تجربة.",
 goals:goals.value||"الريادة والابتكار."
 };
-show("chatPage");
-aiMsg("مرحبًا 👋 أنا البروشور الذكي. اسألني أي شيء عن "+data.name);
+ai("تم تشغيل AI. اكتب (تقرير / تسويق / وصف / خطة) أو اسأل أي شيء.");
 }
 
 /* AI Engine */
-function aiAnswer(q){
+
+function buildResponse(q){
 
 q=q.toLowerCase();
 
+if(q.includes("وصف"))
+return `${data.name} هي جهة متخصصة تقدم ${data.services}. ${data.about}`;
+
+if(q.includes("تسويق"))
+return `يعد ${data.name} من أفضل الجهات في السوق حيث يقدم خدمات عالية الجودة ويستهدف تحقيق ${data.goals}. نركز على تجربة العميل والابتكار لتحقيق أفضل النتائج.`;
+
+if(q.includes("تقرير"))
+return `تقرير عن ${data.name}:
+- الخدمات: ${data.services}
+- الرؤية: ${data.goals}
+- الوصف: ${data.about}
+- الأداء: ممتاز
+- التقييم: ⭐⭐⭐⭐⭐`;
+
+if(q.includes("خطة"))
+return `خطة تطوير ${data.name}:
+1- تحسين الجودة
+2- توسيع الخدمات
+3- استخدام التقنية
+4- تحسين تجربة المستخدم
+5- النمو المستدام`;
+
 if(q.includes("من")||q.includes("تعريف"))
-return `${data.name} هي ${data.type==="school"?"مؤسسة تعليمية":"جهة احترافية"} تقدم: ${data.about}`;
+return `${data.name} هي ${data.about}`;
 
-if(q.includes("خدمات"))
-return `نقدم الخدمات التالية: ${data.services}`;
-
-if(q.includes("هدف")||q.includes("رؤية"))
-return `رؤيتنا: ${data.goals}`;
-
-if(q.includes("لماذا"))
-return `نتميز بالجودة، الاحتراف، الابتكار، وتجربة مستخدم ممتازة.`;
-
-if(q.includes("سعر")||q.includes("كم"))
-return `للحصول على عرض سعر دقيق يرجى التواصل معنا مباشرة.`;
-
-return `نحن ${data.name}. يمكنك سؤالي عن (من نحن، الخدمات، الرؤية، لماذا نحن).`;
+return `يمكنني إنشاء (تقرير، تسويق، وصف، خطة) أو الإجابة عن أسئلة حول ${data.name}.`;
 }
 
 /* Chat */
-function userMsg(t){
+
+function user(t){
 chat.innerHTML+=`<div class="msg user">${t}</div>`;
 chat.scrollTop=chat.scrollHeight;
 }
-function aiMsg(t){
+
+function ai(t){
 chat.innerHTML+=`<div class="msg ai">${t}</div>`;
 chat.scrollTop=chat.scrollHeight;
+memory.push(t);
 }
 
 function ask(){
 let text=q.value.trim();
 if(!text)return;
-userMsg(text);
-setTimeout(()=>aiMsg(aiAnswer(text)),400);
+user(text);
+setTimeout(()=>ai(buildResponse(text)),400);
 q.value="";
 }
 
-/* PDF */
-function downloadPDF(){
-html2pdf().from(chat).save("AI-Chat-Brochure.pdf");
-}
 </script>
 
 </body>
