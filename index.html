@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Smart Brochure — DEV</title>
+<title>AI SMART BROCHURE — ULTRA</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -15,70 +15,57 @@
   --text:#e6edf3;
 }
 
-*{box-sizing:border-box}
 body{
   margin:0;
   font-family:Cairo;
   background:linear-gradient(135deg,#0d1117,#020409);
   color:var(--text);
-  min-height:100vh;
 }
 
-/* HEADER */
 header{
-  padding:20px;
   text-align:center;
-  font-size:28px;
+  padding:20px;
+  font-size:26px;
   font-weight:900;
-  letter-spacing:1px;
   color:var(--main);
 }
 
-/* CONTROLS */
 .controls{
-  max-width:900px;
+  max-width:950px;
   margin:auto;
   background:var(--card);
   padding:20px;
   border-radius:14px;
-  box-shadow:0 0 20px rgba(0,0,0,.5);
 }
 
-.controls input, .controls textarea, .controls select{
+.controls input,.controls textarea,.controls select{
   width:100%;
   padding:12px;
   margin:8px 0;
   border-radius:8px;
   border:none;
-  outline:none;
   background:#0d1117;
   color:white;
-  font-size:14px;
 }
 
-.controls button{
+button{
   width:100%;
   padding:14px;
+  margin-top:8px;
   border:none;
   border-radius:10px;
   background:linear-gradient(90deg,#00c3ff,#0099ff);
   color:white;
   font-weight:700;
-  font-size:16px;
   cursor:pointer;
-  transition:.2s;
-}
-.controls button:hover{
-  transform:scale(1.02);
 }
 
-/* BOOK */
 #book{
   max-width:1100px;
-  margin:40px auto;
+  margin:30px auto;
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:20px;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:18px;
 }
 
 .page{
@@ -87,32 +74,16 @@ header{
   border-radius:14px;
   box-shadow:0 10px 25px rgba(0,0,0,.4);
   transition:.3s;
-  position:relative;
-  overflow:hidden;
 }
 
 .page:hover{
   transform:translateY(-6px) scale(1.02);
-  box-shadow:0 15px 35px rgba(0,0,0,.6);
-}
-
-.badge{
-  position:absolute;
-  top:10px;
-  left:10px;
-  background:var(--main);
-  color:black;
-  padding:4px 10px;
-  border-radius:6px;
-  font-size:12px;
-  font-weight:700;
 }
 
 .title{
-  font-size:20px;
   font-weight:900;
-  margin-bottom:8px;
   color:#00c3ff;
+  margin-bottom:6px;
 }
 
 .desc{
@@ -120,89 +91,112 @@ header{
   line-height:1.7;
   opacity:.9;
 }
-
-.footer{
-  text-align:center;
-  margin:40px 0;
-  opacity:.6;
-}
 </style>
 </head>
 
 <body>
 
-<header>🚀 AI SMART BROCHURE — DEV BUILD</header>
+<header>🚀 AI SMART BROCHURE — ULTRA AI</header>
 
 <div class="controls">
 
-<input id="title" placeholder="عنوان المشروع / المنتج">
-<input id="audience" placeholder="الفئة المستهدفة (طلاب - شركة - متجر - لعبة)">
+<input id="title" placeholder="اسم المشروع">
+<input id="audience" placeholder="الفئة المستهدفة">
 <select id="type">
-<option value="business">بزنس</option>
-<option value="app">تطبيق</option>
-<option value="game">لعبة</option>
-<option value="ai">ذكاء صناعي</option>
+<option value="بزنس">بزنس</option>
+<option value="تطبيق">تطبيق</option>
+<option value="لعبة">لعبة</option>
+<option value="ذكاء صناعي">ذكاء صناعي</option>
 </select>
 
-<textarea id="details" rows="3" placeholder="اكتب وصف أو فكرة..."></textarea>
+<textarea id="details" rows="3" placeholder="اكتب الفكرة أو الوصف"></textarea>
 
-<button onclick="generate()">⚡ إنشاء البروشور</button>
+<button onclick="generate()">⚡ إنشاء</button>
+<button onclick="saveProject()">💾 حفظ</button>
+<button onclick="loadProject()">📂 استيراد</button>
+<button onclick="exportPDF()">📄 تصدير PDF</button>
 
 </div>
 
 <div id="book"></div>
 
-<div class="footer">DEV MODE — Full Dynamic Generation</div>
-
 <script>
-function smartText(title,audience,type,details){
+function aiEngine(title,audience,type,details){
 
-let intro = `نقدم لكم ${title}، حل متطور مصمم خصيصًا لـ ${audience}.`;
-let vision = `رؤيتنا هي تقديم تجربة فريدة باستخدام أحدث التقنيات في مجال ${type}.`;
-let features = `
-✔ واجهة حديثة وسريعة  
-✔ أداء عالي بدون تقطيع  
-✔ تصميم جذاب ومتجاوب  
-✔ قابل للتطوير مستقبلاً  
-✔ أمان عالي وحماية البيانات
+let intro=`${title} هو مشروع متطور موجه إلى ${audience} ويهدف إلى تقديم تجربة استثنائية في مجال ${type}.`;
+
+let vision=`نسعى إلى بناء نظام ذكي يعتمد على أحدث التقنيات لتوفير أداء عالي وسرعة واستقرار.`;
+
+let features=`
+• واجهة حديثة  
+• سرعة عالية  
+• أمان قوي  
+• تصميم احترافي  
+• قابل للتطوير  
+• تجربة مستخدم ممتازة
 `;
-let marketing = `يهدف ${title} إلى إحداث نقلة نوعية في السوق من خلال تقديم قيمة حقيقية للمستخدمين.`;
 
-if(details.length>5){
-  marketing += " " + details;
-}
+let marketing=`يقدم ${title} قيمة حقيقية للسوق من خلال الابتكار وتوفير حلول فعالة.`;
+
+if(details.length>5) marketing+=" "+details;
+
+let future=`في المستقبل سيتم إضافة ذكاء صناعي متقدم وتحليل بيانات وتحسينات مستمرة.`;
 
 return [
 {t:"الرؤية",d:vision},
 {t:"المميزات",d:features},
 {t:"عن المشروع",d:intro},
-{t:"التسويق",d:marketing}
+{t:"التسويق",d:marketing},
+{t:"المستقبل",d:future}
 ];
 }
 
 function generate(){
 
-let title = document.getElementById("title").value || "مشروع ذكي";
-let audience = document.getElementById("audience").value || "الجميع";
-let type = document.getElementById("type").value;
-let details = document.getElementById("details").value;
+let title=document.getElementById("title").value||"مشروع ذكي";
+let audience=document.getElementById("audience").value||"الجميع";
+let type=document.getElementById("type").value;
+let details=document.getElementById("details").value;
 
-let book = document.getElementById("book");
-book.innerHTML = "";
+let book=document.getElementById("book");
+book.innerHTML="";
 
-let pages = smartText(title,audience,type,details);
+let pages=aiEngine(title,audience,type,details);
 
-pages.forEach((p,i)=>{
-let page = document.createElement("div");
+pages.forEach(p=>{
+let page=document.createElement("div");
 page.className="page";
 page.innerHTML=`
-<div class="badge">${type.toUpperCase()}</div>
 <div class="title">${p.t}</div>
 <div class="desc">${p.d}</div>
 `;
 book.appendChild(page);
 });
 
+}
+
+function saveProject(){
+let data={
+title:title.value,
+audience:audience.value,
+type:type.value,
+details:details.value
+};
+localStorage.setItem("brochure",JSON.stringify(data));
+alert("تم الحفظ");
+}
+
+function loadProject(){
+let data=JSON.parse(localStorage.getItem("brochure")||"{}");
+title.value=data.title||"";
+audience.value=data.audience||"";
+type.value=data.type||"بزنس";
+details.value=data.details||"";
+generate();
+}
+
+function exportPDF(){
+window.print();
 }
 </script>
 
