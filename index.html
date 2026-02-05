@@ -2,201 +2,184 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI SMART BROCHURE — ULTRA</title>
+<title>AI Brochure MAX</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{
-  --main:#00c3ff;
-  --bg:#0d1117;
-  --card:#161b22;
-  --text:#e6edf3;
-}
-
+:root{--main:#00f5ff}
+*{box-sizing:border-box}
 body{
-  margin:0;
-  font-family:Cairo;
-  background:linear-gradient(135deg,#0d1117,#020409);
-  color:var(--text);
+margin:0;
+font-family:'Cairo',sans-serif;
+background:#020617;
+color:#fff;
+overflow-x:hidden;
 }
 
-header{
-  text-align:center;
-  padding:20px;
-  font-size:26px;
-  font-weight:900;
-  color:var(--main);
+/* Glow effect */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.25),transparent 40%);
+pointer-events:none;
 }
 
-.controls{
-  max-width:950px;
-  margin:auto;
-  background:var(--card);
-  padding:20px;
-  border-radius:14px;
-}
+section{display:none;padding:20px;max-width:1100px;margin:auto}
+section.active{display:block}
 
-.controls input,.controls textarea,.controls select{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:8px;
-  border:none;
-  background:#0d1117;
-  color:white;
+input,textarea,select{
+width:100%;padding:14px;border:none;border-radius:12px;margin-bottom:12px;
+background:rgba(255,255,255,.08);color:#fff
 }
 
 button{
-  width:100%;
-  padding:14px;
-  margin-top:8px;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(90deg,#00c3ff,#0099ff);
-  color:white;
-  font-weight:700;
-  cursor:pointer;
+width:100%;padding:14px;border:none;border-radius:14px;
+background:linear-gradient(45deg,var(--main),#00ffa6);
+font-weight:900;cursor:pointer
 }
 
-#book{
-  max-width:1100px;
-  margin:30px auto;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:18px;
-}
+#book{margin:auto;max-width:420px;height:560px}
 
 .page{
-  background:var(--card);
-  padding:20px;
-  border-radius:14px;
-  box-shadow:0 10px 25px rgba(0,0,0,.4);
-  transition:.3s;
+background:#fff;color:#000;border-radius:20px;overflow:hidden;
+display:flex;flex-direction:column;box-shadow:0 0 30px rgba(0,255,255,.2)
 }
+.page img{width:100%;height:230px;object-fit:cover}
+.content{padding:18px;line-height:1.8}
+.badge{background:var(--main);padding:6px 14px;border-radius:20px;display:inline-block;margin-bottom:8px;font-weight:700}
 
-.page:hover{
-  transform:translateY(-6px) scale(1.02);
-}
-
-.title{
-  font-weight:900;
-  color:#00c3ff;
-  margin-bottom:6px;
-}
-
-.desc{
-  font-size:14px;
-  line-height:1.7;
-  opacity:.9;
-}
 </style>
 </head>
 
 <body>
 
-<header>🚀 AI SMART BROCHURE — ULTRA AI</header>
+<section id="home" class="active">
+<h1>🔥 AI Brochure MAX</h1>
+<button onclick="show('form')">ابدأ</button>
+</section>
 
-<div class="controls">
-
-<input id="title" placeholder="اسم المشروع">
-<input id="audience" placeholder="الفئة المستهدفة">
+<section id="form">
 <select id="type">
-<option value="بزنس">بزنس</option>
-<option value="تطبيق">تطبيق</option>
-<option value="لعبة">لعبة</option>
-<option value="ذكاء صناعي">ذكاء صناعي</option>
+<option value="school">مدرسة</option>
+<option value="restaurant">مطعم</option>
+<option value="store">متجر</option>
 </select>
 
-<textarea id="details" rows="3" placeholder="اكتب الفكرة أو الوصف"></textarea>
+<input id="name" placeholder="اسم الجهة">
+<textarea id="about" placeholder="نبذة"></textarea>
+<textarea id="services" placeholder="الخدمات"></textarea>
+<textarea id="goals" placeholder="الأهداف"></textarea>
 
-<button onclick="generate()">⚡ إنشاء</button>
-<button onclick="saveProject()">💾 حفظ</button>
-<button onclick="loadProject()">📂 استيراد</button>
-<button onclick="exportPDF()">📄 تصدير PDF</button>
+<input type="file" id="upload" multiple accept="image/*">
+
+<button onclick="generate()">✨ إنشاء MAX</button>
+</section>
+
+<section id="result">
+<h2>📖 البروشور</h2>
+
+<div id="book">
+
+<div class="page"><img id="img1"><div class="content"><div class="badge">العنوان</div><h2 id="title"></h2></div></div>
+
+<div class="page"><img id="img2"><div class="content"><div class="badge">من نحن</div><p id="aboutAr"></p></div></div>
+
+<div class="page"><img id="img3"><div class="content"><div class="badge">لماذا نحن</div><p id="whyAr"></p></div></div>
+
+<div class="page"><img id="img4"><div class="content"><div class="badge">الرؤية</div><p id="visionAr"></p></div></div>
+
+<div class="page"><div class="content"><div class="badge">إحصائيات</div><p id="stats"></p></div></div>
 
 </div>
 
-<div id="book"></div>
+<button onclick="downloadPDF()">📄 PDF</button>
+<button onclick="recordVideo()">🎥 تسجيل فيديو</button>
+<button onclick="show('form')">🔁 جديد</button>
+</section>
 
 <script>
-function aiEngine(title,audience,type,details){
+let flip;
 
-let intro=`${title} هو مشروع متطور موجه إلى ${audience} ويهدف إلى تقديم تجربة استثنائية في مجال ${type}.`;
+/* Glow mouse */
+document.addEventListener("mousemove",e=>{
+document.body.style.setProperty("--x",e.clientX+"px");
+document.body.style.setProperty("--y",e.clientY+"px");
+});
 
-let vision=`نسعى إلى بناء نظام ذكي يعتمد على أحدث التقنيات لتوفير أداء عالي وسرعة واستقرار.`;
-
-let features=`
-• واجهة حديثة  
-• سرعة عالية  
-• أمان قوي  
-• تصميم احترافي  
-• قابل للتطوير  
-• تجربة مستخدم ممتازة
-`;
-
-let marketing=`يقدم ${title} قيمة حقيقية للسوق من خلال الابتكار وتوفير حلول فعالة.`;
-
-if(details.length>5) marketing+=" "+details;
-
-let future=`في المستقبل سيتم إضافة ذكاء صناعي متقدم وتحليل بيانات وتحسينات مستمرة.`;
-
-return [
-{t:"الرؤية",d:vision},
-{t:"المميزات",d:features},
-{t:"عن المشروع",d:intro},
-{t:"التسويق",d:marketing},
-{t:"المستقبل",d:future}
-];
+function show(id){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
 }
+
+const imgsDefault=[
+"https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+"https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
+"https://images.unsplash.com/photo-1552664730-d307ca884978",
+"https://images.unsplash.com/photo-1503387762-592deb58ef4e"
+];
 
 function generate(){
 
-let title=document.getElementById("title").value||"مشروع ذكي";
-let audience=document.getElementById("audience").value||"الجميع";
-let type=document.getElementById("type").value;
-let details=document.getElementById("details").value;
+let nameVal=name.value||"مؤسستنا";
+let aboutVal=about.value||"نقدم تجربة احترافية متكاملة.";
+let servicesVal=services.value||"جودة، احتراف، تجربة.";
+let goalsVal=goals.value||"الريادة والابتكار.";
 
-let book=document.getElementById("book");
-book.innerHTML="";
+let files=upload.files;
+let imgs=[...imgsDefault];
+if(files.length){
+imgs=[];
+for(let f of files){imgs.push(URL.createObjectURL(f))}
+}
 
-let pages=aiEngine(title,audience,type,details);
+for(let i=1;i<=4;i++){
+document.getElementById("img"+i).src=imgs[i-1]||imgsDefault[i-1];
+}
 
-pages.forEach(p=>{
-let page=document.createElement("div");
-page.className="page";
-page.innerHTML=`
-<div class="title">${p.t}</div>
-<div class="desc">${p.d}</div>
+title.innerText=nameVal;
+aboutAr.innerText=aboutVal+" - خدماتنا: "+servicesVal;
+whyAr.innerText="نتميز بالجودة والابتكار وفريق احترافي.";
+visionAr.innerText="هدفنا: "+goalsVal;
+
+stats.innerHTML=`
+⭐ رضا العملاء: ${80+Math.floor(Math.random()*20)}%<br>
+📈 نمو سنوي: ${10+Math.floor(Math.random()*20)}%<br>
+🏆 مشاريع ناجحة: ${50+Math.floor(Math.random()*200)}
 `;
-book.appendChild(page);
-});
 
+show("result");
+
+setTimeout(()=>{
+if(flip)flip.destroy();
+flip=new St.PageFlip(book,{width:360,height:520});
+flip.loadFromHTML(document.querySelectorAll(".page"));
+},300);
 }
 
-function saveProject(){
-let data={
-title:title.value,
-audience:audience.value,
-type:type.value,
-details:details.value
+function downloadPDF(){
+html2pdf().from(book).save("Brochure-MAX.pdf");
+}
+
+/* تسجيل فيديو */
+async function recordVideo(){
+let stream=await navigator.mediaDevices.getDisplayMedia({video:true});
+let recorder=new MediaRecorder(stream);
+let chunks=[];
+recorder.ondataavailable=e=>chunks.push(e.data);
+recorder.onstop=()=>{
+let blob=new Blob(chunks,{type:"video/webm"});
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="brochure-video.webm";
+a.click();
 };
-localStorage.setItem("brochure",JSON.stringify(data));
-alert("تم الحفظ");
-}
-
-function loadProject(){
-let data=JSON.parse(localStorage.getItem("brochure")||"{}");
-title.value=data.title||"";
-audience.value=data.audience||"";
-type.value=data.type||"بزنس";
-details.value=data.details||"";
-generate();
-}
-
-function exportPDF(){
-window.print();
+recorder.start();
+setTimeout(()=>recorder.stop(),8000);
 }
 </script>
 
