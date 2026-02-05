@@ -2,11 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Brochure MAX</title>
+<title>AI Brochure — Interactive</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
@@ -20,7 +19,7 @@ color:#fff;
 overflow-x:hidden;
 }
 
-/* Glow effect */
+/* Glow */
 body::before{
 content:"";
 position:fixed;
@@ -29,7 +28,7 @@ background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.2
 pointer-events:none;
 }
 
-section{display:none;padding:20px;max-width:1100px;margin:auto}
+section{display:none;padding:20px;max-width:900px;margin:auto}
 section.active{display:block}
 
 input,textarea,select{
@@ -43,23 +42,35 @@ background:linear-gradient(45deg,var(--main),#00ffa6);
 font-weight:900;cursor:pointer
 }
 
-#book{margin:auto;max-width:420px;height:560px}
-
-.page{
-background:#fff;color:#000;border-radius:20px;overflow:hidden;
-display:flex;flex-direction:column;box-shadow:0 0 30px rgba(0,255,255,.2)
+/* Chat UI */
+.chat{
+background:rgba(255,255,255,.05);
+border-radius:16px;
+padding:15px;
+height:420px;
+overflow:auto;
+box-shadow:0 0 25px rgba(0,255,255,.15);
 }
-.page img{width:100%;height:230px;object-fit:cover}
-.content{padding:18px;line-height:1.8}
-.badge{background:var(--main);padding:6px 14px;border-radius:20px;display:inline-block;margin-bottom:8px;font-weight:700}
 
+.msg{
+margin-bottom:12px;
+padding:12px;
+border-radius:12px;
+line-height:1.7;
+}
+
+.user{background:#004b50}
+.ai{background:#021b24;border:1px solid rgba(0,255,255,.2)}
+
+.row{display:flex;gap:10px}
+.row input{flex:1}
 </style>
 </head>
 
 <body>
 
 <section id="home" class="active">
-<h1>🔥 AI Brochure MAX</h1>
+<h1>🤖 AI Brochure Interactive</h1>
 <button onclick="show('form')">ابدأ</button>
 </section>
 
@@ -75,37 +86,25 @@ display:flex;flex-direction:column;box-shadow:0 0 30px rgba(0,255,255,.2)
 <textarea id="services" placeholder="الخدمات"></textarea>
 <textarea id="goals" placeholder="الأهداف"></textarea>
 
-<input type="file" id="upload" multiple accept="image/*">
-
-<button onclick="generate()">✨ إنشاء MAX</button>
+<button onclick="startAI()">🚀 تشغيل AI</button>
 </section>
 
-<section id="result">
-<h2>📖 البروشور</h2>
+<section id="chatPage">
+<h2>💬 اسأل البروشور</h2>
 
-<div id="book">
+<div class="chat" id="chat"></div>
 
-<div class="page"><img id="img1"><div class="content"><div class="badge">العنوان</div><h2 id="title"></h2></div></div>
-
-<div class="page"><img id="img2"><div class="content"><div class="badge">من نحن</div><p id="aboutAr"></p></div></div>
-
-<div class="page"><img id="img3"><div class="content"><div class="badge">لماذا نحن</div><p id="whyAr"></p></div></div>
-
-<div class="page"><img id="img4"><div class="content"><div class="badge">الرؤية</div><p id="visionAr"></p></div></div>
-
-<div class="page"><div class="content"><div class="badge">إحصائيات</div><p id="stats"></p></div></div>
-
+<div class="row">
+<input id="q" placeholder="اكتب سؤالك... (من أنتم / الخدمات / الرؤية / لماذا نحن)">
+<button onclick="ask()">إرسال</button>
 </div>
 
-<button onclick="downloadPDF()">📄 PDF</button>
-<button onclick="recordVideo()">🎥 تسجيل فيديو</button>
+<button onclick="downloadPDF()">📄 تصدير المحادثة PDF</button>
 <button onclick="show('form')">🔁 جديد</button>
 </section>
 
 <script>
-let flip;
-
-/* Glow mouse */
+/* Glow */
 document.addEventListener("mousemove",e=>{
 document.body.style.setProperty("--x",e.clientX+"px");
 document.body.style.setProperty("--y",e.clientY+"px");
@@ -116,70 +115,64 @@ document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-const imgsDefault=[
-"https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
-"https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
-"https://images.unsplash.com/photo-1552664730-d307ca884978",
-"https://images.unsplash.com/photo-1503387762-592deb58ef4e"
-];
+let data={};
 
-function generate(){
-
-let nameVal=name.value||"مؤسستنا";
-let aboutVal=about.value||"نقدم تجربة احترافية متكاملة.";
-let servicesVal=services.value||"جودة، احتراف، تجربة.";
-let goalsVal=goals.value||"الريادة والابتكار.";
-
-let files=upload.files;
-let imgs=[...imgsDefault];
-if(files.length){
-imgs=[];
-for(let f of files){imgs.push(URL.createObjectURL(f))}
-}
-
-for(let i=1;i<=4;i++){
-document.getElementById("img"+i).src=imgs[i-1]||imgsDefault[i-1];
-}
-
-title.innerText=nameVal;
-aboutAr.innerText=aboutVal+" - خدماتنا: "+servicesVal;
-whyAr.innerText="نتميز بالجودة والابتكار وفريق احترافي.";
-visionAr.innerText="هدفنا: "+goalsVal;
-
-stats.innerHTML=`
-⭐ رضا العملاء: ${80+Math.floor(Math.random()*20)}%<br>
-📈 نمو سنوي: ${10+Math.floor(Math.random()*20)}%<br>
-🏆 مشاريع ناجحة: ${50+Math.floor(Math.random()*200)}
-`;
-
-show("result");
-
-setTimeout(()=>{
-if(flip)flip.destroy();
-flip=new St.PageFlip(book,{width:360,height:520});
-flip.loadFromHTML(document.querySelectorAll(".page"));
-},300);
-}
-
-function downloadPDF(){
-html2pdf().from(book).save("Brochure-MAX.pdf");
-}
-
-/* تسجيل فيديو */
-async function recordVideo(){
-let stream=await navigator.mediaDevices.getDisplayMedia({video:true});
-let recorder=new MediaRecorder(stream);
-let chunks=[];
-recorder.ondataavailable=e=>chunks.push(e.data);
-recorder.onstop=()=>{
-let blob=new Blob(chunks,{type:"video/webm"});
-let a=document.createElement("a");
-a.href=URL.createObjectURL(blob);
-a.download="brochure-video.webm";
-a.click();
+function startAI(){
+data={
+type:type.value,
+name:name.value||"مؤسستنا",
+about:about.value||"نقدم تجربة احترافية متكاملة.",
+services:services.value||"جودة، احتراف، تجربة.",
+goals:goals.value||"الريادة والابتكار."
 };
-recorder.start();
-setTimeout(()=>recorder.stop(),8000);
+show("chatPage");
+aiMsg("مرحبًا 👋 أنا البروشور الذكي. اسألني أي شيء عن "+data.name);
+}
+
+/* AI Engine */
+function aiAnswer(q){
+
+q=q.toLowerCase();
+
+if(q.includes("من")||q.includes("تعريف"))
+return `${data.name} هي ${data.type==="school"?"مؤسسة تعليمية":"جهة احترافية"} تقدم: ${data.about}`;
+
+if(q.includes("خدمات"))
+return `نقدم الخدمات التالية: ${data.services}`;
+
+if(q.includes("هدف")||q.includes("رؤية"))
+return `رؤيتنا: ${data.goals}`;
+
+if(q.includes("لماذا"))
+return `نتميز بالجودة، الاحتراف، الابتكار، وتجربة مستخدم ممتازة.`;
+
+if(q.includes("سعر")||q.includes("كم"))
+return `للحصول على عرض سعر دقيق يرجى التواصل معنا مباشرة.`;
+
+return `نحن ${data.name}. يمكنك سؤالي عن (من نحن، الخدمات، الرؤية، لماذا نحن).`;
+}
+
+/* Chat */
+function userMsg(t){
+chat.innerHTML+=`<div class="msg user">${t}</div>`;
+chat.scrollTop=chat.scrollHeight;
+}
+function aiMsg(t){
+chat.innerHTML+=`<div class="msg ai">${t}</div>`;
+chat.scrollTop=chat.scrollHeight;
+}
+
+function ask(){
+let text=q.value.trim();
+if(!text)return;
+userMsg(text);
+setTimeout(()=>aiMsg(aiAnswer(text)),400);
+q.value="";
+}
+
+/* PDF */
+function downloadPDF(){
+html2pdf().from(chat).save("AI-Chat-Brochure.pdf");
 }
 </script>
 
