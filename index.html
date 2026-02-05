@@ -2,11 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Brochure MAX</title>
+<title>AI Brochure — Interactive Experience</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
@@ -20,7 +19,7 @@ color:#fff;
 overflow-x:hidden;
 }
 
-/* Glow effect */
+/* Glow */
 body::before{
 content:"";
 position:fixed;
@@ -29,7 +28,7 @@ background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.2
 pointer-events:none;
 }
 
-section{display:none;padding:20px;max-width:1100px;margin:auto}
+section{display:none;padding:20px;max-width:1000px;margin:auto}
 section.active{display:block}
 
 input,textarea,select{
@@ -43,27 +42,64 @@ background:linear-gradient(45deg,var(--main),#00ffa6);
 font-weight:900;cursor:pointer
 }
 
-#book{margin:auto;max-width:420px;height:560px}
-
-.page{
-background:#fff;color:#000;border-radius:20px;overflow:hidden;
-display:flex;flex-direction:column;box-shadow:0 0 30px rgba(0,255,255,.2)
+/* Interactive cards */
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:18px;
+margin-top:20px;
 }
-.page img{width:100%;height:230px;object-fit:cover}
-.content{padding:18px;line-height:1.8}
-.badge{background:var(--main);padding:6px 14px;border-radius:20px;display:inline-block;margin-bottom:8px;font-weight:700}
 
+.card{
+background:#07131c;
+border-radius:16px;
+padding:18px;
+box-shadow:0 0 25px rgba(0,255,255,.15);
+transition:.3s;
+cursor:pointer;
+position:relative;
+overflow:hidden;
+}
+
+.card:hover{
+transform:translateY(-6px) scale(1.03);
+box-shadow:0 0 40px rgba(0,255,255,.3);
+}
+
+.card h3{margin:0 0 8px;color:var(--main)}
+.card p{opacity:.9;line-height:1.7}
+
+/* Slider */
+.slider{
+margin-top:25px;
+position:relative;
+height:260px;
+border-radius:16px;
+overflow:hidden;
+box-shadow:0 0 25px rgba(0,255,255,.15);
+}
+
+.slider img{
+width:100%;
+height:100%;
+object-fit:cover;
+position:absolute;
+opacity:0;
+transition:opacity .7s;
+}
+.slider img.active{opacity:1}
 </style>
 </head>
 
 <body>
 
 <section id="home" class="active">
-<h1>🔥 AI Brochure MAX</h1>
+<h1>🔥 AI Brochure Interactive</h1>
 <button onclick="show('form')">ابدأ</button>
 </section>
 
 <section id="form">
+
 <select id="type">
 <option value="school">مدرسة</option>
 <option value="restaurant">مطعم</option>
@@ -77,35 +113,49 @@ display:flex;flex-direction:column;box-shadow:0 0 30px rgba(0,255,255,.2)
 
 <input type="file" id="upload" multiple accept="image/*">
 
-<button onclick="generate()">✨ إنشاء MAX</button>
+<button onclick="generate()">✨ إنشاء التجربة</button>
+
 </section>
 
 <section id="result">
-<h2>📖 البروشور</h2>
 
-<div id="book">
+<h2 id="title"></h2>
 
-<div class="page"><img id="img1"><div class="content"><div class="badge">العنوان</div><h2 id="title"></h2></div></div>
+<div class="slider" id="slider"></div>
 
-<div class="page"><img id="img2"><div class="content"><div class="badge">من نحن</div><p id="aboutAr"></p></div></div>
+<div class="cards">
 
-<div class="page"><img id="img3"><div class="content"><div class="badge">لماذا نحن</div><p id="whyAr"></p></div></div>
+<div class="card" onclick="toggle(this)">
+<h3>من نحن</h3>
+<p id="aboutAr"></p>
+</div>
 
-<div class="page"><img id="img4"><div class="content"><div class="badge">الرؤية</div><p id="visionAr"></p></div></div>
+<div class="card" onclick="toggle(this)">
+<h3>الخدمات</h3>
+<p id="servicesAr"></p>
+</div>
 
-<div class="page"><div class="content"><div class="badge">إحصائيات</div><p id="stats"></p></div></div>
+<div class="card" onclick="toggle(this)">
+<h3>الرؤية</h3>
+<p id="visionAr"></p>
+</div>
+
+<div class="card" onclick="toggle(this)">
+<h3>إحصائيات</h3>
+<p id="stats"></p>
+</div>
 
 </div>
 
 <button onclick="downloadPDF()">📄 PDF</button>
 <button onclick="recordVideo()">🎥 تسجيل فيديو</button>
 <button onclick="show('form')">🔁 جديد</button>
+
 </section>
 
 <script>
-let flip;
 
-/* Glow mouse */
+/* Glow */
 document.addEventListener("mousemove",e=>{
 document.body.style.setProperty("--x",e.clientX+"px");
 document.body.style.setProperty("--y",e.clientY+"px");
@@ -123,6 +173,16 @@ const imgsDefault=[
 "https://images.unsplash.com/photo-1503387762-592deb58ef4e"
 ];
 
+let slideIndex=0;
+function startSlider(){
+let imgs=document.querySelectorAll("#slider img");
+setInterval(()=>{
+imgs[slideIndex].classList.remove("active");
+slideIndex=(slideIndex+1)%imgs.length;
+imgs[slideIndex].classList.add("active");
+},3000);
+}
+
 function generate(){
 
 let nameVal=name.value||"مؤسستنا";
@@ -130,21 +190,10 @@ let aboutVal=about.value||"نقدم تجربة احترافية متكاملة."
 let servicesVal=services.value||"جودة، احتراف، تجربة.";
 let goalsVal=goals.value||"الريادة والابتكار.";
 
-let files=upload.files;
-let imgs=[...imgsDefault];
-if(files.length){
-imgs=[];
-for(let f of files){imgs.push(URL.createObjectURL(f))}
-}
-
-for(let i=1;i<=4;i++){
-document.getElementById("img"+i).src=imgs[i-1]||imgsDefault[i-1];
-}
-
 title.innerText=nameVal;
-aboutAr.innerText=aboutVal+" - خدماتنا: "+servicesVal;
-whyAr.innerText="نتميز بالجودة والابتكار وفريق احترافي.";
-visionAr.innerText="هدفنا: "+goalsVal;
+aboutAr.innerText=aboutVal;
+servicesAr.innerText=servicesVal;
+visionAr.innerText=goalsVal;
 
 stats.innerHTML=`
 ⭐ رضا العملاء: ${80+Math.floor(Math.random()*20)}%<br>
@@ -152,20 +201,30 @@ stats.innerHTML=`
 🏆 مشاريع ناجحة: ${50+Math.floor(Math.random()*200)}
 `;
 
-show("result");
+let files=upload.files;
+let imgs=files.length?[...files].map(f=>URL.createObjectURL(f)):imgsDefault;
 
-setTimeout(()=>{
-if(flip)flip.destroy();
-flip=new St.PageFlip(book,{width:360,height:520});
-flip.loadFromHTML(document.querySelectorAll(".page"));
-},300);
+slider.innerHTML="";
+imgs.forEach((src,i)=>{
+let img=document.createElement("img");
+img.src=src;
+if(i===0)img.classList.add("active");
+slider.appendChild(img);
+});
+
+startSlider();
+
+show("result");
+}
+
+function toggle(card){
+card.classList.toggle("open");
 }
 
 function downloadPDF(){
-html2pdf().from(book).save("Brochure-MAX.pdf");
+html2pdf().from(document.getElementById("result")).save("Interactive-Brochure.pdf");
 }
 
-/* تسجيل فيديو */
 async function recordVideo(){
 let stream=await navigator.mediaDevices.getDisplayMedia({video:true});
 let recorder=new MediaRecorder(stream);
@@ -175,12 +234,13 @@ recorder.onstop=()=>{
 let blob=new Blob(chunks,{type:"video/webm"});
 let a=document.createElement("a");
 a.href=URL.createObjectURL(blob);
-a.download="brochure-video.webm";
+a.download="interactive-brochure.webm";
 a.click();
 };
 recorder.start();
 setTimeout(()=>recorder.stop(),8000);
 }
+
 </script>
 
 </body>
