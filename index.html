@@ -20,7 +20,7 @@ color:#fff;
 overflow-x:hidden;
 }
 
-/* Glow effect */
+/* Glow */
 body::before{
 content:"";
 position:fixed;
@@ -43,16 +43,41 @@ background:linear-gradient(45deg,var(--main),#00ffa6);
 font-weight:900;cursor:pointer
 }
 
-#book{margin:auto;max-width:420px;height:560px}
+#book{margin:auto;max-width:420px;height:600px}
 
+/* الصفحة */
 .page{
 background:#fff;color:#000;border-radius:20px;overflow:hidden;
-display:flex;flex-direction:column;box-shadow:0 0 30px rgba(0,255,255,.2)
+display:flex;flex-direction:column;
+box-shadow:0 0 30px rgba(0,255,255,.2)
 }
-.page img{width:100%;height:230px;object-fit:cover}
-.content{padding:18px;line-height:1.8}
-.badge{background:var(--main);padding:6px 14px;border-radius:20px;display:inline-block;margin-bottom:8px;font-weight:700}
 
+/* 🔥 الصورة أكبر */
+.page img{
+width:100%;
+height:300px;
+object-fit:cover
+}
+
+/* النص يملأ الصفحة */
+.content{
+padding:18px;
+line-height:2;
+font-size:15px;
+flex:1;
+display:flex;
+flex-direction:column;
+justify-content:space-between
+}
+
+.badge{
+background:var(--main);
+padding:6px 14px;
+border-radius:20px;
+display:inline-block;
+margin-bottom:8px;
+font-weight:700
+}
 </style>
 </head>
 
@@ -85,15 +110,56 @@ display:flex;flex-direction:column;box-shadow:0 0 30px rgba(0,255,255,.2)
 
 <div id="book">
 
-<div class="page"><img id="img1"><div class="content"><div class="badge">العنوان</div><h2 id="title"></h2></div></div>
+<div class="page">
+<img id="img1">
+<div class="content">
+<div>
+<div class="badge">العنوان</div>
+<h2 id="title"></h2>
+<p id="desc1"></p>
+</div>
+</div>
+</div>
 
-<div class="page"><img id="img2"><div class="content"><div class="badge">من نحن</div><p id="aboutAr"></p></div></div>
+<div class="page">
+<img id="img2">
+<div class="content">
+<div>
+<div class="badge">من نحن</div>
+<p id="aboutAr"></p>
+</div>
+</div>
+</div>
 
-<div class="page"><img id="img3"><div class="content"><div class="badge">لماذا نحن</div><p id="whyAr"></p></div></div>
+<div class="page">
+<img id="img3">
+<div class="content">
+<div>
+<div class="badge">لماذا نحن</div>
+<p id="whyAr"></p>
+</div>
+</div>
+</div>
 
-<div class="page"><img id="img4"><div class="content"><div class="badge">الرؤية</div><p id="visionAr"></p></div></div>
+<div class="page">
+<img id="img4">
+<div class="content">
+<div>
+<div class="badge">الرؤية</div>
+<p id="visionAr"></p>
+</div>
+</div>
+</div>
 
-<div class="page"><div class="content"><div class="badge">إحصائيات</div><p id="stats"></p></div></div>
+<div class="page">
+<div class="content">
+<div>
+<div class="badge">إحصائيات</div>
+<p id="stats"></p>
+<p id="extra"></p>
+</div>
+</div>
+</div>
 
 </div>
 
@@ -105,7 +171,7 @@ display:flex;flex-direction:column;box-shadow:0 0 30px rgba(0,255,255,.2)
 <script>
 let flip;
 
-/* Glow mouse */
+/* Glow */
 document.addEventListener("mousemove",e=>{
 document.body.style.setProperty("--x",e.clientX+"px");
 document.body.style.setProperty("--y",e.clientY+"px");
@@ -126,9 +192,9 @@ const imgsDefault=[
 function generate(){
 
 let nameVal=name.value||"مؤسستنا";
-let aboutVal=about.value||"نقدم تجربة احترافية متكاملة.";
-let servicesVal=services.value||"جودة، احتراف، تجربة.";
-let goalsVal=goals.value||"الريادة والابتكار.";
+let aboutVal=about.value||"نقدم تجربة احترافية متكاملة ترتكز على الجودة والابتكار وتقديم أفضل الحلول لعملائنا.";
+let servicesVal=services.value||"خدماتنا تشمل التطوير، الدعم، الاستشارات، والحلول الذكية المتقدمة.";
+let goalsVal=goals.value||"نسعى لتحقيق الريادة في مجالنا وتقديم قيمة حقيقية مستدامة.";
 
 let files=upload.files;
 let imgs=[...imgsDefault];
@@ -142,9 +208,14 @@ document.getElementById("img"+i).src=imgs[i-1]||imgsDefault[i-1];
 }
 
 title.innerText=nameVal;
-aboutAr.innerText=aboutVal+" - خدماتنا: "+servicesVal;
-whyAr.innerText="نتميز بالجودة والابتكار وفريق احترافي.";
-visionAr.innerText="هدفنا: "+goalsVal;
+
+desc1.innerText="نحن جهة متخصصة تقدم خدمات عالية الجودة تعتمد على الابتكار والتقنيات الحديثة لضمان أفضل تجربة ممكنة لعملائنا وتحقيق نتائج متميزة في كل مشروع.";
+
+aboutAr.innerText=aboutVal+" نعمل بروح الفريق ونركز على رضا العملاء وتقديم خدمات موثوقة ومستقرة.";
+
+whyAr.innerText="نتميز بفريق محترف، جودة عالية، سرعة تنفيذ، دعم متواصل، واستخدام أحدث التقنيات لتحقيق أفضل النتائج لعملائنا.";
+
+visionAr.innerText="رؤيتنا: "+goalsVal+" ونطمح إلى التوسع المستمر وتقديم حلول مبتكرة تواكب المستقبل.";
 
 stats.innerHTML=`
 ⭐ رضا العملاء: ${80+Math.floor(Math.random()*20)}%<br>
@@ -152,11 +223,13 @@ stats.innerHTML=`
 🏆 مشاريع ناجحة: ${50+Math.floor(Math.random()*200)}
 `;
 
+extra.innerText="نواصل التطوير والتحسين بشكل دائم لضمان تقديم أفضل مستوى من الجودة والكفاءة وتحقيق أعلى درجات التميز في جميع خدماتنا.";
+
 show("result");
 
 setTimeout(()=>{
 if(flip)flip.destroy();
-flip=new St.PageFlip(book,{width:360,height:520});
+flip=new St.PageFlip(book,{width:360,height:560});
 flip.loadFromHTML(document.querySelectorAll(".page"));
 },300);
 }
@@ -185,4 +258,3 @@ setTimeout(()=>recorder.stop(),8000);
 
 </body>
 </html>
-
