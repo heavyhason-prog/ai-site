@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Brochure MAX PRO</title>
+<title>AI Brochure PRO MAX</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -15,47 +15,33 @@
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:radial-gradient(circle at 50% 50%,#020617,#000);
+background:radial-gradient(circle,#020617,#000);
 color:#fff;
 overflow-x:hidden;
 }
-body::before{
-content:"";
-position:fixed;inset:0;
-background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.25),transparent 40%);
-pointer-events:none;
-}
 section{display:none;padding:20px;max-width:1100px;margin:auto}
 section.active{display:block}
-input,textarea,select{
-width:100%;padding:14px;border:none;border-radius:14px;margin-bottom:12px;
-background:rgba(255,255,255,.08);color:#fff;
-}
 button{
 width:100%;padding:14px;border:none;border-radius:14px;
 background:linear-gradient(45deg,var(--main),#00ffa6);
 font-weight:900;cursor:pointer;
-box-shadow:0 0 15px rgba(0,255,255,.5);
+margin-top:10px;
 }
 #book{margin:auto;max-width:430px;height:620px}
 .page{
-background:#fff;color:#000;border-radius:20px;overflow:hidden;
-display:flex;flex-direction:column;
+background:#fff;color:#000;border-radius:20px;
+overflow:hidden;
+display:flex;
+flex-direction:column;
 box-shadow:0 0 30px rgba(0,255,255,.3)
 }
 .page img{
 width:100%;
-height:300px;
-object-fit:cover
+height:260px;
+object-fit:cover;
 }
 .content{
 padding:18px;
-line-height:1.9;
-font-size:15px;
-flex:1;
-display:flex;
-flex-direction:column;
-justify-content:center;
 text-align:right;
 }
 .badge{
@@ -64,7 +50,15 @@ padding:6px 14px;
 border-radius:20px;
 display:inline-block;
 margin-bottom:10px;
-font-weight:700
+font-weight:700;
+}
+.content p{
+display:-webkit-box;
+-webkit-line-clamp:6;
+-webkit-box-orient:vertical;
+overflow:hidden;
+line-height:1.8;
+font-size:15px;
 }
 </style>
 </head>
@@ -72,23 +66,8 @@ font-weight:700
 <body>
 
 <section id="home" class="active">
-<h1>🚀 AI Brochure MAX PRO</h1>
-<button onclick="show('form')">ابدأ</button>
-</section>
-
-<section id="form">
-<select id="type">
-<option>مدرسة</option>
-<option>مطعم</option>
-<option>متجر</option>
-</select>
-<input id="name" placeholder="اسم الجهة">
-<textarea id="about" placeholder="نبذة مختصرة (سطرين)"></textarea>
-<textarea id="services" placeholder="الخدمات"></textarea>
-<textarea id="goals" placeholder="الأهداف"></textarea>
-<input type="file" id="upload" multiple accept="image/*">
-<button onclick="smartFill()">🤖 تعبئة تلقائية</button>
-<button onclick="generate()">✨ إنشاء البروشور</button>
+<h1>🚀 AI Brochure PRO MAX</h1>
+<button onclick="show('result')">إنشاء البروشور</button>
 </section>
 
 <section id="result">
@@ -96,170 +75,65 @@ font-weight:700
 
 <div id="book">
 
-<!-- 1 -->
+<!-- 12 صفحات -->
+<script>
+for(let i=1;i<=12;i++){
+document.write(`
 <div class="page">
-<img id="img1">
+<img src="https://picsum.photos/600/400?random=${i}">
 <div class="content">
-<div class="badge">العنوان</div>
-<h2 id="title"></h2>
-<p id="desc1"></p>
+<div class="badge">صفحة ${i}</div>
+<p id="t${i}"></p>
 </div>
 </div>
-
-<!-- 2 -->
-<div class="page">
-<img id="img2">
-<div class="content">
-<div class="badge">من نحن</div>
-<p id="aboutAr"></p>
-</div>
-</div>
-
-<!-- 3 -->
-<div class="page">
-<img id="img3">
-<div class="content">
-<div class="badge">الخدمات</div>
-<p id="servicesAr"></p>
-</div>
-</div>
-
-<!-- 4 -->
-<div class="page">
-<img id="img4">
-<div class="content">
-<div class="badge">لماذا نحن</div>
-<p>جودة عالية، احترافية، سرعة تنفيذ، ورضا العملاء.</p>
-</div>
-</div>
-
-<!-- 5 -->
-<div class="page">
-<img id="img5">
-<div class="content">
-<div class="badge">الرؤية</div>
-<p id="visionAr"></p>
-</div>
-</div>
-
-<!-- 6 -->
-<div class="page">
-<img id="img6">
-<div class="content">
-<div class="badge">الرسالة</div>
-<p>تقديم حلول مبتكرة تحقق قيمة حقيقية.</p>
-</div>
-</div>
-
-<!-- 7 -->
-<div class="page">
-<div class="content">
-<div class="badge">القيم</div>
-<p>الشفافية، الابتكار، الجودة، الالتزام.</p>
-</div>
-</div>
-
-<!-- 8 -->
-<div class="page">
-<div class="content">
-<div class="badge">فريق العمل</div>
-<p>خبرات متنوعة، شغف، وتطوير مستمر.</p>
-</div>
-</div>
-
-<!-- 9 -->
-<div class="page">
-<div class="content">
-<div class="badge">العملاء</div>
-<p>نفتخر بخدمة عملاء من مختلف القطاعات.</p>
-</div>
-</div>
-
-<!-- 10 -->
-<div class="page">
-<div class="content">
-<div class="badge">الإنجازات</div>
-<p>مشاريع ناجحة وشراكات استراتيجية.</p>
-</div>
-</div>
-
-<!-- 11 -->
-<div class="page">
-<div class="content">
-<div class="badge">إحصائيات</div>
-<p id="stats"></p>
-</div>
-</div>
-
-<!-- 12 -->
-<div class="page">
-<div class="content">
-<div class="badge">تواصل معنا</div>
-<p>نرحب بتواصلكم في أي وقت.</p>
-</div>
-</div>
+`);
+}
+</script>
 
 </div>
 
-<button onclick="downloadPDF()">📄 PDF</button>
+<button onclick="downloadPDF()">📄 تحميل PDF</button>
 <button onclick="autoFlip()">🎥 عرض تلقائي</button>
-<button onclick="show('form')">🔁 جديد</button>
+<button onclick="show('home')">🔁 رجوع</button>
 </section>
 
 <script>
 let flip;
-document.addEventListener("mousemove",e=>{
-document.body.style.setProperty("--x",e.clientX+"px");
-document.body.style.setProperty("--y",e.clientY+"px");
-});
+
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
+if(id==="result") initBook();
 }
-function smartFill(){
-name.value="مؤسسة المستقبل";
-about.value="نقدم حلول ذكية بخبرة عالية.";
-services.value="تصميم، تطوير، استشارات.";
-goals.value="الريادة والابتكار.";
+
+function initBook(){
+const text =
+"نقدم حلولاً مبتكرة بجودة عالية.\n"+
+"نعتمد على أحدث التقنيات.\n"+
+"نركز على رضا العملاء.\n"+
+"فريقنا يتمتع بخبرة واسعة.\n"+
+"نلتزم بالاحترافية الكاملة.\n"+
+"نسعى لتحقيق التميز دائماً.";
+
+for(let i=1;i<=12;i++){
+document.getElementById("t"+i).innerText=text;
 }
-const imgsDefault=[
-"https://picsum.photos/600/400?1",
-"https://picsum.photos/600/400?2",
-"https://picsum.photos/600/400?3",
-"https://picsum.photos/600/400?4",
-"https://picsum.photos/600/400?5",
-"https://picsum.photos/600/400?6"
-];
-function generate(){
-let imgs=[...imgsDefault];
-if(upload.files.length){
-imgs=[];
-for(let f of upload.files) imgs.push(URL.createObjectURL(f));
-}
-for(let i=1;i<=6;i++){
-let el=document.getElementById("img"+i);
-if(el) el.src=imgs[i-1]||imgsDefault[i-1];
-}
-title.innerText=name.value;
-desc1.innerText="حلول احترافية بأحدث التقنيات.";
-aboutAr.innerText=about.value;
-servicesAr.innerText=services.value;
-visionAr.innerText=goals.value;
-stats.innerHTML=`⭐ رضا العملاء ${90+Math.floor(Math.random()*10)}%<br>📈 نمو ${15+Math.floor(Math.random()*15)}%`;
-show("result");
+
 setTimeout(()=>{
-if(flip)flip.destroy();
 flip=new St.PageFlip(book,{width:370,height:600});
 flip.loadFromHTML(document.querySelectorAll(".page"));
 },300);
 }
+
 function downloadPDF(){
-html2pdf().from(book).save("MAX-PRO.pdf");
+html2pdf().set({margin:0,html2canvas:{scale:2}})
+.from(book).save("AI-PRO-MAX.pdf");
 }
+
 function autoFlip(){
 let i=0;
-let t=setInterval(()=>{
-if(i>=12){clearInterval(t);return;}
+let timer=setInterval(()=>{
+if(i>=12){clearInterval(timer);return;}
 flip.flipNext();i++;
 },1300);
 }
