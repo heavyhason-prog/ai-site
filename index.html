@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI BROCHURE — GODLIKE MODE</title>
+<title>AI BROCHURE — SCHOOL MODE</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
@@ -11,11 +11,10 @@
 
 <style>
 :root{
---main:#00f5ff;
---bg:#000;
---text:#fff;
+--main:#0ea5e9;
+--bg:#f4f6f8;
+--text:#111;
 }
-.light{--bg:#f2f2f2;--text:#000;}
 
 *{box-sizing:border-box}
 
@@ -31,14 +30,26 @@ section{display:none;padding:20px;max-width:1100px;margin:auto}
 section.active{display:block}
 
 input,textarea,select{
-width:100%;padding:14px;border:none;border-radius:14px;
-margin-bottom:12px;background:rgba(255,255,255,.08);color:var(--text);
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+margin-bottom:12px;
+background:#fff;
+color:#000;
+box-shadow:0 4px 10px rgba(0,0,0,.06);
 }
 
 button{
-width:100%;padding:14px;border:none;border-radius:14px;
-background:linear-gradient(45deg,var(--main),#00ffa6);
-font-weight:900;cursor:pointer;margin-top:10px;
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+background:linear-gradient(45deg,#38bdf8,#0ea5e9);
+font-weight:900;
+cursor:pointer;
+margin-top:10px;
+color:#fff;
 }
 
 #book{margin:auto;max-width:420px;height:640px}
@@ -49,6 +60,7 @@ border-radius:22px;
 overflow:hidden;
 display:flex;
 align-items:flex-end;
+background:#e5e7eb;
 }
 
 .page::before{
@@ -64,7 +76,7 @@ background-position:center;
 content:"";
 position:absolute;
 inset:0;
-background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.25));
+background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,.15));
 }
 
 .content{
@@ -72,11 +84,11 @@ position:relative;
 z-index:2;
 padding:22px;
 color:#fff;
-line-height:1.9;
+line-height:1.8;
 }
 
 .badge{
-background:var(--main);
+background:#fff;
 padding:6px 16px;
 border-radius:20px;
 display:inline-block;
@@ -86,11 +98,15 @@ font-weight:700;
 }
 
 .cover{
-background:linear-gradient(135deg,#020617,#000);
+background:linear-gradient(135deg,#e0f2fe,#f8fafc);
 display:flex;
 justify-content:center;
 align-items:center;
 text-align:center;
+}
+
+.cover .content{
+color:#000;
 }
 </style>
 </head>
@@ -98,30 +114,23 @@ text-align:center;
 <body>
 
 <section id="home" class="active">
-<h1>😈 GODLIKE AI BROCHURE</h1>
+<h1>📘 بروشور مدرسة ذكي</h1>
 <button onclick="show('form')">ابدأ</button>
-<button onclick="toggleMode()">🌙 / ☀️</button>
 </section>
 
 <section id="form">
-<select id="type">
-<option value="school">🏫 مدرسة</option>
-<option value="restaurant">🍽️ مطعم</option>
-<option value="store">🏪 متجر</option>
-</select>
-
-<input id="name" placeholder="اسم الجهة">
-<textarea id="about" placeholder="نبذة"></textarea>
+<input id="name" placeholder="اسم المدرسة">
+<textarea id="about" placeholder="نبذة عن المدرسة"></textarea>
 <input type="file" id="upload" multiple accept="image/*">
 
-<button onclick="generate()">🔥 إنشاء</button>
+<button onclick="generate()">🎓 إنشاء البروشور</button>
 </section>
 
 <section id="result">
 <div id="book"></div>
-<button onclick="downloadPDF()">📄 PDF</button>
-<button onclick="autoFlip()">🎬 عرض</button>
-<button onclick="recordVideo()">📹 فيديو</button>
+<button onclick="downloadPDF()">📄 تحميل PDF</button>
+<button onclick="autoFlip()">🎬 عرض تلقائي</button>
+<button onclick="recordVideo()">📹 تسجيل فيديو</button>
 <button onclick="show('form')">🔁 تعديل</button>
 </section>
 
@@ -134,47 +143,43 @@ document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* Dark/Light */
-function toggleMode(){
-document.body.classList.toggle("light");
-}
+/* نصوص مدرسية */
+function generateSmartText(name){
+const base=[
+"بيئة تعليمية محفزة",
+"كادر تعليمي متميز",
+"مناهج حديثة",
+"أنشطة طلابية متنوعة",
+"تعليم رقمي متقدم",
+"تنمية المهارات",
+"قيم وأخلاق",
+"مرافق تعليمية متكاملة",
+"متابعة أكاديمية مستمرة",
+"شراكة مع الأسرة",
+"رؤية تعليمية مستقبلية",
+"بناء جيل مبدع"
+];
 
-/* AI نصوص مختلفة */
-function generateSmartText(type,name){
-const base={
-school:["بيئة تعليمية متطورة","كادر تعليمي متميز","مناهج حديثة","أنشطة تنمي الإبداع","تعليم رقمي","قيم وأخلاق","مرافق متكاملة","تقييم مستمر","شراكة مجتمعية","إدارة احترافية","تطوير دائم","رؤية مستقبلية"],
-restaurant:["نكهات فريدة","مكونات طازجة","خدمة راقية","أجواء مريحة","أسعار مناسبة","قائمة متنوعة","توصيل سريع","نظافة عالية","تقييم ممتاز","تجربة فريدة","إدارة قوية","هوية مميزة"],
-store:["منتجات متنوعة","جودة عالية","خدمة احترافية","عروض مستمرة","تحديث دائم","تجربة تسوق رائعة","ثقة وضمان","متجر عصري","دفع آمن","عملاء دائمون","إدارة فعالة","نمو ونجاح"]
-};
-
-return base[type].map(t=>`${t} — ${name} يقدم تجربة احترافية متكاملة تركز على الجودة والابتكار وتحقيق أفضل النتائج وبناء ثقة طويلة مع العملاء وتقديم قيمة حقيقية ومستوى عالي من الأداء والتطور المستمر.`)
+return base.map(t=>`${t} — ${name} تقدم تجربة تعليمية متكاملة تركز على بناء شخصية الطالب وتنمية مهاراته العلمية والفكرية في بيئة آمنة ومحفزة.`)
 }
 
 /* توليد */
 function generate(){
-
 const book=document.getElementById("book");
 book.innerHTML="";
 
-let typeVal=type.value;
-let nameVal=name.value||"اسم الجهة";
-let aboutVal=about.value||"بروشور احترافي متكامل";
-let texts=generateSmartText(typeVal,nameVal);
+let nameVal=name.value||"مدرستنا";
+let aboutVal=about.value||"صرح تعليمي متميز";
+let texts=generateSmartText(nameVal);
 
-/* صور ذكية */
-const keywords={
-school:"school students classroom",
-restaurant:"restaurant food",
-store:"store shop products"
-};
-
+/* صور مدرسية فقط */
 let imgs=[];
 if(upload.files.length){
 for(let f of upload.files) imgs.push(URL.createObjectURL(f));
 }
 
 while(imgs.length<14){
-imgs.push(`https://source.unsplash.com/900x1200/?${keywords[typeVal]}&sig=${Math.random()}`);
+imgs.push(`https://source.unsplash.com/900x1200/?school,students,classroom,education&sig=${Math.random()}`);
 }
 
 /* غلاف */
@@ -202,7 +207,7 @@ book.innerHTML+=`
 <div class="page" style="--img:url('${imgs[13]}')">
 <div class="content">
 <div class="badge">تواصل معنا</div>
-<p>نسعد بخدمتكم دائماً — فريق ${nameVal}</p>
+<p>نسعد بتعليم أبنائكم — إدارة ${nameVal}</p>
 </div>
 </div>`;
 
@@ -217,7 +222,7 @@ flip.loadFromHTML(document.querySelectorAll(".page"));
 
 /* PDF */
 function downloadPDF(){
-html2pdf().from(book).save("GODLIKE.pdf");
+html2pdf().from(book).save("School-Brochure.pdf");
 }
 
 /* عرض */
@@ -240,7 +245,7 @@ recorder.onstop=()=>{
 let blob=new Blob(chunks,{type:"video/webm"});
 let a=document.createElement("a");
 a.href=URL.createObjectURL(blob);
-a.download="brochure-video.webm";
+a.download="school-brochure.webm";
 a.click();
 };
 recorder.start();
@@ -250,4 +255,3 @@ setTimeout(()=>recorder.stop(),10000);
 
 </body>
 </html>
-
