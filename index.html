@@ -18,8 +18,17 @@
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
+background:#000; /* ✅ الصفحة الأولى مثل ما هي */
 color:#fff;
 overflow:hidden;
+}
+
+/* ===== الخلفية الذكية (مخفية بالبداية) ===== */
+#appBg{
+position:fixed;
+inset:0;
+z-index:-1;
+display:none;
 background:
 radial-gradient(1200px 600px at var(--mx) var(--my),
 #0fd9c7 0%,
@@ -29,13 +38,12 @@ linear-gradient(135deg,#020617 0%,#020617 45%,#042f3a 100%);
 animation:bgBreath 10s ease-in-out infinite;
 }
 
-/* تنفّس الخلفية */
 @keyframes bgBreath{
 0%,100%{filter:brightness(1) saturate(1)}
 50%{filter:brightness(1.15) saturate(1.25)}
 }
 
-/* شاشة الإدخال */
+/* ===== شاشة الإدخال ===== */
 #formScreen{
 position:fixed;
 inset:0;
@@ -45,7 +53,7 @@ flex-direction:column;
 align-items:center;
 justify-content:center;
 gap:10px;
-z-index:9999;
+z-index:10;
 }
 
 input, textarea, select{
@@ -68,7 +76,7 @@ background:linear-gradient(135deg,#00eaff,#7cff00);
 box-shadow:0 0 25px rgba(0,234,255,.6);
 }
 
-/* الكتاب */
+/* ===== الكتاب ===== */
 #book{
 width:100vw;
 height:100vh;
@@ -80,7 +88,6 @@ perspective:2000px;
 position:relative;
 width:100%;
 height:100%;
-transform-style:preserve-3d;
 }
 
 .page img{
@@ -111,12 +118,15 @@ left:50%;
 transform:translateX(-50%);
 display:flex;
 gap:12px;
-z-index:999;
+z-index:20;
 }
 </style>
 </head>
 
 <body>
+
+<!-- الخلفية الذكية -->
+<div id="appBg"></div>
 
 <!-- شاشة الإدخال -->
 <div id="formScreen">
@@ -174,10 +184,13 @@ return pages;
 }
 
 function generateBook(){
-const title = titleInput();
-const topic = topicInput();
+const title = document.getElementById("title").value || "AI GOD BOOK";
+const topic = document.getElementById("topic").value || "الذكاء الاصطناعي المتقدم";
 const details = document.getElementById("details").value;
 const mode = document.getElementById("mode").value;
+
+/* تفعيل الخلفية الذكية */
+document.getElementById("appBg").style.display="block";
 
 const pages = generateLongArticle(title, topic, details, mode);
 const book = document.getElementById("book");
@@ -205,13 +218,6 @@ maxShadowOpacity:.6
 pageFlip.loadFromHTML(document.querySelectorAll(".page"));
 }
 
-function titleInput(){
-return document.getElementById("title").value || "AI GOD BOOK";
-}
-function topicInput(){
-return document.getElementById("topic").value || "الذكاء الاصطناعي المتقدم";
-}
-
 /* PDF */
 function exportPDF(){
 html2pdf().from(document.getElementById("book"))
@@ -224,7 +230,7 @@ function exportVideo(){
 alert("🎬 نظام الفيديو جاهز للربط مع Canvas / MediaRecorder");
 }
 
-/* توهّج يتبع الماوس */
+/* توهّج الماوس */
 document.addEventListener("mousemove",e=>{
 const x = Math.round((e.clientX / innerWidth)*100);
 const y = Math.round((e.clientY / innerHeight)*100);
