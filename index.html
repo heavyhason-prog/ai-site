@@ -10,12 +10,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
+:root{
+--mx:80%;
+--my:20%;
+}
+
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:radial-gradient(circle at top,#050505,#000);
 color:#fff;
 overflow:hidden;
+background:
+radial-gradient(1200px 600px at var(--mx) var(--my),
+#0fd9c7 0%,
+rgba(15,217,199,.18) 35%,
+transparent 70%),
+linear-gradient(135deg,#020617 0%,#020617 45%,#042f3a 100%);
+animation:bgBreath 10s ease-in-out infinite;
+}
+
+/* تنفّس الخلفية */
+@keyframes bgBreath{
+0%,100%{filter:brightness(1) saturate(1)}
+50%{filter:brightness(1.15) saturate(1.25)}
 }
 
 /* شاشة الإدخال */
@@ -51,6 +68,7 @@ background:linear-gradient(135deg,#00eaff,#7cff00);
 box-shadow:0 0 25px rgba(0,234,255,.6);
 }
 
+/* الكتاب */
 #book{
 width:100vw;
 height:100vh;
@@ -201,12 +219,19 @@ html2pdf().from(document.getElementById("book"))
 .save();
 }
 
-/* VIDEO (محاكاة) */
+/* VIDEO */
 function exportVideo(){
 alert("🎬 نظام الفيديو جاهز للربط مع Canvas / MediaRecorder");
 }
+
+/* توهّج يتبع الماوس */
+document.addEventListener("mousemove",e=>{
+const x = Math.round((e.clientX / innerWidth)*100);
+const y = Math.round((e.clientY / innerHeight)*100);
+document.documentElement.style.setProperty("--mx",x+"%");
+document.documentElement.style.setProperty("--my",y+"%");
+});
 </script>
 
 </body>
 </html>
-
