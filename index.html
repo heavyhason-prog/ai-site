@@ -2,100 +2,51 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Smart Brochure GOD++</title>
+<title>AI Brochure GOD MODE</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
 body{
-  font-family:'Cairo',sans-serif;
-  background:#0f172a;
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
+margin:0;
+font-family:'Cairo',sans-serif;
+background:#020617;
+color:#fff;
 }
 
-/* الكتاب */
-#book{
-  width:900px;
-  max-width:95vw;
-  height:600px;
-  max-height:95vh;
-}
+#book{margin:auto;max-width:420px;height:640px}
 
-/* الصفحة */
 .page{
-  width:100%;
-  height:100%;
-  background:linear-gradient(135deg,#020617,#0f172a,#020617);
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:40px;
-  text-align:center;
-  border-radius:14px;
+background:#fff;color:#000;border-radius:20px;overflow:hidden;
+display:flex;flex-direction:column
 }
 
-/* العناوين */
-h1{
-  font-size:38px;
-  margin-bottom:20px;
+.page img{
+width:100%;
+height:360px;
+object-fit:cover;
+background:#ddd;
 }
 
-p{
-  font-size:20px;
-  line-height:1.8;
-  max-width:700px;
+.content{
+padding:20px;
+line-height:2;
+font-size:15px;
+flex:1
 }
 
-/* المدخلات */
-input,select{
-  width:80%;
-  padding:14px;
-  margin:10px 0;
-  border-radius:10px;
-  border:none;
-  font-size:18px;
-  text-align:center;
-}
-
-/* زر */
 button{
-  margin-top:15px;
-  padding:12px 26px;
-  font-size:18px;
-  border:none;
-  border-radius:10px;
-  background:#22c55e;
-  color:#fff;
-  cursor:pointer;
-  transition:.2s;
-}
-button:hover{transform:scale(1.05)}
-
-/* صورة */
-img{
-  max-width:80%;
-  max-height:260px;
-  border-radius:12px;
-  margin-top:20px;
-  object-fit:cover;
-}
-
-/* مهم جداً لحل مشكلة الضغط */
-.stf__parent{
-  pointer-events:auto !important;
-}
-.stf__block{
-  pointer-events:auto !important;
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+background:linear-gradient(45deg,#00f5ff,#00ffa6);
+font-weight:900;
+margin-top:8px;
+cursor:pointer
 }
 </style>
 </head>
@@ -104,87 +55,98 @@ img{
 
 <div id="book">
 
-  <!-- الصفحة 1 (البيانات) -->
-  <div class="page">
-    <h1>📋 أدخل بياناتك</h1>
-    <input id="name" placeholder="اسمك">
-    <select id="type">
-      <option value="school">مدرسة</option>
-      <option value="tech">تقنية</option>
-      <option value="business">أعمال</option>
-      <option value="design">تصميم</option>
-    </select>
-    <button onclick="generate()">ابدأ</button>
-  </div>
+<div class="page">
+<img id="img1">
+<div class="content">
+<h2 id="title">مؤسستنا</h2>
+<p id="text1"></p>
+</div>
+</div>
 
-  <!-- الصفحات 2 → 12 -->
-  <div class="page"><h1 id="title1"></h1><p id="text1"></p><img id="img1"></div>
-  <div class="page"><h1 id="title2"></h1><p id="text2"></p><img id="img2"></div>
-  <div class="page"><h1 id="title3"></h1><p id="text3"></p><img id="img3"></div>
-  <div class="page"><h1 id="title4"></h1><p id="text4"></p><img id="img4"></div>
-  <div class="page"><h1 id="title5"></h1><p id="text5"></p><img id="img5"></div>
-  <div class="page"><h1 id="title6"></h1><p id="text6"></p><img id="img6"></div>
-  <div class="page"><h1 id="title7"></h1><p id="text7"></p><img id="img7"></div>
-  <div class="page"><h1 id="title8"></h1><p id="text8"></p><img id="img8"></div>
-  <div class="page"><h1 id="title9"></h1><p id="text9"></p><img id="img9"></div>
-  <div class="page"><h1 id="title10"></h1><p id="text10"></p><img id="img10"></div>
-  <div class="page"><h1 id="title11"></h1><p id="text11"></p><img id="img11"></div>
+<div class="page">
+<img id="img2">
+<div class="content">
+<p id="text2"></p>
+</div>
+</div>
+
+<div class="page">
+<img id="img3">
+<div class="content">
+<p id="text3"></p>
+</div>
+</div>
+
+<div class="page">
+<img id="img4">
+<div class="content">
+<p id="text4"></p>
+</div>
+</div>
 
 </div>
 
+<button onclick="generate()">🔄 توليد</button>
+<button onclick="downloadPDF()">📄 PDF</button>
+
 <script>
-/* تشغيل الكتاب */
-const pageFlip = new St.PageFlip(
-  document.getElementById("book"),
-  {
-    width:450,
-    height:600,
-    size:"stretch",
-    minWidth:315,
-    maxWidth:900,
-    minHeight:420,
-    maxHeight:1200,
-    showCover:true,
-    mobileScrollSupport:false,
-    useMouseEvents:true,
-    clickEventForward:true
-  }
-);
 
-pageFlip.loadFromHTML(document.querySelectorAll(".page"));
+let flip;
 
-/* إنشاء المحتوى */
+/* صور مضمونة */
+const imageBank={
+school:[
+"https://images.pexels.com/photos/256490/pexels-photo-256490.jpeg",
+"https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg",
+"https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg",
+"https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg"
+],
+restaurant:[
+"https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg",
+"https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg",
+"https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg",
+"https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg"
+],
+store:[
+"https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg",
+"https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg",
+"https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg",
+"https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg"
+]
+};
+
 function generate(){
-  const name = document.getElementById("name").value || "المستخدم";
-  const type = document.getElementById("type").value;
 
-  const topics = {
-    school:"المدرسة",
-    tech:"التقنية",
-    business:"الأعمال",
-    design:"التصميم"
-  };
+let type="school"; // تقدر تغيرها
 
-  const keyword = topics[type];
+let imgs=imageBank[type];
 
-  for(let i=1;i<=11;i++){
-    document.getElementById("title"+i).innerText =
-      `${keyword} - الصفحة ${i}`;
+for(let i=1;i<=4;i++){
+let img=document.getElementById("img"+i);
+img.src=imgs[i-1];
 
-    document.getElementById("text"+i).innerText =
-      `مرحباً ${name} 👋  
-هذه صفحة رقم ${i} تتحدث عن ${keyword}.  
-تم إنشاء هذا الكتيب الذكي تلقائياً باستخدام الذكاء الاصطناعي.  
-يمكنك تطويره، إضافة معلومات، أو تحويله إلى مشروع حقيقي.  
-كل صفحة تحتوي على نص وصورة مرتبطة بالموضوع لملء الصفحة بالكامل.`;
-
-    document.getElementById("img"+i).src =
-      `https://source.unsplash.com/800x600/?${type}`;
-  }
-
-  /* يقلب للصفحة الثانية بعد التوليد */
-  pageFlip.flip(1);
+img.onerror=function(){
+this.src="https://picsum.photos/600/400?random="+Math.random();
 }
+}
+
+text1.innerText="نقدم خدمات متكاملة بجودة عالية باستخدام أحدث التقنيات لتحقيق أفضل النتائج وبناء تجربة احترافية متكاملة تلبي احتياجات العملاء وتحقق التميز.";
+text2.innerText="نعمل بروح الفريق ونركز على الجودة والابتكار والتطوير المستمر لضمان أفضل مستوى من الأداء والخدمة.";
+text3.innerText="نتميز بالاحترافية والسرعة والجودة العالية والدعم المستمر وخبرة طويلة في المجال.";
+text4.innerText="هدفنا تحقيق الريادة والتميز وبناء مستقبل أفضل من خلال التطوير المستمر والابتكار.";
+
+setTimeout(()=>{
+if(flip)flip.destroy();
+flip=new St.PageFlip(book,{width:370,height:620});
+flip.loadFromHTML(document.querySelectorAll(".page"));
+},200);
+}
+
+function downloadPDF(){
+html2pdf().from(book).save("GOD-MODE.pdf");
+}
+
+generate();
 </script>
 
 </body>
