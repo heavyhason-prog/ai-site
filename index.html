@@ -19,65 +19,51 @@ background:radial-gradient(circle at 50% 50%,#020617,#000);
 color:#fff;
 overflow-x:hidden;
 }
-
-/* Glow */
 body::before{
 content:"";
 position:fixed;inset:0;
 background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.25),transparent 40%);
 pointer-events:none;
 }
-
 section{display:none;padding:20px;max-width:1100px;margin:auto}
 section.active{display:block}
-
 input,textarea,select{
 width:100%;padding:14px;border:none;border-radius:14px;margin-bottom:12px;
 background:rgba(255,255,255,.08);color:#fff;
-backdrop-filter:blur(10px)
 }
-
 button{
 width:100%;padding:14px;border:none;border-radius:14px;
 background:linear-gradient(45deg,var(--main),#00ffa6);
 font-weight:900;cursor:pointer;
 box-shadow:0 0 15px rgba(0,255,255,.5);
-transition:.2s
 }
-button:hover{transform:scale(1.03)}
-
 #book{margin:auto;max-width:430px;height:620px}
-
-/* الصفحة */
 .page{
 background:#fff;color:#000;border-radius:20px;overflow:hidden;
 display:flex;flex-direction:column;
 box-shadow:0 0 30px rgba(0,255,255,.3)
 }
-
-/* صورة تملأ الصفحة */
 .page img{
 width:100%;
-height:320px;
+height:300px;
 object-fit:cover
 }
-
 .content{
 padding:18px;
-line-height:2;
+line-height:1.9;
 font-size:15px;
 flex:1;
 display:flex;
 flex-direction:column;
-justify-content:space-between
+justify-content:center;
+text-align:right;
 }
-
 .badge{
 background:var(--main);
 padding:6px 14px;
 border-radius:20px;
 display:inline-block;
-margin-bottom:8px;
+margin-bottom:10px;
 font-weight:700
 }
 </style>
@@ -91,23 +77,18 @@ font-weight:700
 </section>
 
 <section id="form">
-
 <select id="type">
-<option value="school">مدرسة</option>
-<option value="restaurant">مطعم</option>
-<option value="store">متجر</option>
+<option>مدرسة</option>
+<option>مطعم</option>
+<option>متجر</option>
 </select>
-
 <input id="name" placeholder="اسم الجهة">
-<textarea id="about" placeholder="نبذة"></textarea>
+<textarea id="about" placeholder="نبذة مختصرة (سطرين)"></textarea>
 <textarea id="services" placeholder="الخدمات"></textarea>
 <textarea id="goals" placeholder="الأهداف"></textarea>
-
 <input type="file" id="upload" multiple accept="image/*">
-
 <button onclick="smartFill()">🤖 تعبئة تلقائية</button>
-<button onclick="generate()">✨ إنشاء MAX PRO</button>
-
+<button onclick="generate()">✨ إنشاء البروشور</button>
 </section>
 
 <section id="result">
@@ -115,53 +96,106 @@ font-weight:700
 
 <div id="book">
 
+<!-- 1 -->
 <div class="page">
 <img id="img1">
 <div class="content">
-<div>
 <div class="badge">العنوان</div>
 <h2 id="title"></h2>
 <p id="desc1"></p>
 </div>
 </div>
-</div>
 
+<!-- 2 -->
 <div class="page">
 <img id="img2">
 <div class="content">
-<div>
 <div class="badge">من نحن</div>
 <p id="aboutAr"></p>
 </div>
 </div>
-</div>
 
+<!-- 3 -->
 <div class="page">
 <img id="img3">
 <div class="content">
-<div>
-<div class="badge">لماذا نحن</div>
-<p id="whyAr"></p>
-</div>
+<div class="badge">الخدمات</div>
+<p id="servicesAr"></p>
 </div>
 </div>
 
+<!-- 4 -->
 <div class="page">
 <img id="img4">
 <div class="content">
-<div>
+<div class="badge">لماذا نحن</div>
+<p>جودة عالية، احترافية، سرعة تنفيذ، ورضا العملاء.</p>
+</div>
+</div>
+
+<!-- 5 -->
+<div class="page">
+<img id="img5">
+<div class="content">
 <div class="badge">الرؤية</div>
 <p id="visionAr"></p>
 </div>
 </div>
+
+<!-- 6 -->
+<div class="page">
+<img id="img6">
+<div class="content">
+<div class="badge">الرسالة</div>
+<p>تقديم حلول مبتكرة تحقق قيمة حقيقية.</p>
+</div>
 </div>
 
+<!-- 7 -->
 <div class="page">
 <div class="content">
-<div>
+<div class="badge">القيم</div>
+<p>الشفافية، الابتكار، الجودة، الالتزام.</p>
+</div>
+</div>
+
+<!-- 8 -->
+<div class="page">
+<div class="content">
+<div class="badge">فريق العمل</div>
+<p>خبرات متنوعة، شغف، وتطوير مستمر.</p>
+</div>
+</div>
+
+<!-- 9 -->
+<div class="page">
+<div class="content">
+<div class="badge">العملاء</div>
+<p>نفتخر بخدمة عملاء من مختلف القطاعات.</p>
+</div>
+</div>
+
+<!-- 10 -->
+<div class="page">
+<div class="content">
+<div class="badge">الإنجازات</div>
+<p>مشاريع ناجحة وشراكات استراتيجية.</p>
+</div>
+</div>
+
+<!-- 11 -->
+<div class="page">
+<div class="content">
 <div class="badge">إحصائيات</div>
 <p id="stats"></p>
 </div>
+</div>
+
+<!-- 12 -->
+<div class="page">
+<div class="content">
+<div class="badge">تواصل معنا</div>
+<p>نرحب بتواصلكم في أي وقت.</p>
 </div>
 </div>
 
@@ -169,108 +203,65 @@ font-weight:700
 
 <button onclick="downloadPDF()">📄 PDF</button>
 <button onclick="autoFlip()">🎥 عرض تلقائي</button>
-<button onclick="recordVideo()">🎬 تسجيل فيديو</button>
 <button onclick="show('form')">🔁 جديد</button>
 </section>
 
 <script>
 let flip;
-
-/* Glow */
 document.addEventListener("mousemove",e=>{
 document.body.style.setProperty("--x",e.clientX+"px");
 document.body.style.setProperty("--y",e.clientY+"px");
 });
-
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
-
-/* تعبئة ذكية */
 function smartFill(){
 name.value="مؤسسة المستقبل";
-about.value="نقدم خدمات احترافية مبتكرة بجودة عالية.";
-services.value="تطوير، تصميم، حلول ذكية، دعم.";
+about.value="نقدم حلول ذكية بخبرة عالية.";
+services.value="تصميم، تطوير، استشارات.";
 goals.value="الريادة والابتكار.";
 }
-
-/* صور افتراضية */
 const imgsDefault=[
 "https://picsum.photos/600/400?1",
 "https://picsum.photos/600/400?2",
 "https://picsum.photos/600/400?3",
-"https://picsum.photos/600/400?4"
+"https://picsum.photos/600/400?4",
+"https://picsum.photos/600/400?5",
+"https://picsum.photos/600/400?6"
 ];
-
 function generate(){
-
-let files=upload.files;
 let imgs=[...imgsDefault];
-if(files.length){
+if(upload.files.length){
 imgs=[];
-for(let f of files){imgs.push(URL.createObjectURL(f))}
+for(let f of upload.files) imgs.push(URL.createObjectURL(f));
 }
-
-for(let i=1;i<=4;i++){
-document.getElementById("img"+i).src=imgs[i-1]||imgsDefault[i-1];
+for(let i=1;i<=6;i++){
+let el=document.getElementById("img"+i);
+if(el) el.src=imgs[i-1]||imgsDefault[i-1];
 }
-
-title.innerText=name.value||"مؤسستنا";
-
-desc1.innerText="نحن جهة متخصصة تقدم خدمات عالية الجودة باستخدام أحدث التقنيات لتحقيق أفضل النتائج.";
-
-aboutAr.innerText=about.value||"نقدم تجربة متكاملة ونسعى لرضا العملاء.";
-
-whyAr.innerText="جودة عالية، فريق محترف، سرعة تنفيذ، دعم مستمر.";
-
-visionAr.innerText=goals.value||"نسعى للريادة.";
-
-stats.innerHTML=`
-⭐ رضا العملاء: ${85+Math.floor(Math.random()*15)}%<br>
-📈 نمو سنوي: ${10+Math.floor(Math.random()*20)}%<br>
-🏆 مشاريع: ${50+Math.floor(Math.random()*200)}
-`;
-
+title.innerText=name.value;
+desc1.innerText="حلول احترافية بأحدث التقنيات.";
+aboutAr.innerText=about.value;
+servicesAr.innerText=services.value;
+visionAr.innerText=goals.value;
+stats.innerHTML=`⭐ رضا العملاء ${90+Math.floor(Math.random()*10)}%<br>📈 نمو ${15+Math.floor(Math.random()*15)}%`;
 show("result");
-
 setTimeout(()=>{
 if(flip)flip.destroy();
-flip=new St.PageFlip(book,{width:370,height:600,showCover:true});
+flip=new St.PageFlip(book,{width:370,height:600});
 flip.loadFromHTML(document.querySelectorAll(".page"));
 },300);
 }
-
-/* PDF */
 function downloadPDF(){
-html2pdf().set({margin:0,filename:"MAX-PRO.pdf",html2canvas:{scale:2}}).from(book).save();
+html2pdf().from(book).save("MAX-PRO.pdf");
 }
-
-/* تقليب تلقائي */
 function autoFlip(){
 let i=0;
-let interval=setInterval(()=>{
-if(i>=5){clearInterval(interval);return;}
-flip.flipNext();
-i++;
-},1500);
-}
-
-/* تسجيل فيديو */
-async function recordVideo(){
-let stream=await navigator.mediaDevices.getDisplayMedia({video:true});
-let recorder=new MediaRecorder(stream);
-let chunks=[];
-recorder.ondataavailable=e=>chunks.push(e.data);
-recorder.onstop=()=>{
-let blob=new Blob(chunks,{type:"video/webm"});
-let a=document.createElement("a");
-a.href=URL.createObjectURL(blob);
-a.download="MAX-PRO-video.webm";
-a.click();
-};
-recorder.start();
-setTimeout(()=>recorder.stop(),10000);
+let t=setInterval(()=>{
+if(i>=12){clearInterval(t);return;}
+flip.flipNext();i++;
+},1300);
 }
 </script>
 
