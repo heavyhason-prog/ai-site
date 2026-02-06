@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Brochure MAX PRO</title>
+<title>AI Brochure ULTRA</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:radial-gradient(circle at 50% 50%,#020617,#000);
+background:#020617;
 color:#fff;
 overflow-x:hidden;
 }
@@ -24,7 +24,7 @@ overflow-x:hidden;
 body::before{
 content:"";
 position:fixed;inset:0;
-background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.25),transparent 40%);
+background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.2),transparent 40%);
 pointer-events:none;
 }
 
@@ -33,32 +33,27 @@ section.active{display:block}
 
 input,textarea,select{
 width:100%;padding:14px;border:none;border-radius:14px;margin-bottom:12px;
-background:rgba(255,255,255,.08);color:#fff;
-backdrop-filter:blur(10px)
+background:rgba(255,255,255,.08);color:#fff
 }
 
 button{
 width:100%;padding:14px;border:none;border-radius:14px;
 background:linear-gradient(45deg,var(--main),#00ffa6);
-font-weight:900;cursor:pointer;
-box-shadow:0 0 15px rgba(0,255,255,.5);
-transition:.2s
+font-weight:900;cursor:pointer
 }
-button:hover{transform:scale(1.03)}
 
-#book{margin:auto;max-width:430px;height:620px}
+#book{margin:auto;max-width:430px;height:640px}
 
 /* الصفحة */
 .page{
 background:#fff;color:#000;border-radius:20px;overflow:hidden;
-display:flex;flex-direction:column;
-box-shadow:0 0 30px rgba(0,255,255,.3)
+display:flex;flex-direction:column
 }
 
-/* صورة تملأ الصفحة */
+/* صورة كبيرة */
 .page img{
 width:100%;
-height:320px;
+height:340px;
 object-fit:cover
 }
 
@@ -86,7 +81,7 @@ font-weight:700
 <body>
 
 <section id="home" class="active">
-<h1>🚀 AI Brochure MAX PRO</h1>
+<h1>🚀 AI Brochure ULTRA</h1>
 <button onclick="show('form')">ابدأ</button>
 </section>
 
@@ -103,10 +98,8 @@ font-weight:700
 <textarea id="services" placeholder="الخدمات"></textarea>
 <textarea id="goals" placeholder="الأهداف"></textarea>
 
-<input type="file" id="upload" multiple accept="image/*">
-
 <button onclick="smartFill()">🤖 تعبئة تلقائية</button>
-<button onclick="generate()">✨ إنشاء MAX PRO</button>
+<button onclick="generate()">✨ إنشاء ULTRA</button>
 
 </section>
 
@@ -156,20 +149,10 @@ font-weight:700
 </div>
 </div>
 
-<div class="page">
-<div class="content">
-<div>
-<div class="badge">إحصائيات</div>
-<p id="stats"></p>
-</div>
-</div>
-</div>
-
 </div>
 
 <button onclick="downloadPDF()">📄 PDF</button>
-<button onclick="autoFlip()">🎥 عرض تلقائي</button>
-<button onclick="recordVideo()">🎬 تسجيل فيديو</button>
+<button onclick="autoFlip()">🎬 عرض تلقائي</button>
 <button onclick="show('form')">🔁 جديد</button>
 </section>
 
@@ -189,88 +172,89 @@ document.getElementById(id).classList.add("active");
 
 /* تعبئة ذكية */
 function smartFill(){
-name.value="مؤسسة المستقبل";
-about.value="نقدم خدمات احترافية مبتكرة بجودة عالية.";
-services.value="تطوير، تصميم، حلول ذكية، دعم.";
-goals.value="الريادة والابتكار.";
+if(type.value==="school"){
+name.value="مدارس التميز";
+about.value="مؤسسة تعليمية تقدم بيئة تعلم حديثة ومتطورة.";
+services.value="تعليم حديث، أنشطة، تطوير مهارات.";
+goals.value="إعداد جيل مبدع ومتميز.";
+}
+if(type.value==="restaurant"){
+name.value="مطعم الذواقة";
+about.value="نقدم أشهى الأطباق بأعلى جودة.";
+services.value="وجبات، توصيل، جودة.";
+goals.value="أفضل تجربة طعام.";
+}
+if(type.value==="store"){
+name.value="متجر الإبداع";
+about.value="نوفر منتجات عالية الجودة بأسعار مميزة.";
+services.value="منتجات متنوعة، عروض.";
+goals.value="رضا العملاء.";
+}
 }
 
-/* صور افتراضية */
-const imgsDefault=[
-"https://picsum.photos/600/400?1",
-"https://picsum.photos/600/400?2",
-"https://picsum.photos/600/400?3",
-"https://picsum.photos/600/400?4"
+/* صور حسب النوع */
+function getImages(){
+if(type.value==="school"){
+return[
+"https://source.unsplash.com/600x400/?school,classroom",
+"https://source.unsplash.com/600x400/?students,learning",
+"https://source.unsplash.com/600x400/?education,school",
+"https://source.unsplash.com/600x400/?teacher,class"
 ];
+}
+if(type.value==="restaurant"){
+return[
+"https://source.unsplash.com/600x400/?restaurant,food",
+"https://source.unsplash.com/600x400/?meal,dish",
+"https://source.unsplash.com/600x400/?kitchen,chef",
+"https://source.unsplash.com/600x400/?dinner,restaurant"
+];
+}
+return[
+"https://source.unsplash.com/600x400/?store,shop",
+"https://source.unsplash.com/600x400/?shopping,store",
+"https://source.unsplash.com/600x400/?products,shop",
+"https://source.unsplash.com/600x400/?market,store"
+];
+}
 
 function generate(){
 
-let files=upload.files;
-let imgs=[...imgsDefault];
-if(files.length){
-imgs=[];
-for(let f of files){imgs.push(URL.createObjectURL(f))}
-}
-
+let imgs=getImages();
 for(let i=1;i<=4;i++){
-document.getElementById("img"+i).src=imgs[i-1]||imgsDefault[i-1];
+document.getElementById("img"+i).src=imgs[i-1];
 }
 
 title.innerText=name.value||"مؤسستنا";
 
-desc1.innerText="نحن جهة متخصصة تقدم خدمات عالية الجودة باستخدام أحدث التقنيات لتحقيق أفضل النتائج.";
+desc1.innerText="نقدم خدمات متكاملة بجودة عالية باستخدام أحدث التقنيات لضمان أفضل النتائج وتحقيق رضا العملاء وبناء تجربة احترافية مميزة.";
 
-aboutAr.innerText=about.value||"نقدم تجربة متكاملة ونسعى لرضا العملاء.";
+aboutAr.innerText=(about.value||"نقدم أفضل الخدمات")+" نعمل بروح الفريق ونركز على الجودة والابتكار والاستمرارية.";
 
-whyAr.innerText="جودة عالية، فريق محترف، سرعة تنفيذ، دعم مستمر.";
+whyAr.innerText="نتميز بالاحترافية، الجودة، الابتكار، سرعة التنفيذ، دعم مستمر، وخبرة طويلة في المجال.";
 
-visionAr.innerText=goals.value||"نسعى للريادة.";
-
-stats.innerHTML=`
-⭐ رضا العملاء: ${85+Math.floor(Math.random()*15)}%<br>
-📈 نمو سنوي: ${10+Math.floor(Math.random()*20)}%<br>
-🏆 مشاريع: ${50+Math.floor(Math.random()*200)}
-`;
+visionAr.innerText=(goals.value||"نسعى للريادة")+" ونهدف إلى تحقيق أعلى معايير التميز والتطوير المستمر.";
 
 show("result");
 
 setTimeout(()=>{
 if(flip)flip.destroy();
-flip=new St.PageFlip(book,{width:370,height:600,showCover:true});
+flip=new St.PageFlip(book,{width:370,height:620,showCover:true});
 flip.loadFromHTML(document.querySelectorAll(".page"));
 },300);
 }
 
-/* PDF */
 function downloadPDF(){
-html2pdf().set({margin:0,filename:"MAX-PRO.pdf",html2canvas:{scale:2}}).from(book).save();
+html2pdf().set({margin:0,filename:"ULTRA.pdf",html2canvas:{scale:2}}).from(book).save();
 }
 
-/* تقليب تلقائي */
 function autoFlip(){
 let i=0;
-let interval=setInterval(()=>{
-if(i>=5){clearInterval(interval);return;}
+let inter=setInterval(()=>{
+if(i>=4){clearInterval(inter);return;}
 flip.flipNext();
 i++;
 },1500);
-}
-
-/* تسجيل فيديو */
-async function recordVideo(){
-let stream=await navigator.mediaDevices.getDisplayMedia({video:true});
-let recorder=new MediaRecorder(stream);
-let chunks=[];
-recorder.ondataavailable=e=>chunks.push(e.data);
-recorder.onstop=()=>{
-let blob=new Blob(chunks,{type:"video/webm"});
-let a=document.createElement("a");
-a.href=URL.createObjectURL(blob);
-a.download="MAX-PRO-video.webm";
-a.click();
-};
-recorder.start();
-setTimeout(()=>recorder.stop(),10000);
 }
 </script>
 
