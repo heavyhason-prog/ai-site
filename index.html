@@ -18,17 +18,19 @@
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:#000; /* ✅ الصفحة الأولى مثل ما هي */
+background:#000;
 color:#fff;
 overflow:hidden;
 }
 
-/* ===== الخلفية الذكية (مخفية بالبداية) ===== */
+/* ===== خلفية AI (تظهر بعد الدخول) ===== */
 #appBg{
 position:fixed;
 inset:0;
 z-index:-1;
 display:none;
+opacity:0;
+transition:opacity 1.2s ease;
 background:
 radial-gradient(1200px 600px at var(--mx) var(--my),
 #0fd9c7 0%,
@@ -54,6 +56,7 @@ align-items:center;
 justify-content:center;
 gap:10px;
 z-index:10;
+transition:opacity .8s ease;
 }
 
 input, textarea, select{
@@ -82,6 +85,8 @@ width:100vw;
 height:100vh;
 display:none;
 perspective:2000px;
+opacity:0;
+transition:opacity 1s ease;
 }
 
 .page{
@@ -110,13 +115,13 @@ text-align:center;
 text-shadow:0 0 20px #000;
 }
 
-/* أزرار التحكم */
+/* ===== أزرار التحكم ===== */
 #controls{
 position:fixed;
 bottom:20px;
 left:50%;
 transform:translateX(-50%);
-display:flex;
+display:none;
 gap:12px;
 z-index:20;
 }
@@ -125,10 +130,9 @@ z-index:20;
 
 <body>
 
-<!-- الخلفية الذكية -->
 <div id="appBg"></div>
 
-<!-- شاشة الإدخال -->
+<!-- شاشة البداية -->
 <div id="formScreen">
 <h2>AI GOD SYSTEM ∞∞∞∞ 😈🚀</h2>
 
@@ -146,9 +150,10 @@ z-index:20;
 </div>
 
 <!-- أزرار -->
-<div id="controls" style="display:none">
+<div id="controls">
 <button onclick="exportPDF()">📄 PDF</button>
 <button onclick="exportVideo()">🎬 VIDEO</button>
+<button onclick="goBack()">↩ رجوع</button>
 </div>
 
 <!-- الكتاب -->
@@ -173,11 +178,8 @@ ${title}
 هذا القسم يتناول "${topic}" ${tone}.
 ${details || "يركز هذا الجزء على بناء فهم عميق ومتدرج للمفهوم."}
 
-يُعد هذا المحور من الركائز الأساسية التي تساعد القارئ على تطوير وعي شامل،
-واتخاذ قرارات أفضل مبنية على المعرفة والخبرة.
-
-التحليل، التطبيق، والتفكير الاستراتيجي
-هي مفاتيح التفوق في هذا المجال.
+التحليل، التطبيق، والاستمرارية
+هي مفاتيح النجاح الحقيقي.
 `);
 }
 return pages;
@@ -189,8 +191,16 @@ const topic = document.getElementById("topic").value || "الذكاء الاصط
 const details = document.getElementById("details").value;
 const mode = document.getElementById("mode").value;
 
-/* تفعيل الخلفية الذكية */
-document.getElementById("appBg").style.display="block";
+/* انتقال */
+document.getElementById("formScreen").style.opacity=0;
+setTimeout(()=>{
+document.getElementById("formScreen").style.display="none";
+},800);
+
+/* خلفية */
+const bg=document.getElementById("appBg");
+bg.style.display="block";
+setTimeout(()=>bg.style.opacity=1,100);
 
 const pages = generateLongArticle(title, topic, details, mode);
 const book = document.getElementById("book");
@@ -204,8 +214,8 @@ book.innerHTML+=`
 </div>`;
 });
 
-document.getElementById("formScreen").style.display="none";
 book.style.display="block";
+setTimeout(()=>book.style.opacity=1,300);
 document.getElementById("controls").style.display="flex";
 
 const pageFlip = new St.PageFlip(book,{
@@ -218,6 +228,11 @@ maxShadowOpacity:.6
 pageFlip.loadFromHTML(document.querySelectorAll(".page"));
 }
 
+/* رجوع */
+function goBack(){
+location.reload();
+}
+
 /* PDF */
 function exportPDF(){
 html2pdf().from(document.getElementById("book"))
@@ -227,15 +242,13 @@ html2pdf().from(document.getElementById("book"))
 
 /* VIDEO */
 function exportVideo(){
-alert("🎬 نظام الفيديو جاهز للربط مع Canvas / MediaRecorder");
+alert("🎬 جاهز للربط مع MediaRecorder");
 }
 
-/* توهّج الماوس */
+/* توهج الماوس */
 document.addEventListener("mousemove",e=>{
-const x = Math.round((e.clientX / innerWidth)*100);
-const y = Math.round((e.clientY / innerHeight)*100);
-document.documentElement.style.setProperty("--mx",x+"%");
-document.documentElement.style.setProperty("--my",y+"%");
+document.documentElement.style.setProperty("--mx",(e.clientX/innerWidth)*100+"%");
+document.documentElement.style.setProperty("--my",(e.clientY/innerHeight)*100+"%");
 });
 </script>
 
