@@ -2,169 +2,189 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Brochure FINAL BOSS</title>
+<title>AI Smart Brochure GOD++</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-margin:0;
-font-family:'Cairo',sans-serif;
-background:#020617;
-color:#fff;
-}
-
-/* الصفحات */
-section{display:none;padding:20px;max-width:500px;margin:auto}
-section.active{display:block}
-
-input,textarea,select{
-width:100%;padding:14px;border:none;border-radius:12px;margin-bottom:12px;
-background:rgba(255,255,255,.08);color:#fff
-}
-
-button{
-width:100%;padding:14px;border:none;border-radius:14px;
-background:linear-gradient(45deg,#00f5ff,#00ffa6);
-font-weight:900;cursor:pointer;margin-top:8px
+  font-family:'Cairo',sans-serif;
+  background:#0f172a;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
 }
 
 /* الكتاب */
-#book{margin:auto;max-width:420px;height:640px}
+#book{
+  width:900px;
+  max-width:95vw;
+  height:600px;
+  max-height:95vh;
+}
 
+/* الصفحة */
 .page{
-background:#fff;color:#000;border-radius:20px;overflow:hidden;
-display:flex;flex-direction:column
+  width:100%;
+  height:100%;
+  background:linear-gradient(135deg,#020617,#0f172a,#020617);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:40px;
+  text-align:center;
+  border-radius:14px;
 }
 
-.page img{
-width:100%;
-height:360px;
-object-fit:cover;
-background:#ddd;
+/* العناوين */
+h1{
+  font-size:38px;
+  margin-bottom:20px;
 }
 
-.content{
-padding:20px;
-line-height:2;
-font-size:15px;
-flex:1
+p{
+  font-size:20px;
+  line-height:1.8;
+  max-width:700px;
+}
+
+/* المدخلات */
+input,select{
+  width:80%;
+  padding:14px;
+  margin:10px 0;
+  border-radius:10px;
+  border:none;
+  font-size:18px;
+  text-align:center;
+}
+
+/* زر */
+button{
+  margin-top:15px;
+  padding:12px 26px;
+  font-size:18px;
+  border:none;
+  border-radius:10px;
+  background:#22c55e;
+  color:#fff;
+  cursor:pointer;
+  transition:.2s;
+}
+button:hover{transform:scale(1.05)}
+
+/* صورة */
+img{
+  max-width:80%;
+  max-height:260px;
+  border-radius:12px;
+  margin-top:20px;
+  object-fit:cover;
+}
+
+/* مهم جداً لحل مشكلة الضغط */
+.stf__parent{
+  pointer-events:auto !important;
+}
+.stf__block{
+  pointer-events:auto !important;
 }
 </style>
 </head>
 
 <body>
 
-<!-- صفحة الإدخال -->
-<section id="form" class="active">
-<h2>🔥 FINAL BOSS</h2>
+<div id="book">
 
-<select id="type">
-<option value="school">مدرسة</option>
-<option value="restaurant">مطعم</option>
-<option value="store">متجر</option>
-</select>
+  <!-- الصفحة 1 (البيانات) -->
+  <div class="page">
+    <h1>📋 أدخل بياناتك</h1>
+    <input id="name" placeholder="اسمك">
+    <select id="type">
+      <option value="school">مدرسة</option>
+      <option value="tech">تقنية</option>
+      <option value="business">أعمال</option>
+      <option value="design">تصميم</option>
+    </select>
+    <button onclick="generate()">ابدأ</button>
+  </div>
 
-<input id="name" placeholder="اسم الجهة">
-<textarea id="about" placeholder="نبذة"></textarea>
-<textarea id="services" placeholder="الخدمات"></textarea>
-<textarea id="goals" placeholder="الأهداف"></textarea>
+  <!-- الصفحات 2 → 12 -->
+  <div class="page"><h1 id="title1"></h1><p id="text1"></p><img id="img1"></div>
+  <div class="page"><h1 id="title2"></h1><p id="text2"></p><img id="img2"></div>
+  <div class="page"><h1 id="title3"></h1><p id="text3"></p><img id="img3"></div>
+  <div class="page"><h1 id="title4"></h1><p id="text4"></p><img id="img4"></div>
+  <div class="page"><h1 id="title5"></h1><p id="text5"></p><img id="img5"></div>
+  <div class="page"><h1 id="title6"></h1><p id="text6"></p><img id="img6"></div>
+  <div class="page"><h1 id="title7"></h1><p id="text7"></p><img id="img7"></div>
+  <div class="page"><h1 id="title8"></h1><p id="text8"></p><img id="img8"></div>
+  <div class="page"><h1 id="title9"></h1><p id="text9"></p><img id="img9"></div>
+  <div class="page"><h1 id="title10"></h1><p id="text10"></p><img id="img10"></div>
+  <div class="page"><h1 id="title11"></h1><p id="text11"></p><img id="img11"></div>
 
-<button onclick="generate()">🚀 إنشاء</button>
-</section>
-
-<!-- صفحة النتيجة -->
-<section id="result">
-
-<div id="book"></div>
-
-<button onclick="downloadPDF()">📄 PDF</button>
-<button onclick="location.reload()">🔁 جديد</button>
-
-</section>
+</div>
 
 <script>
+/* تشغيل الكتاب */
+const pageFlip = new St.PageFlip(
+  document.getElementById("book"),
+  {
+    width:450,
+    height:600,
+    size:"stretch",
+    minWidth:315,
+    maxWidth:900,
+    minHeight:420,
+    maxHeight:1200,
+    showCover:true,
+    mobileScrollSupport:false,
+    useMouseEvents:true,
+    clickEventForward:true
+  }
+);
 
-let flip;
+pageFlip.loadFromHTML(document.querySelectorAll(".page"));
 
-/* بنك الصور حسب النوع */
-const imageBank={
-school:[
-"https://images.pexels.com/photos/256490/pexels-photo-256490.jpeg",
-"https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg",
-"https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg",
-"https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg"
-],
-restaurant:[
-"https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg",
-"https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg",
-"https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg",
-"https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg"
-],
-store:[
-"https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg",
-"https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg",
-"https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg",
-"https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg"
-]
-};
-
+/* إنشاء المحتوى */
 function generate(){
+  const name = document.getElementById("name").value || "المستخدم";
+  const type = document.getElementById("type").value;
 
-let type=type.value;
-let nameVal=name.value||"مؤسستنا";
-let aboutVal=about.value||"نقدم خدمات عالية الجودة.";
-let servicesVal=services.value||"جودة، احتراف، سرعة.";
-let goalsVal=goals.value||"الريادة والابتكار.";
+  const topics = {
+    school:"المدرسة",
+    tech:"التقنية",
+    business:"الأعمال",
+    design:"التصميم"
+  };
 
-let book=document.getElementById("book");
-book.innerHTML="";
+  const keyword = topics[type];
 
-let imgs=imageBank[type];
+  for(let i=1;i<=11;i++){
+    document.getElementById("title"+i).innerText =
+      `${keyword} - الصفحة ${i}`;
 
-/* إنشاء 12 صفحة */
-for(let i=0;i<12;i++){
+    document.getElementById("text"+i).innerText =
+      `مرحباً ${name} 👋  
+هذه صفحة رقم ${i} تتحدث عن ${keyword}.  
+تم إنشاء هذا الكتيب الذكي تلقائياً باستخدام الذكاء الاصطناعي.  
+يمكنك تطويره، إضافة معلومات، أو تحويله إلى مشروع حقيقي.  
+كل صفحة تحتوي على نص وصورة مرتبطة بالموضوع لملء الصفحة بالكامل.`;
 
-let img=imgs[i%imgs.length];
+    document.getElementById("img"+i).src =
+      `https://source.unsplash.com/800x600/?${type}`;
+  }
 
-book.innerHTML+=`
-<div class="page">
-<img src="${img}" onerror="this.src='https://picsum.photos/600/400?random=${i}'">
-<div class="content">
-<h3>${nameVal}</h3>
-<p>
-${aboutVal} نعمل على تقديم أفضل مستوى من الجودة والابتكار والخدمة المتميزة لضمان رضا العملاء الكامل وتحقيق أعلى معايير الأداء والاحترافية.
-</p>
-<p>
-خدماتنا: ${servicesVal} — نركز على التطوير المستمر واستخدام أحدث التقنيات لتحقيق نتائج استثنائية وتجربة مميزة.
-</p>
-<p>
-رؤيتنا: ${goalsVal} — نسعى إلى النمو والتوسع وتحقيق الريادة في المجال من خلال الابتكار والعمل الجماعي.
-</p>
-<p>الصفحة ${i+1} / 12</p>
-</div>
-</div>`;
+  /* يقلب للصفحة الثانية بعد التوليد */
+  pageFlip.flip(1);
 }
-
-/* عرض الصفحة */
-document.getElementById("form").classList.remove("active");
-document.getElementById("result").classList.add("active");
-
-/* PageFlip */
-setTimeout(()=>{
-if(flip)flip.destroy();
-flip=new St.PageFlip(book,{width:370,height:620});
-flip.loadFromHTML(document.querySelectorAll(".page"));
-},200);
-}
-
-function downloadPDF(){
-html2pdf().from(book).save("FINAL-BOSS.pdf");
-}
-
 </script>
 
 </body>
