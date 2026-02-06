@@ -2,161 +2,211 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI GOD SYSTEM ∞ LEVEL 5</title>
+<title>AI GOD SYSTEM ∞∞∞∞</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{
---dark:#020617;
---teal:#0fd9c7;
---green:#7cff00;
---mx:80%;
---my:20%;
-}
-
-*{box-sizing:border-box}
-
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
+background:radial-gradient(circle at top,#050505,#000);
 color:#fff;
 overflow:hidden;
-background:#020617;
 }
 
-/* ================= BACKGROUND LAYERS ================= */
-#bg,
-#noise{
+/* شاشة الإدخال */
+#formScreen{
 position:fixed;
 inset:0;
-pointer-events:none; /* 🔥 أهم سطر */
+background:#000;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:10px;
+z-index:9999;
 }
 
-#bg{
-z-index:1;
-background:
-radial-gradient(1200px 600px at var(--mx) var(--my),
-var(--teal) 0%,
-rgba(15,217,199,.18) 35%,
-transparent 70%),
-linear-gradient(135deg,#020617 0%,#020617 45%,#042f3a 100%);
-animation:bgBreath 10s ease-in-out infinite;
+input, textarea, select{
+width:340px;
+padding:12px;
+border:none;
+border-radius:12px;
+font-size:16px;
+outline:none;
 }
 
-@keyframes bgBreath{
-0%,100%{filter:brightness(1) saturate(1)}
-50%{filter:brightness(1.15) saturate(1.25)}
-}
-
-#noise{
-z-index:2;
-background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-}
-
-/* ================= UI ================= */
-header{
-position:relative;
-z-index:10;
-padding:30px;
-font-size:26px;
+button{
+padding:14px 34px;
+font-size:18px;
+border:none;
+border-radius:14px;
+cursor:pointer;
 font-weight:900;
-text-align:right;
-pointer-events:auto;
+background:linear-gradient(135deg,#00eaff,#7cff00);
+box-shadow:0 0 25px rgba(0,234,255,.6);
 }
 
-header span{
-color:var(--teal);
-text-shadow:0 0 25px var(--teal);
+#book{
+width:100vw;
+height:100vh;
+display:none;
+perspective:2000px;
 }
 
-#center{
+.page{
+position:relative;
+width:100%;
+height:100%;
+transform-style:preserve-3d;
+}
+
+.page img{
+position:absolute;
+width:100%;
+height:100%;
+object-fit:cover;
+filter:brightness(.55);
+}
+
+.text{
 position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
+width:85%;
+font-size:22px;
+line-height:2;
 text-align:center;
-z-index:10;
-pointer-events:auto;
+text-shadow:0 0 20px #000;
 }
 
-#center h1{
-font-size:46px;
-margin-bottom:18px;
-}
-
-#center p{
-opacity:.8;
-margin-bottom:40px;
-}
-
-/* ================= BUTTON (FIXED) ================= */
-.btn{
-pointer-events:auto; /* 🔥 */
-position:relative;
-z-index:20;
-padding:18px 56px;
-font-size:20px;
-font-weight:900;
-border:none;
-border-radius:22px;
-cursor:pointer;
-color:#000;
-background:linear-gradient(135deg,var(--teal),var(--green));
-box-shadow:
-0 10px 30px rgba(0,0,0,.6),
-0 0 40px rgba(15,217,199,.7);
-transition:.25s ease;
-}
-
-.btn:hover{
-transform:translateY(-3px) scale(1.05);
-box-shadow:
-0 20px 60px rgba(0,0,0,.8),
-0 0 80px rgba(124,255,0,1);
-}
-
-.btn:active{
-transform:translateY(1px) scale(.97);
-box-shadow:
-0 6px 18px rgba(0,0,0,.7),
-0 0 30px rgba(15,217,199,.9);
+/* أزرار التحكم */
+#controls{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+gap:12px;
+z-index:999;
 }
 </style>
 </head>
 
 <body>
 
-<!-- BACKGROUND -->
-<div id="bg"></div>
-<div id="noise"></div>
+<!-- شاشة الإدخال -->
+<div id="formScreen">
+<h2>AI GOD SYSTEM ∞∞∞∞ 😈🚀</h2>
 
-<!-- UI -->
-<header>
-AI Brochure MAX <span>LEVEL 5</span> ☠️
-</header>
+<input id="title" placeholder="عنوان الكتاب">
+<textarea id="topic" placeholder="الموضوع الأساسي"></textarea>
+<textarea id="details" placeholder="تفاصيل إضافية"></textarea>
 
-<div id="center">
-<h1>AI GOD SYSTEM</h1>
-<p>الزر الآن قابل للنقر 100% 🔥</p>
-<button class="btn" onclick="systemBoot()">تشغيل النظام</button>
+<select id="mode">
+<option value="school">🎓 مدرسة</option>
+<option value="company">🏢 شركة</option>
+<option value="project">🚀 مشروع</option>
+</select>
+
+<button onclick="generateBook()">إنشاء النظام</button>
 </div>
 
+<!-- أزرار -->
+<div id="controls" style="display:none">
+<button onclick="exportPDF()">📄 PDF</button>
+<button onclick="exportVideo()">🎬 VIDEO</button>
+</div>
+
+<!-- الكتاب -->
+<div id="book"></div>
+
 <script>
-/* Mouse glow */
-document.addEventListener("mousemove",e=>{
-const x = Math.round((e.clientX / innerWidth)*100);
-const y = Math.round((e.clientY / innerHeight)*100);
-document.documentElement.style.setProperty("--mx",x+"%");
-document.documentElement.style.setProperty("--my",y+"%");
+function aiTone(mode){
+if(mode==="school") return "بأسلوب تعليمي مبسط مع أمثلة";
+if(mode==="company") return "بأسلوب احترافي رسمي موجه للأعمال";
+return "بأسلوب إبداعي ريادي تحفيزي";
+}
+
+function generateLongArticle(title, topic, details, mode){
+let pages=[];
+let tone = aiTone(mode);
+
+for(let i=1;i<=12;i++){
+pages.push(`
+${title}
+
+القسم ${i}:
+هذا القسم يتناول "${topic}" ${tone}.
+${details || "يركز هذا الجزء على بناء فهم عميق ومتدرج للمفهوم."}
+
+يُعد هذا المحور من الركائز الأساسية التي تساعد القارئ على تطوير وعي شامل،
+واتخاذ قرارات أفضل مبنية على المعرفة والخبرة.
+
+التحليل، التطبيق، والتفكير الاستراتيجي
+هي مفاتيح التفوق في هذا المجال.
+`);
+}
+return pages;
+}
+
+function generateBook(){
+const title = titleInput();
+const topic = topicInput();
+const details = document.getElementById("details").value;
+const mode = document.getElementById("mode").value;
+
+const pages = generateLongArticle(title, topic, details, mode);
+const book = document.getElementById("book");
+book.innerHTML="";
+
+pages.forEach((p,i)=>{
+book.innerHTML+=`
+<div class="page">
+<img src="https://picsum.photos/900/1400?random=${i}">
+<div class="text">${p}</div>
+</div>`;
 });
 
-/* Test click */
-function systemBoot(){
-alert("🔥 AI GOD SYSTEM ONLINE");
+document.getElementById("formScreen").style.display="none";
+book.style.display="block";
+document.getElementById("controls").style.display="flex";
+
+const pageFlip = new St.PageFlip(book,{
+width:900,
+height:1400,
+size:"stretch",
+showCover:true,
+maxShadowOpacity:.6
+});
+pageFlip.loadFromHTML(document.querySelectorAll(".page"));
+}
+
+function titleInput(){
+return document.getElementById("title").value || "AI GOD BOOK";
+}
+function topicInput(){
+return document.getElementById("topic").value || "الذكاء الاصطناعي المتقدم";
+}
+
+/* PDF */
+function exportPDF(){
+html2pdf().from(document.getElementById("book"))
+.set({margin:0,filename:'AI_GOD_SYSTEM.pdf',html2canvas:{scale:2}})
+.save();
+}
+
+/* VIDEO (محاكاة) */
+function exportVideo(){
+alert("🎬 نظام الفيديو جاهز للربط مع Canvas / MediaRecorder");
 }
 </script>
 
 </body>
 </html>
+
