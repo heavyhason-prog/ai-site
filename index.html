@@ -2,12 +2,11 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI GOD REALITY ∞∞∞∞∞</title>
+<title>AI COSMIC ENGINE ∞∞∞∞∞∞</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 body{
@@ -18,26 +17,17 @@ color:#fff;
 overflow:hidden;
 }
 
-/* Glow */
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.25),transparent 40%);
-pointer-events:none;
-}
-
+/* Panel */
 #panel{
 position:fixed;
 right:0;
 top:0;
-width:320px;
+width:300px;
 height:100%;
 background:#020617;
 padding:20px;
-overflow:auto;
-z-index:5;
-box-shadow:-5px 0 25px rgba(0,0,0,.4);
+z-index:10;
+box-shadow:-5px 0 20px rgba(0,0,0,.4);
 }
 
 input,textarea,select,button{
@@ -55,11 +45,12 @@ font-weight:900;
 cursor:pointer;
 }
 
+/* Book */
 #bookWrap{
 position:absolute;
 left:0;
 top:0;
-width:calc(100% - 320px);
+width:calc(100% - 300px);
 height:100%;
 display:flex;
 justify-content:center;
@@ -68,25 +59,38 @@ align-items:center;
 
 #book{width:900px;height:600px}
 
+/* Full image page */
 .page{
-background:#fff;
-color:#111;
-display:flex;
-border-radius:14px;
+position:relative;
 overflow:hidden;
+border-radius:12px;
 }
 
 .page img{
-width:50%;
+width:100%;
 height:100%;
 object-fit:cover;
 }
 
-.page .text{
-width:50%;
-padding:25px;
-line-height:1.9;
+/* Text overlay */
+.overlay{
+position:absolute;
+inset:0;
+background:linear-gradient(to top,rgba(0,0,0,.7),rgba(0,0,0,.2));
+display:flex;
+flex-direction:column;
+justify-content:flex-end;
+padding:30px;
+}
+
+.overlay h2{
+margin:0 0 10px;
+font-size:30px;
+}
+
+.overlay p{
 font-size:18px;
+line-height:1.8;
 }
 </style>
 </head>
@@ -94,7 +98,7 @@ font-size:18px;
 <body>
 
 <div id="panel">
-<h2>🤖 AI GOD REALITY</h2>
+<h3>🤖 AI COSMIC</h3>
 
 <select id="type">
 <option value="school">مدرسة</option>
@@ -103,96 +107,69 @@ font-size:18px;
 </select>
 
 <input id="name" placeholder="اسم المشروع">
-<textarea id="idea" placeholder="فكرة المشروع"></textarea>
-<input type="file" id="imgs" multiple accept="image/*">
+<textarea id="idea" placeholder="وصف المشروع"></textarea>
 
 <button onclick="generate()">⚡ توليد</button>
-<button onclick="prev()">⬅️ السابق</button>
-<button onclick="next()">➡️ التالي</button>
-<button onclick="speak()">🎤 قراءة</button>
-<button onclick="downloadPDF()">📄 PDF</button>
-<button onclick="recordVideo()">🎬 فيديو</button>
+<button onclick="prev()">⬅️</button>
+<button onclick="next()">➡️</button>
 </div>
 
 <div id="bookWrap"><div id="book"></div></div>
 
 <script>
-let bookFlip;
-let uploaded=[];
+let flip;
 
-/* Glow */
-document.addEventListener("mousemove",e=>{
-document.body.style.setProperty("--x",e.clientX+"px");
-document.body.style.setProperty("--y",e.clientY+"px");
-});
-
-/* Upload */
-imgs.onchange=e=>{
-uploaded=[];
-[...e.target.files].forEach(f=>{
-let r=new FileReader();
-r.onload=()=>uploaded.push(r.result);
-r.readAsDataURL(f);
-});
-};
-
-/* AI TEXT حسب النوع */
+/* نصوص طويلة */
 function aiText(name,idea,type){
-
-const data={
-school:{
-about:`${name} مؤسسة تعليمية متقدمة تهدف إلى بناء جيل مبدع ومتميز باستخدام أحدث أساليب التعليم.`,
-why:`نتميز ببيئة تعليمية حديثة، معلمين محترفين، واهتمام شامل بتطوير الطالب.`,
-services:`تعليم حديث • أنشطة • تطوير مهارات • متابعة طلاب`,
-vision:`أن نصنع جيلاً قائداً ومبدعاً للمستقبل.`
-},
-restaurant:{
-about:`${name} يقدم تجربة طعام استثنائية تجمع بين الجودة والمذاق الرائع.`,
-why:`مكونات طازجة • طهاة محترفون • خدمة سريعة`,
-services:`وجبات مميزة • أجواء رائعة • جودة عالية`,
-vision:`أن نكون الوجهة الأولى لعشاق الطعام.`
-},
-store:{
-about:`${name} متجر متكامل يوفر منتجات عالية الجودة بأسعار تنافسية.`,
-why:`تنوع • جودة • سرعة • خدمة عملاء`,
-services:`منتجات متنوعة • عروض • توصيل`,
-vision:`أن نصبح الخيار الأول للتسوق الذكي.`
-}
-};
-
-return data[type];
+return {
+school:[
+`${name} مؤسسة تعليمية متقدمة تسعى إلى بناء جيل واعٍ ومبدع يمتلك مهارات المستقبل ويستطيع مواجهة تحديات العصر بثقة ومعرفة عميقة. ${idea}`,
+`نعتمد على أحدث أساليب التعليم والتقنيات الذكية لتوفير تجربة تعليمية شاملة تجمع بين الإبداع والمعرفة والتطوير المستمر.`,
+`هدفنا هو صناعة بيئة تعليمية محفزة تدعم التفكير النقدي والابتكار وتبني شخصية قيادية.`,
+`رؤيتنا أن نصنع جيلاً قادراً على قيادة المستقبل بإبداع وتميز واستقلالية.`
+],
+restaurant:[
+`${name} يقدم تجربة طعام فريدة تجمع بين المذاق الاستثنائي والجودة العالية والأجواء الراقية. ${idea}`,
+`نستخدم أفضل المكونات الطازجة ونقدم أطباقاً مبتكرة تُحضر بعناية على يد طهاة محترفين.`,
+`نسعى لتقديم تجربة ضيافة متكاملة تجعل كل زيارة ذكرى مميزة.`,
+`هدفنا أن نكون الوجهة الأولى لعشاق الطعام والذوق الرفيع.`
+],
+store:[
+`${name} متجر متكامل يوفر منتجات عالية الجودة بتجربة تسوق ذكية وسلسة. ${idea}`,
+`نركز على الجودة والابتكار وتقديم أفضل الخيارات للعملاء بأسعار تنافسية.`,
+`نسعى لتقديم تجربة شراء مريحة وسريعة مع خدمة عملاء متميزة.`,
+`هدفنا أن نصبح الخيار الأول للتسوق الحديث والذكي.`
+]
+}[type];
 }
 
-/* TYPEWRITER */
-function typeText(el,text){
+/* Typewriter بدون تقطيع */
+function typeWriter(el,text,speed=15){
 el.innerHTML="";
 let i=0;
-function t(){
+(function t(){
 if(i<text.length){
 el.innerHTML+=text.charAt(i);
 i++;
-setTimeout(t,15);
+setTimeout(t,speed);
 }
-}
-t();
+})();
 }
 
 /* صور حسب النوع */
-function defaultImages(type){
+function images(type){
 if(type==="school") return [
 "https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
 "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
 "https://images.unsplash.com/photo-1588072432836-e10032774350",
 "https://images.unsplash.com/photo-1497633762265-9d179a990aa6"
 ];
-
 if(type==="restaurant") return [
 "https://images.unsplash.com/photo-1555396273-367ea4eb4db5",
 "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe",
 "https://images.unsplash.com/photo-1555992336-03a23c6c2b1d",
 "https://images.unsplash.com/photo-1544025162-d76694265947"
 ];
-
 return [
 "https://images.unsplash.com/photo-1556740749-887f6717d7e4",
 "https://images.unsplash.com/photo-1515165562835-c3b8c7c9e7d0",
@@ -201,72 +178,50 @@ return [
 ];
 }
 
-/* Generate */
+/* صفحة */
+function makePage(img,title){
+return `<div class="page">
+<img src="${img}">
+<div class="overlay">
+<h2>${title}</h2>
+<p class="txt"></p>
+</div>
+</div>`;
+}
+
 function generate(){
 
 let t=type.value;
-let n=name.value||"مشروعي";
-let ai=aiText(n,idea.value,t);
+let n=name.value||"مشروعي الذكي";
+let texts=aiText(n,idea.value,t);
+let imgs=images(t);
 
-let images=uploaded.length?uploaded:defaultImages(t);
+book.innerHTML=
+makePage(imgs[0],n)+
+makePage(imgs[1],"من نحن")+
+makePage(imgs[2],"الخدمات")+
+makePage(imgs[3],"الرؤية");
 
-book.innerHTML=`
-<div class="page"><img src="${images[0]}"><div class="text"><h2>${n}</h2><p class="type"></p></div></div>
-<div class="page"><img src="${images[1]}"><div class="text"><h2>لماذا نحن</h2><p class="type"></p></div></div>
-<div class="page"><img src="${images[2]}"><div class="text"><h2>الخدمات</h2><p class="type"></p></div></div>
-<div class="page"><img src="${images[3]}"><div class="text"><h2>الرؤية</h2><p class="type"></p></div></div>
-`;
+if(flip) flip.destroy();
 
-if(bookFlip) bookFlip.destroy();
-
-bookFlip=new St.PageFlip(book,{
+flip=new St.PageFlip(book,{
 width:450,
 height:600,
-showCover:true,
-mobileScrollSupport:true
+showCover:true
 });
 
-bookFlip.loadFromHTML(document.querySelectorAll(".page"));
+flip.loadFromHTML(document.querySelectorAll(".page"));
 
+/* كتابة النص */
 setTimeout(()=>{
-let texts=[ai.about,ai.why,ai.services,ai.vision];
-document.querySelectorAll(".type").forEach((el,i)=>{
-typeText(el,texts[i]);
+document.querySelectorAll(".txt").forEach((el,i)=>{
+typeWriter(el,texts[i]);
 });
 },600);
 }
 
-/* أزرار */
-function next(){ if(bookFlip) bookFlip.flipNext(); }
-function prev(){ if(bookFlip) bookFlip.flipPrev(); }
-
-/* Voice */
-function speak(){
-let msg=new SpeechSynthesisUtterance(document.body.innerText);
-msg.lang="ar-SA";
-speechSynthesis.speak(msg);
-}
-
-/* PDF */
-function downloadPDF(){
-html2pdf().from(book).save("AI-GOD.pdf");
-}
-
-/* Video */
-async function recordVideo(){
-let s=await navigator.mediaDevices.getDisplayMedia({video:true});
-let r=new MediaRecorder(s),d=[];
-r.ondataavailable=e=>d.push(e.data);
-r.onstop=()=>{
-let b=new Blob(d,{type:"video/webm"});
-let a=document.createElement("a");
-a.href=URL.createObjectURL(b);
-a.download="AI-GOD.webm";
-a.click();
-};
-r.start();
-setTimeout(()=>r.stop(),8000);
-}
+function next(){ if(flip) flip.flipNext(); }
+function prev(){ if(flip) flip.flipPrev(); }
 </script>
 
 </body>
