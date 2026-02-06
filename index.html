@@ -2,226 +2,187 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI COSMIC ENGINE ∞∞∞∞∞∞</title>
+<title>AI BLACKHOLE CORE ∞</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 
 <style>
 body{
 margin:0;
-font-family:Cairo;
-background:#020617;
-color:#fff;
+background:#000;
+font-family:'Cairo',sans-serif;
 overflow:hidden;
 }
 
-/* Panel */
-#panel{
-position:fixed;
-right:0;
-top:0;
-width:300px;
-height:100%;
-background:#020617;
-padding:20px;
-z-index:10;
-box-shadow:-5px 0 20px rgba(0,0,0,.4);
+#book{
+width:100vw;
+height:100vh;
 }
 
-input,textarea,select,button{
-width:100%;
-margin:6px 0;
-padding:12px;
-border:none;
-border-radius:10px;
-font-family:Cairo;
-}
-
-button{
-background:linear-gradient(90deg,#00f5ff,#00ff9c);
-font-weight:900;
-cursor:pointer;
-}
-
-/* Book */
-#bookWrap{
-position:absolute;
-left:0;
-top:0;
-width:calc(100% - 300px);
-height:100%;
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-#book{width:900px;height:600px}
-
-/* Full image page */
 .page{
 position:relative;
-overflow:hidden;
-border-radius:12px;
+width:100%;
+height:100%;
 }
 
 .page img{
+position:absolute;
 width:100%;
 height:100%;
 object-fit:cover;
+filter:brightness(0.55);
 }
 
-/* Text overlay */
-.overlay{
+/* النص فوق الصورة */
+.text{
 position:absolute;
-inset:0;
-background:linear-gradient(to top,rgba(0,0,0,.7),rgba(0,0,0,.2));
-display:flex;
-flex-direction:column;
-justify-content:flex-end;
-padding:30px;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+color:#fff;
+text-align:center;
+width:85%;
+line-height:1.9;
+font-size:22px;
+font-weight:700;
+text-shadow:0 0 10px #000,0 0 20px #000;
 }
 
-.overlay h2{
-margin:0 0 10px;
-font-size:30px;
+/* الأزرار */
+.controls{
+position:fixed;
+bottom:20px;
+width:100%;
+text-align:center;
+z-index:999;
 }
 
-.overlay p{
+button{
+background:#00ffe0;
+border:none;
+padding:12px 30px;
+margin:5px;
 font-size:18px;
-line-height:1.8;
+font-weight:700;
+border-radius:10px;
+cursor:pointer;
+transition:0.2s;
+}
+
+button:hover{
+background:#00c9b0;
+transform:scale(1.05);
 }
 </style>
 </head>
 
 <body>
 
-<div id="panel">
-<h3>🤖 AI COSMIC</h3>
+<div id="book">
 
-<select id="type">
-<option value="school">مدرسة</option>
-<option value="restaurant">مطعم</option>
-<option value="store">متجر</option>
-</select>
-
-<input id="name" placeholder="اسم المشروع">
-<textarea id="idea" placeholder="وصف المشروع"></textarea>
-
-<button onclick="generate()">⚡ توليد</button>
-<button onclick="prev()">⬅️</button>
-<button onclick="next()">➡️</button>
+<!-- الصفحة 1 -->
+<div class="page">
+<img src="https://picsum.photos/900/1400?random=1">
+<div class="text">
+AI BLACKHOLE CORE ∞<br><br>
+مرحبا بك داخل محرك الذكاء الكوني.<br>
+هنا تبدأ الرحلة عبر عوالم الذكاء الاصطناعي المتطورة.<br>
+نظام يولد الأفكار، يخلق المستقبل، ويعيد تشكيل الواقع.<br>
+كل سطر هنا يمثل طاقة، وكل فكرة تمثل كون جديد.<br>
+استعد للدخول إلى مستوى لا نهائي من الإبداع والقوة.
+</div>
 </div>
 
-<div id="bookWrap"><div id="book"></div></div>
+<!-- الصفحة 2 -->
+<div class="page">
+<img src="https://picsum.photos/900/1400?random=2">
+<div class="text">
+مرحلة التوسع الذهني 🚀<br><br>
+الذكاء الاصطناعي لم يعد أداة فقط، بل أصبح شريك في الإبداع.<br>
+يبني التطبيقات، يصمم الأنظمة، ويولد أفكار بلا حدود.<br>
+هنا تتحول الخوارزميات إلى قوة إنتاج حقيقية.<br>
+كل شيء يمكن تطويره… كل شيء يمكن تحسينه… كل شيء ممكن.
+</div>
+</div>
+
+<!-- الصفحة 3 -->
+<div class="page">
+<img src="https://picsum.photos/900/1400?random=3">
+<div class="text">
+محرك الابتكار اللانهائي 🔥<br><br>
+تصميم، برمجة، ذكاء، تحليل، توليد أفكار، بناء مستقبل.<br>
+أنظمة ذكية تتعلم، تتطور، وتتكيف مع كل شيء.<br>
+من فكرة بسيطة… إلى مشروع ضخم… إلى واقع حقيقي.
+</div>
+</div>
+
+<!-- الصفحة 4 -->
+<div class="page">
+<img src="https://picsum.photos/900/1400?random=4">
+<div class="text">
+عصر القوة الرقمية ⚡<br><br>
+التحكم الكامل في الإبداع الرقمي.<br>
+بناء مواقع، تطبيقات، ذكاء اصطناعي، أنظمة متقدمة.<br>
+كل صفحة هنا تمثل مستوى جديد من التطور التقني.<br>
+استمر… القوة ما زالت ترتفع.
+</div>
+</div>
+
+<!-- الصفحة 5 -->
+<div class="page">
+<img src="https://picsum.photos/900/1400?random=5">
+<div class="text">
+نقطة التحول الكبرى 🌌<br><br>
+الذكاء الاصطناعي يفتح بوابات المستقبل.<br>
+الأفكار تتحول إلى مشاريع.<br>
+المشاريع تتحول إلى إنجازات.<br>
+والإنجازات تصنع واقع جديد بالكامل.
+</div>
+</div>
+
+<!-- الصفحة 6 -->
+<div class="page">
+<img src="https://picsum.photos/900/1400?random=6">
+<div class="text">
+AI COSMIC SINGULARITY ∞∞∞<br><br>
+لقد وصلت إلى مركز القوة.<br>
+هنا لا يوجد حدود… لا يوجد نهاية… فقط تطور مستمر.<br>
+ابدأ رحلتك… وابنِ عالمك الخاص… واصنع مستقبلك بنفسك.
+</div>
+</div>
+
+</div>
+
+<div class="controls">
+<button onclick="prevPage()">⬅ السابق</button>
+<button onclick="nextPage()">التالي ➡</button>
+</div>
 
 <script>
-let flip;
+const pageFlip = new St.PageFlip(
+document.getElementById("book"),
+{
+width:900,
+height:1400,
+size:"stretch",
+maxShadowOpacity:0.5,
+showCover:true,
+mobileScrollSupport:false
+}
+);
 
-/* نصوص طويلة */
-function aiText(name,idea,type){
-return {
-school:[
-`${name} مؤسسة تعليمية متقدمة تسعى إلى بناء جيل واعٍ ومبدع يمتلك مهارات المستقبل ويستطيع مواجهة تحديات العصر بثقة ومعرفة عميقة. ${idea}`,
-`نعتمد على أحدث أساليب التعليم والتقنيات الذكية لتوفير تجربة تعليمية شاملة تجمع بين الإبداع والمعرفة والتطوير المستمر.`,
-`هدفنا هو صناعة بيئة تعليمية محفزة تدعم التفكير النقدي والابتكار وتبني شخصية قيادية.`,
-`رؤيتنا أن نصنع جيلاً قادراً على قيادة المستقبل بإبداع وتميز واستقلالية.`
-],
-restaurant:[
-`${name} يقدم تجربة طعام فريدة تجمع بين المذاق الاستثنائي والجودة العالية والأجواء الراقية. ${idea}`,
-`نستخدم أفضل المكونات الطازجة ونقدم أطباقاً مبتكرة تُحضر بعناية على يد طهاة محترفين.`,
-`نسعى لتقديم تجربة ضيافة متكاملة تجعل كل زيارة ذكرى مميزة.`,
-`هدفنا أن نكون الوجهة الأولى لعشاق الطعام والذوق الرفيع.`
-],
-store:[
-`${name} متجر متكامل يوفر منتجات عالية الجودة بتجربة تسوق ذكية وسلسة. ${idea}`,
-`نركز على الجودة والابتكار وتقديم أفضل الخيارات للعملاء بأسعار تنافسية.`,
-`نسعى لتقديم تجربة شراء مريحة وسريعة مع خدمة عملاء متميزة.`,
-`هدفنا أن نصبح الخيار الأول للتسوق الحديث والذكي.`
-]
-}[type];
+pageFlip.loadFromHTML(document.querySelectorAll(".page"));
+
+function nextPage(){
+pageFlip.flipNext();
 }
 
-/* Typewriter بدون تقطيع */
-function typeWriter(el,text,speed=15){
-el.innerHTML="";
-let i=0;
-(function t(){
-if(i<text.length){
-el.innerHTML+=text.charAt(i);
-i++;
-setTimeout(t,speed);
+function prevPage(){
+pageFlip.flipPrev();
 }
-})();
-}
-
-/* صور حسب النوع */
-function images(type){
-if(type==="school") return [
-"https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
-"https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
-"https://images.unsplash.com/photo-1588072432836-e10032774350",
-"https://images.unsplash.com/photo-1497633762265-9d179a990aa6"
-];
-if(type==="restaurant") return [
-"https://images.unsplash.com/photo-1555396273-367ea4eb4db5",
-"https://images.unsplash.com/photo-1540189549336-e6e99c3679fe",
-"https://images.unsplash.com/photo-1555992336-03a23c6c2b1d",
-"https://images.unsplash.com/photo-1544025162-d76694265947"
-];
-return [
-"https://images.unsplash.com/photo-1556740749-887f6717d7e4",
-"https://images.unsplash.com/photo-1515165562835-c3b8c7c9e7d0",
-"https://images.unsplash.com/photo-1523275335684-37898b6baf30",
-"https://images.unsplash.com/photo-1498049794561-7780e7231661"
-];
-}
-
-/* صفحة */
-function makePage(img,title){
-return `<div class="page">
-<img src="${img}">
-<div class="overlay">
-<h2>${title}</h2>
-<p class="txt"></p>
-</div>
-</div>`;
-}
-
-function generate(){
-
-let t=type.value;
-let n=name.value||"مشروعي الذكي";
-let texts=aiText(n,idea.value,t);
-let imgs=images(t);
-
-book.innerHTML=
-makePage(imgs[0],n)+
-makePage(imgs[1],"من نحن")+
-makePage(imgs[2],"الخدمات")+
-makePage(imgs[3],"الرؤية");
-
-if(flip) flip.destroy();
-
-flip=new St.PageFlip(book,{
-width:450,
-height:600,
-showCover:true
-});
-
-flip.loadFromHTML(document.querySelectorAll(".page"));
-
-/* كتابة النص */
-setTimeout(()=>{
-document.querySelectorAll(".txt").forEach((el,i)=>{
-typeWriter(el,texts[i]);
-});
-},600);
-}
-
-function next(){ if(flip) flip.flipNext(); }
-function prev(){ if(flip) flip.flipPrev(); }
 </script>
 
 </body>
