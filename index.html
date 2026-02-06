@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI SINGULARITY ∞∞∞∞</title>
+<title>AI GOD REALITY ∞∞∞∞∞</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -40,7 +40,7 @@ z-index:5;
 box-shadow:-5px 0 25px rgba(0,0,0,.4);
 }
 
-input,textarea,button{
+input,textarea,select,button{
 width:100%;
 margin:6px 0;
 padding:12px;
@@ -94,15 +94,21 @@ font-size:18px;
 <body>
 
 <div id="panel">
-<h2>🤖 AI SINGULARITY</h2>
+<h2>🤖 AI GOD REALITY</h2>
+
+<select id="type">
+<option value="school">مدرسة</option>
+<option value="restaurant">مطعم</option>
+<option value="store">متجر</option>
+</select>
 
 <input id="name" placeholder="اسم المشروع">
 <textarea id="idea" placeholder="فكرة المشروع"></textarea>
 <input type="file" id="imgs" multiple accept="image/*">
 
-<button onclick="generate()">⚡ توليد AI</button>
-<button onclick="book.flipPrev()">⬅️</button>
-<button onclick="book.flipNext()">➡️</button>
+<button onclick="generate()">⚡ توليد</button>
+<button onclick="prev()">⬅️ السابق</button>
+<button onclick="next()">➡️ التالي</button>
 <button onclick="speak()">🎤 قراءة</button>
 <button onclick="downloadPDF()">📄 PDF</button>
 <button onclick="recordVideo()">🎬 فيديو</button>
@@ -111,7 +117,7 @@ font-size:18px;
 <div id="bookWrap"><div id="book"></div></div>
 
 <script>
-let book;
+let bookFlip;
 let uploaded=[];
 
 /* Glow */
@@ -130,66 +136,98 @@ r.readAsDataURL(f);
 });
 };
 
-/* AI text */
-function aiText(name,idea){
-return {
-about:`${name} هو مشروع مبتكر يهدف إلى ${idea||"تقديم حلول ذكية متطورة"} باستخدام أحدث التقنيات وتوفير تجربة احترافية متكاملة.`,
-why:`نتميز بالإبداع والابتكار والجودة العالية وفريق احترافي يسعى دائماً لتحقيق أفضل النتائج.`,
-services:`نقدم خدمات متقدمة تشمل الجودة، السرعة، الابتكار، والدعم المستمر لتحقيق رضا العملاء.`,
-vision:`نسعى لأن يكون ${name} رائداً في مجاله وأن يحقق تأثيراً حقيقياً ومستداماً في المستقبل.`
+/* AI TEXT حسب النوع */
+function aiText(name,idea,type){
+
+const data={
+school:{
+about:`${name} مؤسسة تعليمية متقدمة تهدف إلى بناء جيل مبدع ومتميز باستخدام أحدث أساليب التعليم.`,
+why:`نتميز ببيئة تعليمية حديثة، معلمين محترفين، واهتمام شامل بتطوير الطالب.`,
+services:`تعليم حديث • أنشطة • تطوير مهارات • متابعة طلاب`,
+vision:`أن نصنع جيلاً قائداً ومبدعاً للمستقبل.`
+},
+restaurant:{
+about:`${name} يقدم تجربة طعام استثنائية تجمع بين الجودة والمذاق الرائع.`,
+why:`مكونات طازجة • طهاة محترفون • خدمة سريعة`,
+services:`وجبات مميزة • أجواء رائعة • جودة عالية`,
+vision:`أن نكون الوجهة الأولى لعشاق الطعام.`
+},
+store:{
+about:`${name} متجر متكامل يوفر منتجات عالية الجودة بأسعار تنافسية.`,
+why:`تنوع • جودة • سرعة • خدمة عملاء`,
+services:`منتجات متنوعة • عروض • توصيل`,
+vision:`أن نصبح الخيار الأول للتسوق الذكي.`
+}
 };
+
+return data[type];
 }
 
 /* TYPEWRITER */
-function typeText(el,text,speed=18){
+function typeText(el,text){
 el.innerHTML="";
 let i=0;
 function t(){
 if(i<text.length){
 el.innerHTML+=text.charAt(i);
 i++;
-setTimeout(t,speed);
+setTimeout(t,15);
 }
 }
 t();
 }
 
-function page(title,img){
-return `<div class="page">
-<img src="${img}">
-<div class="text">
-<h2>${title}</h2>
-<p class="type"></p>
-</div>
-</div>`;
-}
-
-function generate(){
-
-let n=name.value||"مشروعي الذكي";
-let ideaTxt=idea.value;
-let ai=aiText(n,ideaTxt);
-
-let images=uploaded.length?uploaded:[
+/* صور حسب النوع */
+function defaultImages(type){
+if(type==="school") return [
+"https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
 "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
-"https://images.unsplash.com/photo-1507679799987-c73779587ccf",
-"https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
-"https://images.unsplash.com/photo-1556740749-887f6717d7e4"
+"https://images.unsplash.com/photo-1588072432836-e10032774350",
+"https://images.unsplash.com/photo-1497633762265-9d179a990aa6"
 ];
 
-let pagesHTML="";
-pagesHTML+=page(n,images[0]);
-pagesHTML+=page("لماذا نحن",images[1%images.length]);
-pagesHTML+=page("الخدمات",images[2%images.length]);
-pagesHTML+=page("رؤيتنا",images[3%images.length]);
+if(type==="restaurant") return [
+"https://images.unsplash.com/photo-1555396273-367ea4eb4db5",
+"https://images.unsplash.com/photo-1540189549336-e6e99c3679fe",
+"https://images.unsplash.com/photo-1555992336-03a23c6c2b1d",
+"https://images.unsplash.com/photo-1544025162-d76694265947"
+];
 
-book.innerHTML=pagesHTML;
+return [
+"https://images.unsplash.com/photo-1556740749-887f6717d7e4",
+"https://images.unsplash.com/photo-1515165562835-c3b8c7c9e7d0",
+"https://images.unsplash.com/photo-1523275335684-37898b6baf30",
+"https://images.unsplash.com/photo-1498049794561-7780e7231661"
+];
+}
+
+/* Generate */
+function generate(){
+
+let t=type.value;
+let n=name.value||"مشروعي";
+let ai=aiText(n,idea.value,t);
+
+let images=uploaded.length?uploaded:defaultImages(t);
+
+book.innerHTML=`
+<div class="page"><img src="${images[0]}"><div class="text"><h2>${n}</h2><p class="type"></p></div></div>
+<div class="page"><img src="${images[1]}"><div class="text"><h2>لماذا نحن</h2><p class="type"></p></div></div>
+<div class="page"><img src="${images[2]}"><div class="text"><h2>الخدمات</h2><p class="type"></p></div></div>
+<div class="page"><img src="${images[3]}"><div class="text"><h2>الرؤية</h2><p class="type"></p></div></div>
+`;
 
 if(bookFlip) bookFlip.destroy();
-bookFlip=new St.PageFlip(book,{width:450,height:600,showCover:true});
+
+bookFlip=new St.PageFlip(book,{
+width:450,
+height:600,
+showCover:true,
+mobileScrollSupport:true
+});
+
 bookFlip.loadFromHTML(document.querySelectorAll(".page"));
 
-/* TYPE TEXT AFTER LOAD */
 setTimeout(()=>{
 let texts=[ai.about,ai.why,ai.services,ai.vision];
 document.querySelectorAll(".type").forEach((el,i)=>{
@@ -197,6 +235,10 @@ typeText(el,texts[i]);
 });
 },600);
 }
+
+/* أزرار */
+function next(){ if(bookFlip) bookFlip.flipNext(); }
+function prev(){ if(bookFlip) bookFlip.flipPrev(); }
 
 /* Voice */
 function speak(){
@@ -207,7 +249,7 @@ speechSynthesis.speak(msg);
 
 /* PDF */
 function downloadPDF(){
-html2pdf().from(book).save("SINGULARITY.pdf");
+html2pdf().from(book).save("AI-GOD.pdf");
 }
 
 /* Video */
@@ -219,10 +261,11 @@ r.onstop=()=>{
 let b=new Blob(d,{type:"video/webm"});
 let a=document.createElement("a");
 a.href=URL.createObjectURL(b);
-a.download="SINGULARITY.webm";
+a.download="AI-GOD.webm";
 a.click();
 };
-r.start();setTimeout(()=>r.stop(),8000);
+r.start();
+setTimeout(()=>r.stop(),8000);
 }
 </script>
 
