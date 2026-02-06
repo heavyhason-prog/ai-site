@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI BROCHURE — LEGENDARY MODE</title>
+<title>AI BROCHURE — GODLIKE MODE</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
@@ -15,11 +15,7 @@
 --bg:#000;
 --text:#fff;
 }
-
-.light{
---bg:#f2f2f2;
---text:#000;
-}
+.light{--bg:#f2f2f2;--text:#000;}
 
 *{box-sizing:border-box}
 
@@ -45,7 +41,7 @@ background:linear-gradient(45deg,var(--main),#00ffa6);
 font-weight:900;cursor:pointer;margin-top:10px;
 }
 
-#book{margin:auto;max-width:420px;height:620px}
+#book{margin:auto;max-width:420px;height:640px}
 
 .page{
 position:relative;
@@ -68,14 +64,15 @@ background-position:center;
 content:"";
 position:absolute;
 inset:0;
-background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.2));
+background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.25));
 }
 
 .content{
 position:relative;
 z-index:2;
-padding:20px;
+padding:22px;
 color:#fff;
+line-height:1.9;
 }
 
 .badge{
@@ -94,7 +91,6 @@ display:flex;
 justify-content:center;
 align-items:center;
 text-align:center;
-color:#fff;
 }
 </style>
 </head>
@@ -102,9 +98,9 @@ color:#fff;
 <body>
 
 <section id="home" class="active">
-<h1>👑 LEGENDARY AI BROCHURE</h1>
+<h1>😈 GODLIKE AI BROCHURE</h1>
 <button onclick="show('form')">ابدأ</button>
-<button onclick="toggleMode()">🌙 / ☀️ تغيير الوضع</button>
+<button onclick="toggleMode()">🌙 / ☀️</button>
 </section>
 
 <section id="form">
@@ -118,14 +114,14 @@ color:#fff;
 <textarea id="about" placeholder="نبذة"></textarea>
 <input type="file" id="upload" multiple accept="image/*">
 
-<button onclick="generate()">🔥 إنشاء البروشور</button>
+<button onclick="generate()">🔥 إنشاء</button>
 </section>
 
 <section id="result">
 <div id="book"></div>
 <button onclick="downloadPDF()">📄 PDF</button>
-<button onclick="autoFlip()">🎥 عرض تلقائي</button>
-<button onclick="recordVideo()">📹 تسجيل فيديو</button>
+<button onclick="autoFlip()">🎬 عرض</button>
+<button onclick="recordVideo()">📹 فيديو</button>
 <button onclick="show('form')">🔁 تعديل</button>
 </section>
 
@@ -138,59 +134,23 @@ document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* Dark Light */
+/* Dark/Light */
 function toggleMode(){
 document.body.classList.toggle("light");
 }
 
-/* نص ذكي حسب النوع */
-const smartText={
-school:[
-"بيئة تعليمية حديثة تدعم الابتكار والتفوق.",
-"كادر تعليمي بخبرة عالية وأساليب متطورة.",
-"مناهج حديثة تواكب المستقبل.",
-"أنشطة تنمي المهارات والإبداع.",
-"رعاية نفسية وتربوية شاملة.",
-"قيم وأخلاق ومسؤولية.",
-"تعليم رقمي وتقنيات ذكية.",
-"مرافق متكاملة وآمنة.",
-"تقييم مستمر وتطوير دائم.",
-"شراكة مجتمعية فعالة.",
-"إدارة احترافية.",
-"رؤية مستقبلية واعدة."
-],
-
-restaurant:[
-"نكهات فريدة وتجربة مميزة.",
-"مكونات طازجة يومياً.",
-"خدمة سريعة وراقية.",
-"أجواء مريحة وعائلية.",
-"أسعار مناسبة للجميع.",
-"قائمة متنوعة.",
-"توصيل سريع.",
-"معايير نظافة عالية.",
-"تقييمات ممتازة.",
-"راحة واستمتاع.",
-"إدارة احترافية.",
-"علامة مميزة."
-],
-
-store:[
-"منتجات متنوعة وجودة عالية.",
-"تنظيم ممتاز وسهولة.",
-"خدمة احترافية.",
-"عروض وخصومات مستمرة.",
-"تحديث دائم.",
-"تجربة تسوق ممتعة.",
-"ضمان وثقة.",
-"متجر عصري.",
-"دفع آمن.",
-"عملاء دائمون.",
-"إدارة قوية.",
-"نمو ونجاح."
-]
+/* AI نصوص مختلفة */
+function generateSmartText(type,name){
+const base={
+school:["بيئة تعليمية متطورة","كادر تعليمي متميز","مناهج حديثة","أنشطة تنمي الإبداع","تعليم رقمي","قيم وأخلاق","مرافق متكاملة","تقييم مستمر","شراكة مجتمعية","إدارة احترافية","تطوير دائم","رؤية مستقبلية"],
+restaurant:["نكهات فريدة","مكونات طازجة","خدمة راقية","أجواء مريحة","أسعار مناسبة","قائمة متنوعة","توصيل سريع","نظافة عالية","تقييم ممتاز","تجربة فريدة","إدارة قوية","هوية مميزة"],
+store:["منتجات متنوعة","جودة عالية","خدمة احترافية","عروض مستمرة","تحديث دائم","تجربة تسوق رائعة","ثقة وضمان","متجر عصري","دفع آمن","عملاء دائمون","إدارة فعالة","نمو ونجاح"]
 };
 
+return base[type].map(t=>`${t} — ${name} يقدم تجربة احترافية متكاملة تركز على الجودة والابتكار وتحقيق أفضل النتائج وبناء ثقة طويلة مع العملاء وتقديم قيمة حقيقية ومستوى عالي من الأداء والتطور المستمر.`)
+}
+
+/* توليد */
 function generate(){
 
 const book=document.getElementById("book");
@@ -198,20 +158,20 @@ book.innerHTML="";
 
 let typeVal=type.value;
 let nameVal=name.value||"اسم الجهة";
-let aboutVal=about.value||"بروشور احترافي";
-let texts=smartText[typeVal];
+let aboutVal=about.value||"بروشور احترافي متكامل";
+let texts=generateSmartText(typeVal,nameVal);
 
-/* صور */
+/* صور ذكية */
+const keywords={
+school:"school students classroom",
+restaurant:"restaurant food",
+store:"store shop products"
+};
+
 let imgs=[];
 if(upload.files.length){
 for(let f of upload.files) imgs.push(URL.createObjectURL(f));
 }
-
-const keywords={
-school:"school classroom students",
-restaurant:"restaurant food",
-store:"store shop products"
-};
 
 while(imgs.length<14){
 imgs.push(`https://source.unsplash.com/900x1200/?${keywords[typeVal]}&sig=${Math.random()}`);
@@ -242,41 +202,35 @@ book.innerHTML+=`
 <div class="page" style="--img:url('${imgs[13]}')">
 <div class="content">
 <div class="badge">تواصل معنا</div>
-<p>نسعد بخدمتكم دائماً — شكراً لثقتكم.</p>
+<p>نسعد بخدمتكم دائماً — فريق ${nameVal}</p>
 </div>
 </div>`;
 
 show("result");
 
 setTimeout(()=>{
-if(flip) flip.destroy();
-flip=new St.PageFlip(book,{width:380,height:600,showCover:true});
+if(flip)flip.destroy();
+flip=new St.PageFlip(book,{width:390,height:620,showCover:true});
 flip.loadFromHTML(document.querySelectorAll(".page"));
 },400);
 }
 
 /* PDF */
 function downloadPDF(){
-html2pdf().from(book).save("LEGENDARY.pdf");
+html2pdf().from(book).save("GODLIKE.pdf");
 }
 
-/* عرض تلقائي */
+/* عرض */
 function autoFlip(){
 let i=0;
 let t=setInterval(()=>{
 if(i>=14){clearInterval(t);return;}
-flip.flipNext();playFlip();
+flip.flipNext();
 i++;
 },1200);
 }
 
-/* صوت تقليب */
-function playFlip(){
-let audio=new Audio("https://assets.mixkit.co/sfx/preview/mixkit-page-flip-1104.mp3");
-audio.play();
-}
-
-/* تسجيل فيديو */
+/* فيديو */
 async function recordVideo(){
 let stream=await navigator.mediaDevices.getDisplayMedia({video:true});
 let recorder=new MediaRecorder(stream);
