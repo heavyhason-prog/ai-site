@@ -17,123 +17,157 @@ margin:0;
 font-family:'Cairo',sans-serif;
 background:radial-gradient(circle,#020617,#000);
 color:#fff;
-overflow-x:hidden;
 }
 section{display:none;padding:20px;max-width:1100px;margin:auto}
 section.active{display:block}
+input,textarea,select{
+width:100%;padding:14px;border:none;border-radius:14px;
+margin-bottom:12px;background:rgba(255,255,255,.08);color:#fff;
+}
 button{
 width:100%;padding:14px;border:none;border-radius:14px;
 background:linear-gradient(45deg,var(--main),#00ffa6);
-font-weight:900;cursor:pointer;
-margin-top:10px;
+font-weight:900;cursor:pointer;margin-top:10px;
 }
 #book{margin:auto;max-width:430px;height:620px}
 .page{
 background:#fff;color:#000;border-radius:20px;
-overflow:hidden;
-display:flex;
-flex-direction:column;
+overflow:hidden;display:flex;flex-direction:column;
 box-shadow:0 0 30px rgba(0,255,255,.3)
 }
 .page img{
-width:100%;
-height:260px;
-object-fit:cover;
+width:100%;height:260px;object-fit:cover;
 }
-.content{
-padding:18px;
-text-align:right;
-}
+.content{padding:18px;text-align:right}
 .badge{
-background:var(--main);
-padding:6px 14px;
-border-radius:20px;
-display:inline-block;
-margin-bottom:10px;
-font-weight:700;
+background:var(--main);padding:6px 14px;border-radius:20px;
+display:inline-block;margin-bottom:10px;font-weight:700
 }
 .content p{
 display:-webkit-box;
 -webkit-line-clamp:6;
 -webkit-box-orient:vertical;
 overflow:hidden;
-line-height:1.8;
-font-size:15px;
+line-height:1.8;font-size:15px;
 }
 </style>
 </head>
 
 <body>
 
+<!-- الصفحة الرئيسية -->
 <section id="home" class="active">
 <h1>🚀 AI Brochure PRO MAX</h1>
-<button onclick="show('result')">إنشاء البروشور</button>
+<button onclick="show('form')">ابدأ</button>
 </section>
 
+<!-- صفحة البيانات -->
+<section id="form">
+<select id="type">
+<option value="school">🏫 مدرسة</option>
+<option value="restaurant">🍽️ مطعم</option>
+<option value="store">🏪 متجر</option>
+</select>
+
+<input id="name" placeholder="اسم الجهة">
+<textarea id="about" placeholder="نبذة مختصرة"></textarea>
+<input type="file" id="upload" multiple accept="image/*">
+
+<button onclick="generate()">✨ إنشاء البروشور</button>
+</section>
+
+<!-- النتيجة -->
 <section id="result">
 <h2>📖 البروشور</h2>
+<div id="book"></div>
 
-<div id="book">
-
-<!-- 12 صفحات -->
-<script>
-for(let i=1;i<=12;i++){
-document.write(`
-<div class="page">
-<img src="https://picsum.photos/600/400?random=${i}">
-<div class="content">
-<div class="badge">صفحة ${i}</div>
-<p id="t${i}"></p>
-</div>
-</div>
-`);
-}
-</script>
-
-</div>
-
-<button onclick="downloadPDF()">📄 تحميل PDF</button>
+<button onclick="downloadPDF()">📄 PDF</button>
 <button onclick="autoFlip()">🎥 عرض تلقائي</button>
-<button onclick="show('home')">🔁 رجوع</button>
+<button onclick="show('form')">🔁 تعديل البيانات</button>
 </section>
 
 <script>
 let flip;
 
+/* إظهار الصفحات */
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
-if(id==="result") initBook();
 }
 
-function initBook(){
-const text =
-"نقدم حلولاً مبتكرة بجودة عالية.\n"+
-"نعتمد على أحدث التقنيات.\n"+
-"نركز على رضا العملاء.\n"+
-"فريقنا يتمتع بخبرة واسعة.\n"+
-"نلتزم بالاحترافية الكاملة.\n"+
-"نسعى لتحقيق التميز دائماً.";
+/* المحتوى حسب الاختيار */
+const contentData={
+school:[
+"بيئة تعليمية محفزة ومتطورة.",
+"كادر تعليمي مؤهل بخبرة عالية.",
+"مناهج حديثة معتمدة.",
+"رعاية شاملة للطلاب.",
+"تقنيات تعليم ذكية.",
+"بناء مستقبل مشرق."
+],
+restaurant:[
+"أطباق مميزة بجودة عالية.",
+"مكونات طازجة يومياً.",
+"خدمة سريعة وراقية.",
+"أجواء مريحة للعائلة.",
+"أسعار تنافسية.",
+"تجربة لا تُنسى."
+],
+store:[
+"منتجات متنوعة وعصرية.",
+"جودة مضمونة وأسعار مناسبة.",
+"خدمة عملاء احترافية.",
+"تحديث مستمر للمنتجات.",
+"عروض وخصومات.",
+"تجربة تسوق سهلة."
+]
+};
 
-for(let i=1;i<=12;i++){
-document.getElementById("t"+i).innerText=text;
+/* إنشاء البروشور */
+function generate(){
+const book=document.getElementById("book");
+book.innerHTML="";
+let type=document.getElementById("type").value;
+let name=document.getElementById("name").value||"اسم الجهة";
+let texts=contentData[type];
+
+let imgs=[];
+if(upload.files.length){
+for(let f of upload.files) imgs.push(URL.createObjectURL(f));
+}else{
+for(let i=0;i<12;i++) imgs.push(`https://picsum.photos/600/400?${type}${i}`);
 }
+
+for(let i=0;i<12;i++){
+book.innerHTML+=`
+<div class="page">
+<img src="${imgs[i%imgs.length]}">
+<div class="content">
+<div class="badge">${name}</div>
+<p>${texts.join("<br>")}</p>
+</div>
+</div>`;
+}
+
+show("result");
 
 setTimeout(()=>{
+if(flip)flip.destroy();
 flip=new St.PageFlip(book,{width:370,height:600});
 flip.loadFromHTML(document.querySelectorAll(".page"));
 },300);
 }
 
+/* PDF */
 function downloadPDF(){
-html2pdf().set({margin:0,html2canvas:{scale:2}})
-.from(book).save("AI-PRO-MAX.pdf");
+html2pdf().from(book).save("PRO-MAX.pdf");
 }
 
+/* عرض تلقائي */
 function autoFlip(){
 let i=0;
-let timer=setInterval(()=>{
-if(i>=12){clearInterval(timer);return;}
+let t=setInterval(()=>{
+if(i>=12){clearInterval(t);return;}
 flip.flipNext();i++;
 },1300);
 }
