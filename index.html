@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Brochure MAX</title>
+<title>AI Brochure MAX PRO</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:#020617;
+background:radial-gradient(circle at 50% 50%,#020617,#000);
 color:#fff;
 overflow-x:hidden;
 }
@@ -23,8 +23,7 @@ overflow-x:hidden;
 /* Glow */
 body::before{
 content:"";
-position:fixed;
-inset:0;
+position:fixed;inset:0;
 background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.25),transparent 40%);
 pointer-events:none;
 }
@@ -33,33 +32,36 @@ section{display:none;padding:20px;max-width:1100px;margin:auto}
 section.active{display:block}
 
 input,textarea,select{
-width:100%;padding:14px;border:none;border-radius:12px;margin-bottom:12px;
-background:rgba(255,255,255,.08);color:#fff
+width:100%;padding:14px;border:none;border-radius:14px;margin-bottom:12px;
+background:rgba(255,255,255,.08);color:#fff;
+backdrop-filter:blur(10px)
 }
 
 button{
 width:100%;padding:14px;border:none;border-radius:14px;
 background:linear-gradient(45deg,var(--main),#00ffa6);
-font-weight:900;cursor:pointer
+font-weight:900;cursor:pointer;
+box-shadow:0 0 15px rgba(0,255,255,.5);
+transition:.2s
 }
+button:hover{transform:scale(1.03)}
 
-#book{margin:auto;max-width:420px;height:600px}
+#book{margin:auto;max-width:430px;height:620px}
 
 /* الصفحة */
 .page{
 background:#fff;color:#000;border-radius:20px;overflow:hidden;
 display:flex;flex-direction:column;
-box-shadow:0 0 30px rgba(0,255,255,.2)
+box-shadow:0 0 30px rgba(0,255,255,.3)
 }
 
-/* 🔥 الصورة أكبر */
+/* صورة تملأ الصفحة */
 .page img{
 width:100%;
-height:300px;
+height:320px;
 object-fit:cover
 }
 
-/* النص يملأ الصفحة */
 .content{
 padding:18px;
 line-height:2;
@@ -84,11 +86,12 @@ font-weight:700
 <body>
 
 <section id="home" class="active">
-<h1>🔥 AI Brochure MAX</h1>
+<h1>🚀 AI Brochure MAX PRO</h1>
 <button onclick="show('form')">ابدأ</button>
 </section>
 
 <section id="form">
+
 <select id="type">
 <option value="school">مدرسة</option>
 <option value="restaurant">مطعم</option>
@@ -102,7 +105,9 @@ font-weight:700
 
 <input type="file" id="upload" multiple accept="image/*">
 
-<button onclick="generate()">✨ إنشاء MAX</button>
+<button onclick="smartFill()">🤖 تعبئة تلقائية</button>
+<button onclick="generate()">✨ إنشاء MAX PRO</button>
+
 </section>
 
 <section id="result">
@@ -156,7 +161,6 @@ font-weight:700
 <div>
 <div class="badge">إحصائيات</div>
 <p id="stats"></p>
-<p id="extra"></p>
 </div>
 </div>
 </div>
@@ -164,7 +168,8 @@ font-weight:700
 </div>
 
 <button onclick="downloadPDF()">📄 PDF</button>
-<button onclick="recordVideo()">🎥 تسجيل فيديو</button>
+<button onclick="autoFlip()">🎥 عرض تلقائي</button>
+<button onclick="recordVideo()">🎬 تسجيل فيديو</button>
 <button onclick="show('form')">🔁 جديد</button>
 </section>
 
@@ -182,19 +187,23 @@ document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
+/* تعبئة ذكية */
+function smartFill(){
+name.value="مؤسسة المستقبل";
+about.value="نقدم خدمات احترافية مبتكرة بجودة عالية.";
+services.value="تطوير، تصميم، حلول ذكية، دعم.";
+goals.value="الريادة والابتكار.";
+}
+
+/* صور افتراضية */
 const imgsDefault=[
-"https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
-"https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
-"https://images.unsplash.com/photo-1552664730-d307ca884978",
-"https://images.unsplash.com/photo-1503387762-592deb58ef4e"
+"https://picsum.photos/600/400?1",
+"https://picsum.photos/600/400?2",
+"https://picsum.photos/600/400?3",
+"https://picsum.photos/600/400?4"
 ];
 
 function generate(){
-
-let nameVal=name.value||"مؤسستنا";
-let aboutVal=about.value||"نقدم تجربة احترافية متكاملة ترتكز على الجودة والابتكار وتقديم أفضل الحلول لعملائنا.";
-let servicesVal=services.value||"خدماتنا تشمل التطوير، الدعم، الاستشارات، والحلول الذكية المتقدمة.";
-let goalsVal=goals.value||"نسعى لتحقيق الريادة في مجالنا وتقديم قيمة حقيقية مستدامة.";
 
 let files=upload.files;
 let imgs=[...imgsDefault];
@@ -207,35 +216,44 @@ for(let i=1;i<=4;i++){
 document.getElementById("img"+i).src=imgs[i-1]||imgsDefault[i-1];
 }
 
-title.innerText=nameVal;
+title.innerText=name.value||"مؤسستنا";
 
-desc1.innerText="نحن جهة متخصصة تقدم خدمات عالية الجودة تعتمد على الابتكار والتقنيات الحديثة لضمان أفضل تجربة ممكنة لعملائنا وتحقيق نتائج متميزة في كل مشروع.";
+desc1.innerText="نحن جهة متخصصة تقدم خدمات عالية الجودة باستخدام أحدث التقنيات لتحقيق أفضل النتائج.";
 
-aboutAr.innerText=aboutVal+" نعمل بروح الفريق ونركز على رضا العملاء وتقديم خدمات موثوقة ومستقرة.";
+aboutAr.innerText=about.value||"نقدم تجربة متكاملة ونسعى لرضا العملاء.";
 
-whyAr.innerText="نتميز بفريق محترف، جودة عالية، سرعة تنفيذ، دعم متواصل، واستخدام أحدث التقنيات لتحقيق أفضل النتائج لعملائنا.";
+whyAr.innerText="جودة عالية، فريق محترف، سرعة تنفيذ، دعم مستمر.";
 
-visionAr.innerText="رؤيتنا: "+goalsVal+" ونطمح إلى التوسع المستمر وتقديم حلول مبتكرة تواكب المستقبل.";
+visionAr.innerText=goals.value||"نسعى للريادة.";
 
 stats.innerHTML=`
-⭐ رضا العملاء: ${80+Math.floor(Math.random()*20)}%<br>
+⭐ رضا العملاء: ${85+Math.floor(Math.random()*15)}%<br>
 📈 نمو سنوي: ${10+Math.floor(Math.random()*20)}%<br>
-🏆 مشاريع ناجحة: ${50+Math.floor(Math.random()*200)}
+🏆 مشاريع: ${50+Math.floor(Math.random()*200)}
 `;
-
-extra.innerText="نواصل التطوير والتحسين بشكل دائم لضمان تقديم أفضل مستوى من الجودة والكفاءة وتحقيق أعلى درجات التميز في جميع خدماتنا.";
 
 show("result");
 
 setTimeout(()=>{
 if(flip)flip.destroy();
-flip=new St.PageFlip(book,{width:360,height:560});
+flip=new St.PageFlip(book,{width:370,height:600,showCover:true});
 flip.loadFromHTML(document.querySelectorAll(".page"));
 },300);
 }
 
+/* PDF */
 function downloadPDF(){
-html2pdf().from(book).save("Brochure-MAX.pdf");
+html2pdf().set({margin:0,filename:"MAX-PRO.pdf",html2canvas:{scale:2}}).from(book).save();
+}
+
+/* تقليب تلقائي */
+function autoFlip(){
+let i=0;
+let interval=setInterval(()=>{
+if(i>=5){clearInterval(interval);return;}
+flip.flipNext();
+i++;
+},1500);
 }
 
 /* تسجيل فيديو */
@@ -248,11 +266,11 @@ recorder.onstop=()=>{
 let blob=new Blob(chunks,{type:"video/webm"});
 let a=document.createElement("a");
 a.href=URL.createObjectURL(blob);
-a.download="brochure-video.webm";
+a.download="MAX-PRO-video.webm";
 a.click();
 };
 recorder.start();
-setTimeout(()=>recorder.stop(),8000);
+setTimeout(()=>recorder.stop(),10000);
 }
 </script>
 
