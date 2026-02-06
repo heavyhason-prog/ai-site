@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Brochure APOTHEOSIS</title>
+<title>IMMORTAL AI BROCHURE</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -10,7 +10,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{--main:#00f5ff}
+:root{
+--school:#00f5ff;
+--restaurant:#ff9f00;
+--store:#7c7cff;
+}
+
 *{box-sizing:border-box}
 
 body{
@@ -25,8 +30,6 @@ display:none;
 padding:20px;
 max-width:1100px;
 margin:auto;
-position:relative;
-z-index:1;
 }
 section.active{display:block}
 
@@ -64,12 +67,13 @@ border-radius:22px;
 overflow:hidden;
 display:flex;
 flex-direction:column;
-box-shadow:0 0 35px rgba(0,255,255,.35)
+box-shadow:0 0 35px rgba(0,255,255,.35);
+pointer-events:auto;
 }
 
 .page img{
 width:100%;
-height:260px;
+height:250px;
 object-fit:cover;
 }
 
@@ -81,9 +85,6 @@ align-items:center;
 text-align:center;
 }
 
-.cover h1{font-size:28px;margin:0}
-.cover p{opacity:.85}
-
 .content{
 padding:18px;
 text-align:right;
@@ -94,18 +95,23 @@ background:var(--main);
 padding:6px 16px;
 border-radius:20px;
 display:inline-block;
-margin-bottom:8px;
+margin-bottom:6px;
 font-weight:700;
 }
 
-.sub-badge{
-display:block;
+.sub{
 font-size:13px;
 opacity:.7;
-margin-bottom:10px;
+margin-bottom:6px;
+display:block;
 }
 
-.content p{
+h3{
+margin:6px 0 10px;
+font-size:18px;
+}
+
+p{
 display:-webkit-box;
 -webkit-line-clamp:6;
 -webkit-box-orient:vertical;
@@ -118,13 +124,11 @@ font-size:15px;
 
 <body>
 
-<!-- HOME -->
 <section id="home" class="active">
-<h1>🚀 AI Brochure APOTHEOSIS</h1>
+<h1>🔥 IMMORTAL AI BROCHURE</h1>
 <button onclick="show('form')">ابدأ</button>
 </section>
 
-<!-- FORM -->
 <section id="form">
 <select id="type">
 <option value="school">🏫 مدرسة</option>
@@ -136,85 +140,84 @@ font-size:15px;
 <textarea id="about" placeholder="نبذة مختصرة"></textarea>
 <input type="file" id="upload" multiple accept="image/*">
 
-<button onclick="generate()">🔥 إنشاء البروشور</button>
+<button onclick="generate()">⚡ إنشاء البروشور</button>
 </section>
 
-<!-- RESULT -->
 <section id="result">
 <h2>📖 البروشور</h2>
 <div id="book"></div>
 
 <button onclick="downloadPDF()">📄 تحميل PDF</button>
 <button onclick="autoFlip()">🎥 عرض تلقائي</button>
-<button onclick="show('form')">🔁 تعديل البيانات</button>
+<button onclick="show('form')">🔁 رجوع للبيانات</button>
 </section>
 
 <script>
 let flip;
+
+const titles=[
+"رؤيتنا","رسالتنا","خدماتنا","بيئتنا","فريق العمل","القيم",
+"التطوير","الجودة","الابتكار","الاستدامة","التميز","المستقبل"
+];
+
+const typeName={school:"مدرسة",restaurant:"مطعم",store:"متجر"};
+const typeColor={school:"--school",restaurant:"--restaurant",store:"--store"};
+
+const texts={
+school:[
+["تعليم حديث.","بيئة محفزة.","فصول ذكية.","تعلم تفاعلي.","دعم شامل.","تفوق."],
+["رسالة واضحة.","قيم تربوية.","تعليم هادف.","تطوير دائم.","مسؤولية.","التزام."],
+["مناهج متقدمة.","تقنية.","إبداع.","مهارات.","تخطيط.","نجاح."],
+["بيئة آمنة.","احترام.","تحفيز.","تفاعل.","استقرار.","راحة."],
+["كادر محترف.","خبرات.","تعاون.","إخلاص.","تأهيل.","كفاءة."],
+["قيم راسخة.","أخلاق.","انضباط.","ثقة.","توازن.","وعي."],
+["تطوير مستمر.","تحديث.","تحسين.","تقييم.","مرونة.","نمو."],
+["جودة عالية.","معايير.","نتائج.","تحسين.","متابعة.","اعتماد."],
+["ابتكار.","تفكير.","حلول.","إبداع.","مبادرات.","تميّز."],
+["استدامة.","تخطيط.","رؤية.","أثر.","استقرار.","نمو."],
+["تفوق.","إنجاز.","ريادة.","تميز.","طموح.","نجاح."],
+["مستقبل واعد.","أهداف.","خطط.","رؤية.","إلهام.","تقدم."]
+]
+};
 
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* اسم النوع بالعربي */
-const typeLabel={
-school:"مدرسة",
-restaurant:"مطعم",
-store:"متجر"
-};
-
-/* محتوى مختلف لكل صفحة */
-const content={
-school:[
-["بيئة تعليمية حديثة.","فصول ذكية.","تعليم تفاعلي.","تحفيز مستمر.","دعم شامل.","مستقبل واعد."],
-["كادر تعليمي محترف.","خبرات معتمدة.","تطوير دائم.","أساليب حديثة.","تفاعل إيجابي.","جودة عالية."],
-["مناهج متطورة.","دمج التقنية.","خطط مرنة.","تركيز مهاري.","نتائج قوية.","تميز."],
-["أنشطة طلابية.","اكتشاف المواهب.","تنمية الإبداع.","عمل جماعي.","شخصية متوازنة.","بيئة ممتعة."],
-["رعاية نفسية.","متابعة سلوكية.","تواصل أسري.","أمان كامل.","استقرار.","دعم."],
-["قيم تربوية.","انضباط.","احترام.","مسؤولية.","أخلاق.","جيل واعٍ."],
-["تعليم رقمي.","منصات حديثة.","مرونة.","سهولة.","تفاعل.","تقنية."],
-["مرافق متكاملة.","معامل.","ملاعب.","قاعات.","راحة.","أمان."],
-["تقييم مستمر.","تحسين.","تطوير.","نتائج.","نجاح.","تقدم."],
-["شراكة مجتمعية.","مبادرات.","تفاعل.","دعم.","انتماء.","تأثير."],
-["إدارة فعالة.","تنظيم.","تخطيط.","حوكمة.","استدامة.","استقرار."],
-["رؤية مستقبلية.","ابتكار.","تميز.","ريادة.","تفوق.","نجاح."]
-]
-};
-
 function generate(){
 const book=document.getElementById("book");
 book.innerHTML="";
 
-let typeVal=type.value;
-let nameVal=name.value||"اسم الجهة";
-let aboutVal=about.value||"بروشور تعريفي احترافي";
-let texts=content[typeVal];
-let label=typeLabel[typeVal];
+let t=type.value;
+let n=name.value||"اسم الجهة";
+let a=about.value||"بروشور تعريفي";
+document.documentElement.style.setProperty('--main',`var(${typeColor[t]})`);
 
 let imgs=[];
 if(upload.files.length){
 for(let f of upload.files) imgs.push(URL.createObjectURL(f));
 }else{
-for(let i=0;i<14;i++) imgs.push(`https://picsum.photos/600/400?${typeVal}${i}`);
+for(let i=0;i<15;i++) imgs.push(`https://picsum.photos/600/400?${t}${i}`);
 }
 
 /* الغلاف */
 book.innerHTML+=`
 <div class="page cover">
-<h1>${nameVal}</h1>
-<p>${label} – ${aboutVal}</p>
+<h1>${n}</h1>
+<p>${typeName[t]} – ${a}</p>
 </div>`;
 
-/* 12 صفحات */
+/* الصفحات */
 for(let i=0;i<12;i++){
 book.innerHTML+=`
 <div class="page">
 <img src="${imgs[i]}">
 <div class="content">
-<div class="badge">${nameVal}</div>
-<span class="sub-badge">${label}</span>
-<p>${texts[i].join("<br>")}</p>
+<div class="badge">${n}</div>
+<span class="sub">${typeName[t]}</span>
+<h3>${titles[i]}</h3>
+<p>${texts[t][i].join("<br>")}</p>
 </div>
 </div>`;
 }
@@ -222,15 +225,16 @@ book.innerHTML+=`
 /* الخاتمة */
 book.innerHTML+=`
 <div class="page">
-<img src="${imgs[13]}">
+<img src="${imgs[14]}">
 <div class="content">
-<div class="badge">${nameVal}</div>
-<span class="sub-badge">${label}</span>
+<div class="badge">${n}</div>
+<span class="sub">${typeName[t]}</span>
+<h3>تواصل معنا</h3>
 <p>
 نرحب بتواصلكم.<br>
 نسعد بخدمتكم.<br>
-جاهزون دائماً.<br>
 ثقتكم تهمنا.<br>
+جاهزون دائماً.<br>
 معاً للنجاح.<br>
 شكراً لكم.
 </p>
@@ -247,7 +251,7 @@ flip.loadFromHTML(document.querySelectorAll(".page"));
 }
 
 function downloadPDF(){
-html2pdf().from(book).save("APOTHEOSIS.pdf");
+html2pdf().from(book).save("IMMORTAL.pdf");
 }
 
 function autoFlip(){
@@ -255,7 +259,7 @@ let i=0;
 let t=setInterval(()=>{
 if(i>=14){clearInterval(t);return;}
 flip.flipNext();i++;
-},1200);
+},1100);
 }
 </script>
 
