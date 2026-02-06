@@ -2,53 +2,55 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>PAGEFLIP PRO 😎</title>
+<title>PAGEFLIP GOD 😈</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 
 <style>
+:root{
+  --bg:#020617;
+  --panel:#020617;
+  --text:#fff;
+}
+.light{
+  --bg:#f1f5f9;
+  --panel:#ffffff;
+  --text:#111;
+}
 body{
   margin:0;
   font-family:'Cairo',sans-serif;
-  background:linear-gradient(135deg,#0f172a,#020617);
-  color:#fff;
+  background:var(--bg);
+  color:var(--text);
   overflow:hidden;
 }
-
 #ui{
   position:fixed;
-  top:0;
   right:0;
+  top:0;
   width:320px;
   height:100%;
-  background:#020617;
+  background:var(--panel);
   padding:20px;
-  box-shadow:-5px 0 25px rgba(0,0,0,.6);
+  box-shadow:-5px 0 25px rgba(0,0,0,.4);
   overflow:auto;
-  z-index:10;
+  z-index:5;
 }
-
-input,textarea,select,button{
+input,textarea,button{
   width:100%;
-  margin-bottom:10px;
+  margin:6px 0;
   padding:10px;
-  border:none;
   border-radius:8px;
+  border:none;
   font-family:'Cairo';
 }
-
 button{
   background:linear-gradient(90deg,#00f5ff,#00ff9c);
   font-weight:900;
   cursor:pointer;
-  transition:.2s;
 }
-
-button:hover{transform:scale(1.05)}
-
 #book-container{
   position:absolute;
   left:0;
@@ -59,55 +61,47 @@ button:hover{transform:scale(1.05)}
   justify-content:center;
   align-items:center;
 }
-
 #book{
   width:900px;
   height:600px;
 }
-
 .page{
   background:white;
   color:#111;
   display:flex;
   overflow:hidden;
-  border-radius:12px;
+  border-radius:10px;
 }
-
 .page img{
   width:50%;
   height:100%;
   object-fit:cover;
 }
-
 .page .text{
   width:50%;
-  padding:25px;
+  padding:20px;
 }
-
-h1{margin:0;font-size:28px}
-p{line-height:1.7}
 </style>
 </head>
 
 <body>
 
 <div id="ui">
-<h2>⚡ PAGEFLIP PRO</h2>
-
-<select id="type">
-<option>مدرسة</option>
-<option>مطعم</option>
-<option>متجر</option>
-</select>
+<h2>😈 PAGEFLIP GOD</h2>
 
 <input id="name" placeholder="اسم المشروع">
-<textarea id="desc" placeholder="نبذة"></textarea>
-<textarea id="services" placeholder="الخدمات (افصل بينها بفاصلة)"></textarea>
+<textarea id="desc" placeholder="الوصف"></textarea>
+<textarea id="services" placeholder="الخدمات (افصل بفاصلة)"></textarea>
 <textarea id="goals" placeholder="الأهداف"></textarea>
 
-<button onclick="createBook()">✨ إنشاء البروشور</button>
-<button onclick="book.flipPrev()">⬅️ السابق</button>
-<button onclick="book.flipNext()">➡️ التالي</button>
+<input type="file" id="imgUpload" multiple accept="image/*">
+
+<button onclick="createBook()">✨ إنشاء</button>
+<button onclick="book.flipPrev()">⬅️</button>
+<button onclick="book.flipNext()">➡️</button>
+<button onclick="speak()">🎤 قراءة</button>
+<button onclick="window.print()">📄 PDF</button>
+<button onclick="toggleTheme()">🎨 تبديل الثيم</button>
 </div>
 
 <div id="book-container">
@@ -116,54 +110,73 @@ p{line-height:1.7}
 
 <script>
 let book;
+let uploadedImgs=[];
 
-function pageTemplate(title,text,img){
-  return `
-  <div class="page">
+document.getElementById("imgUpload").addEventListener("change",e=>{
+  uploadedImgs=[];
+  [...e.target.files].forEach(f=>{
+    const r=new FileReader();
+    r.onload=()=>uploadedImgs.push(r.result);
+    r.readAsDataURL(f);
+  });
+});
+
+function page(title,text,img){
+  return `<div class="page">
     <img src="${img}">
     <div class="text">
-      <h1>${title}</h1>
+      <h2>${title}</h2>
       <p>${text}</p>
     </div>
   </div>`;
 }
 
 function createBook(){
+  const name=document.getElementById("name").value||"مشروعي";
+  const desc=document.getElementById("desc").value||"وصف احترافي رائع.";
+  const services=document.getElementById("services").value.split(",");
+  const goals=document.getElementById("goals").value||"نهدف للتميز.";
 
-  const name = document.getElementById("name").value || "مشروعي";
-  const desc = document.getElementById("desc").value || "وصف احترافي للمشروع يوضح الرؤية والرسالة.";
-  const services = document.getElementById("services").value.split(",");
-  const goals = document.getElementById("goals").value || "نهدف إلى التميز والابتكار وتقديم أفضل جودة.";
+  const imgs = uploadedImgs.length?uploadedImgs:[
+    "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+    "https://images.unsplash.com/photo-1556740749-887f6717d7e4",
+    "https://images.unsplash.com/photo-1507679799987-c73779587ccf"
+  ];
 
-  const bookEl = document.getElementById("book");
+  const bookEl=document.getElementById("book");
   bookEl.innerHTML="";
 
-  const pages = [];
+  const pages=[];
+  pages.push(page(name,desc,imgs[0]));
+  pages.push(page("الخدمات",services.join("<br>"),imgs[1%imgs.length]));
+  pages.push(page("الأهداف",goals,imgs[2%imgs.length]));
+  pages.push(page("رؤيتنا","أن نصبح الأفضل.",imgs[0]));
+  pages.push(page("تواصل","📞 000000000<br>📧 email@email.com",imgs[1]));
 
-  pages.push(pageTemplate(name,desc,"https://images.unsplash.com/photo-1522202176988-66273c2fd55f"));
-
-  pages.push(pageTemplate("الخدمات",services.join("<br>"),"https://images.unsplash.com/photo-1556740749-887f6717d7e4"));
-
-  pages.push(pageTemplate("الأهداف",goals,"https://images.unsplash.com/photo-1507679799987-c73779587ccf"));
-
-  pages.push(pageTemplate("رؤيتنا","أن نصبح الخيار الأول ونقدم تجربة استثنائية.","https://images.unsplash.com/photo-1492724441997-5dc865305da7"));
-
-  pages.push(pageTemplate("تواصل معنا","📞 000000000<br>📧 email@email.com","https://images.unsplash.com/photo-1519389950473-47ba0277781c"));
-
-  bookEl.innerHTML = pages.join("");
+  bookEl.innerHTML=pages.join("");
 
   if(book) book.destroy();
 
-  book = new St.PageFlip(bookEl,{
+  book=new St.PageFlip(bookEl,{
     width:450,
     height:600,
     size:"stretch",
-    maxShadowOpacity:0.5,
     showCover:true,
-    mobileScrollSupport:false
+    maxShadowOpacity:0.5
   });
 
   book.loadFromHTML(document.querySelectorAll(".page"));
+}
+
+function speak(){
+  const text=document.body.innerText;
+  const msg=new SpeechSynthesisUtterance(text);
+  msg.lang="ar-SA";
+  speechSynthesis.speak(msg);
+}
+
+function toggleTheme(){
+  document.body.classList.toggle("light");
 }
 </script>
 
