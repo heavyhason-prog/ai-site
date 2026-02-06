@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Brochure ABSOLUTE MODE</title>
+<title>AI Brochure ULTIMATE GOD MODE</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
@@ -16,7 +16,7 @@
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:radial-gradient(circle,#020617,#000);
+background:#000;
 color:#fff;
 }
 
@@ -36,18 +36,15 @@ font-weight:900;cursor:pointer;margin-top:10px;
 
 #book{margin:auto;max-width:420px;height:620px}
 
-/* الصفحة */
 .page{
 position:relative;
 border-radius:22px;
 overflow:hidden;
 display:flex;
 align-items:flex-end;
-background:#000;
 color:#fff;
 }
 
-/* صورة فل الصفحة */
 .page::before{
 content:"";
 position:absolute;
@@ -55,23 +52,19 @@ inset:0;
 background-image:var(--img);
 background-size:cover;
 background-position:center;
-z-index:0;
 }
 
-/* طبقة تغميق */
 .page::after{
 content:"";
 position:absolute;
 inset:0;
-background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.25));
-z-index:1;
+background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.25));
 }
 
 .content{
 position:relative;
 z-index:2;
 padding:20px;
-width:100%;
 }
 
 .badge{
@@ -80,24 +73,24 @@ padding:6px 16px;
 border-radius:20px;
 display:inline-block;
 margin-bottom:10px;
-font-weight:700;
 color:#000;
+font-weight:700;
 }
 
 .cover{
 background:linear-gradient(135deg,#020617,#000);
-display:flex;justify-content:center;align-items:center;
+display:flex;
+justify-content:center;
+align-items:center;
 text-align:center;
 }
-
-.cover h1{margin:0;font-size:28px}
 </style>
 </head>
 
 <body>
 
 <section id="home" class="active">
-<h1>🚀 AI Brochure ABSOLUTE MODE</h1>
+<h1>🚀 ULTIMATE GOD MODE</h1>
 <button onclick="show('form')">ابدأ</button>
 </section>
 
@@ -130,17 +123,21 @@ document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* نص طويل */
-function longText(){
-return `
-نحن نعمل على تقديم أفضل جودة ممكنة من خلال الابتكار والتطوير المستمر.
-نركز على تحقيق أعلى المعايير في الأداء والخدمة.
-نسعى دائماً لتقديم تجربة مميزة ترضي تطلعات الجميع.
-نؤمن بأن النجاح يبدأ من التفاصيل الصغيرة والعمل المتقن.
-نحرص على بناء علاقة طويلة قائمة على الثقة والجودة.
-رؤيتنا مستقبل متطور مليء بالإنجازات والتميز.
-`;
-}
+/* نصوص مختلفة بالكامل */
+const texts=[
+"نقدم تجربة احترافية متكاملة تركز على الجودة والابتكار والتطوير المستمر لتحقيق أفضل النتائج.",
+"نعمل وفق أعلى المعايير لضمان تقديم خدمات متميزة تلبي جميع الاحتياجات بكفاءة عالية.",
+"نؤمن بأن النجاح يبدأ من التخطيط الصحيح والعمل المتقن وتحقيق رؤية واضحة للمستقبل.",
+"فريقنا يتميز بالخبرة والاحترافية والالتزام بتقديم أفضل تجربة ممكنة للجميع.",
+"نركز على بناء علاقة طويلة قائمة على الثقة والجودة والاستمرارية.",
+"نقدم حلول متطورة تعتمد على الابتكار والتكنولوجيا الحديثة.",
+"نحرص على تحقيق التميز في كل تفاصيل العمل لضمان رضا العملاء.",
+"هدفنا هو الوصول إلى أعلى مستويات الأداء والجودة في كل خطوة.",
+"نؤمن بأن التطوير المستمر هو مفتاح النجاح والاستمرارية.",
+"نقدم قيمة حقيقية وتجربة مميزة تجعلنا الخيار الأفضل دائماً.",
+"نعمل بشغف لتحقيق الإنجازات وتطوير الأداء وتحقيق النجاح.",
+"رؤيتنا مستقبل متطور مليء بالابتكار والتميز والريادة."
+];
 
 function generate(){
 
@@ -151,18 +148,16 @@ let typeVal=type.value;
 let nameVal=name.value||"اسم الجهة";
 let aboutVal=about.value||"بروشور احترافي";
 
+/* صور */
 let imgs=[];
-
-/* صور المستخدم */
 if(upload.files.length){
 for(let f of upload.files) imgs.push(URL.createObjectURL(f));
 }
 
-/* صور حسب الاختيار */
 const keywords={
-school:"school classroom students education",
-restaurant:"restaurant food kitchen dishes",
-store:"store shop products market"
+school:"school classroom students",
+restaurant:"restaurant food dishes",
+store:"store shop products"
 };
 
 while(imgs.length<14){
@@ -178,13 +173,13 @@ book.innerHTML+=`
 </div>
 </div>`;
 
-/* 12 صفحات */
+/* 12 صفحات مختلفة */
 for(let i=0;i<12;i++){
 book.innerHTML+=`
 <div class="page" style="--img:url('${imgs[i]}')">
 <div class="content">
 <div class="badge">${nameVal}</div>
-<p>${longText()} ${longText()}</p>
+<p>${texts[i]}</p>
 </div>
 </div>`;
 }
@@ -194,19 +189,12 @@ book.innerHTML+=`
 <div class="page" style="--img:url('${imgs[13]}')">
 <div class="content">
 <div class="badge">تواصل معنا</div>
-<p>
-نرحب بتواصلكم في أي وقت.
-فريقنا جاهز لخدمتكم دائماً.
-نسعد بثقتكم.
-معاً نحو النجاح.
-شكراً لكم.
-</p>
+<p>نسعد بخدمتكم دائماً. شكراً لثقتكم.</p>
 </div>
 </div>`;
 
 show("result");
 
-/* تشغيل PageFlip */
 setTimeout(()=>{
 if(flip) flip.destroy();
 flip=new St.PageFlip(book,{width:380,height:600,showCover:true});
@@ -214,12 +202,10 @@ flip.loadFromHTML(document.querySelectorAll(".page"));
 },400);
 }
 
-/* PDF */
 function downloadPDF(){
-html2pdf().from(book).save("BROCHURE.pdf");
+html2pdf().from(book).save("ULTIMATE.pdf");
 }
 
-/* عرض تلقائي */
 function autoFlip(){
 let i=0;
 let t=setInterval(()=>{
