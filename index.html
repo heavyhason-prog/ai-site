@@ -2,92 +2,44 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>PAGEFLIP GOD 😈</title>
+<title>GOD ULTIMATE ∞</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{
-  --bg:#020617;
-  --panel:#020617;
-  --text:#fff;
-}
-.light{
-  --bg:#f1f5f9;
-  --panel:#ffffff;
-  --text:#111;
-}
-body{
-  margin:0;
-  font-family:'Cairo',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  overflow:hidden;
-}
+:root{--bg:#020617;--panel:#020617;--text:#fff}
+.light{--bg:#f1f5f9;--panel:#fff;--text:#111}
+body{margin:0;font-family:Cairo;background:var(--bg);color:var(--text);overflow:hidden}
+
 #ui{
-  position:fixed;
-  right:0;
-  top:0;
-  width:320px;
-  height:100%;
-  background:var(--panel);
-  padding:20px;
-  box-shadow:-5px 0 25px rgba(0,0,0,.4);
-  overflow:auto;
-  z-index:5;
+position:fixed;right:0;top:0;width:320px;height:100%;
+background:var(--panel);padding:20px;overflow:auto;z-index:5;
+box-shadow:-5px 0 20px rgba(0,0,0,.4)
 }
 input,textarea,button{
-  width:100%;
-  margin:6px 0;
-  padding:10px;
-  border-radius:8px;
-  border:none;
-  font-family:'Cairo';
+width:100%;margin:6px 0;padding:10px;border-radius:8px;border:none;font-family:Cairo
 }
-button{
-  background:linear-gradient(90deg,#00f5ff,#00ff9c);
-  font-weight:900;
-  cursor:pointer;
-}
+button{background:linear-gradient(90deg,#00f5ff,#00ff9c);font-weight:900;cursor:pointer}
+
 #book-container{
-  position:absolute;
-  left:0;
-  top:0;
-  width:calc(100% - 320px);
-  height:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+position:absolute;left:0;top:0;width:calc(100% - 320px);height:100%;
+display:flex;justify-content:center;align-items:center
 }
-#book{
-  width:900px;
-  height:600px;
-}
-.page{
-  background:white;
-  color:#111;
-  display:flex;
-  overflow:hidden;
-  border-radius:10px;
-}
-.page img{
-  width:50%;
-  height:100%;
-  object-fit:cover;
-}
-.page .text{
-  width:50%;
-  padding:20px;
-}
+#book{width:900px;height:600px}
+
+.page{background:#fff;color:#111;display:flex;border-radius:10px;overflow:hidden}
+.page img{width:50%;height:100%;object-fit:cover}
+.page .text{width:50%;padding:20px}
 </style>
 </head>
 
 <body>
 
 <div id="ui">
-<h2>😈 PAGEFLIP GOD</h2>
+<h2>🔥 GOD ULTIMATE ∞</h2>
 
 <input id="name" placeholder="اسم المشروع">
 <textarea id="desc" placeholder="الوصف"></textarea>
@@ -100,83 +52,89 @@ button{
 <button onclick="book.flipPrev()">⬅️</button>
 <button onclick="book.flipNext()">➡️</button>
 <button onclick="speak()">🎤 قراءة</button>
-<button onclick="window.print()">📄 PDF</button>
-<button onclick="toggleTheme()">🎨 تبديل الثيم</button>
+<button onclick="downloadPDF()">📄 PDF</button>
+<button onclick="recordVideo()">🎬 فيديو</button>
+<button onclick="toggleTheme()">🎨 ثيم</button>
 </div>
 
-<div id="book-container">
-<div id="book"></div>
-</div>
+<div id="book-container"><div id="book"></div></div>
 
 <script>
 let book;
 let uploadedImgs=[];
 
-document.getElementById("imgUpload").addEventListener("change",e=>{
-  uploadedImgs=[];
-  [...e.target.files].forEach(f=>{
-    const r=new FileReader();
-    r.onload=()=>uploadedImgs.push(r.result);
-    r.readAsDataURL(f);
-  });
+imgUpload.onchange=e=>{
+uploadedImgs=[];
+[...e.target.files].forEach(f=>{
+const r=new FileReader();
+r.onload=()=>uploadedImgs.push(r.result);
+r.readAsDataURL(f);
 });
+};
 
 function page(title,text,img){
-  return `<div class="page">
-    <img src="${img}">
-    <div class="text">
-      <h2>${title}</h2>
-      <p>${text}</p>
-    </div>
-  </div>`;
+return `<div class="page">
+<img src="${img}">
+<div class="text">
+<h2>${title}</h2>
+<p>${text}</p>
+</div>
+</div>`;
 }
 
 function createBook(){
-  const name=document.getElementById("name").value||"مشروعي";
-  const desc=document.getElementById("desc").value||"وصف احترافي رائع.";
-  const services=document.getElementById("services").value.split(",");
-  const goals=document.getElementById("goals").value||"نهدف للتميز.";
+const name=nameEl("name","مشروعي");
+const desc=nameEl("desc","وصف احترافي رائع.");
+const services=nameEl("services","خدمة مميزة, جودة عالية").split(",");
+const goals=nameEl("goals","نهدف للتميز.");
 
-  const imgs = uploadedImgs.length?uploadedImgs:[
-    "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
-    "https://images.unsplash.com/photo-1556740749-887f6717d7e4",
-    "https://images.unsplash.com/photo-1507679799987-c73779587ccf"
-  ];
+const imgs=uploadedImgs.length?uploadedImgs:[
+"https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+"https://images.unsplash.com/photo-1556740749-887f6717d7e4",
+"https://images.unsplash.com/photo-1507679799987-c73779587ccf"
+];
 
-  const bookEl=document.getElementById("book");
-  bookEl.innerHTML="";
+const pages=[];
+pages.push(page(name,desc,imgs[0]));
+pages.push(page("الخدمات",services.join("<br>"),imgs[1%imgs.length]));
+pages.push(page("الأهداف",goals,imgs[2%imgs.length]));
+pages.push(page("رؤيتنا","أن نصبح الأفضل في مجالنا.",imgs[0]));
+pages.push(page("تواصل","📞 000000000<br>📧 email@email.com",imgs[1]));
 
-  const pages=[];
-  pages.push(page(name,desc,imgs[0]));
-  pages.push(page("الخدمات",services.join("<br>"),imgs[1%imgs.length]));
-  pages.push(page("الأهداف",goals,imgs[2%imgs.length]));
-  pages.push(page("رؤيتنا","أن نصبح الأفضل.",imgs[0]));
-  pages.push(page("تواصل","📞 000000000<br>📧 email@email.com",imgs[1]));
+bookEl("book").innerHTML=pages.join("");
 
-  bookEl.innerHTML=pages.join("");
-
-  if(book) book.destroy();
-
-  book=new St.PageFlip(bookEl,{
-    width:450,
-    height:600,
-    size:"stretch",
-    showCover:true,
-    maxShadowOpacity:0.5
-  });
-
-  book.loadFromHTML(document.querySelectorAll(".page"));
+if(book) book.destroy();
+book=new St.PageFlip(bookEl("book"),{
+width:450,height:600,size:"stretch",showCover:true,maxShadowOpacity:.5
+});
+book.loadFromHTML(document.querySelectorAll(".page"));
 }
+
+function nameEl(id,def){return document.getElementById(id).value||def}
+function bookEl(id){return document.getElementById(id)}
 
 function speak(){
-  const text=document.body.innerText;
-  const msg=new SpeechSynthesisUtterance(text);
-  msg.lang="ar-SA";
-  speechSynthesis.speak(msg);
+const msg=new SpeechSynthesisUtterance(document.body.innerText);
+msg.lang="ar-SA";
+speechSynthesis.speak(msg);
 }
 
-function toggleTheme(){
-  document.body.classList.toggle("light");
+function toggleTheme(){document.body.classList.toggle("light")}
+
+function downloadPDF(){html2pdf().from(bookEl("book")).save("GOD.pdf")}
+
+async function recordVideo(){
+const stream=await navigator.mediaDevices.getDisplayMedia({video:true});
+const rec=new MediaRecorder(stream);let data=[];
+rec.ondataavailable=e=>data.push(e.data);
+rec.onstop=()=>{
+const blob=new Blob(data,{type:"video/webm"});
+const a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="GOD.webm";
+a.click();
+};
+rec.start();setTimeout(()=>rec.stop(),8000);
 }
 </script>
 
