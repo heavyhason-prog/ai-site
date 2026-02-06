@@ -2,8 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Brochure TRANSCENDENCE</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Brochure ABSOLUTE MODE</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
@@ -20,74 +20,58 @@ background:radial-gradient(circle,#020617,#000);
 color:#fff;
 }
 
-section{
-display:none;
-padding:20px;
-max-width:1100px;
-margin:auto;
-position:relative;
-z-index:1;
-}
-
+section{display:none;padding:20px;max-width:1100px;margin:auto}
 section.active{display:block}
 
 input,textarea,select{
-width:100%;
-padding:14px;
-border:none;
-border-radius:14px;
-margin-bottom:12px;
-background:rgba(255,255,255,.08);
-color:#fff;
+width:100%;padding:14px;border:none;border-radius:14px;
+margin-bottom:12px;background:rgba(255,255,255,.08);color:#fff;
 }
 
 button{
-width:100%;
-padding:14px;
-border:none;
-border-radius:14px;
+width:100%;padding:14px;border:none;border-radius:14px;
 background:linear-gradient(45deg,var(--main),#00ffa6);
-font-weight:900;
-cursor:pointer;
-margin-top:10px;
+font-weight:900;cursor:pointer;margin-top:10px;
 }
 
-#book{
-margin:auto;
-max-width:430px;
-height:620px;
-}
+#book{margin:auto;max-width:420px;height:620px}
 
+/* الصفحة */
 .page{
-background:#fff;
-color:#000;
+position:relative;
 border-radius:22px;
 overflow:hidden;
 display:flex;
-flex-direction:column;
-box-shadow:0 0 35px rgba(0,255,255,.35)
-}
-
-.page img{
-width:100%;
-height:260px;
-object-fit:cover;
-}
-
-.cover{
-background:linear-gradient(135deg,#020617,#000);
+align-items:flex-end;
+background:#000;
 color:#fff;
-justify-content:center;
-align-items:center;
-text-align:center;
 }
 
-.cover h1{font-size:28px;margin:0}
-.cover p{opacity:.85}
+/* صورة فل الصفحة */
+.page::before{
+content:"";
+position:absolute;
+inset:0;
+background-image:var(--img);
+background-size:cover;
+background-position:center;
+z-index:0;
+}
+
+/* طبقة تغميق */
+.page::after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.25));
+z-index:1;
+}
 
 .content{
-padding:18px;
-text-align:right;
+position:relative;
+z-index:2;
+padding:20px;
+width:100%;
 }
 
 .badge{
@@ -97,28 +81,26 @@ border-radius:20px;
 display:inline-block;
 margin-bottom:10px;
 font-weight:700;
+color:#000;
 }
 
-.content p{
-display:-webkit-box;
--webkit-line-clamp:6;
--webkit-box-orient:vertical;
-overflow:hidden;
-line-height:1.8;
-font-size:15px;
+.cover{
+background:linear-gradient(135deg,#020617,#000);
+display:flex;justify-content:center;align-items:center;
+text-align:center;
 }
+
+.cover h1{margin:0;font-size:28px}
 </style>
 </head>
 
 <body>
 
-<!-- HOME -->
 <section id="home" class="active">
-<h1>🚀 AI Brochure TRANSCENDENCE</h1>
+<h1>🚀 AI Brochure ABSOLUTE MODE</h1>
 <button onclick="show('form')">ابدأ</button>
 </section>
 
-<!-- FORM -->
 <section id="form">
 <select id="type">
 <option value="school">🏫 مدرسة</option>
@@ -127,126 +109,96 @@ font-size:15px;
 </select>
 
 <input id="name" placeholder="اسم الجهة">
-<textarea id="about" placeholder="نبذة مختصرة"></textarea>
+<textarea id="about" placeholder="نبذة"></textarea>
 <input type="file" id="upload" multiple accept="image/*">
 
-<button onclick="generate()">🔥 إنشاء البروشور</button>
+<button onclick="generate()">🔥 إنشاء</button>
 </section>
 
-<!-- RESULT -->
 <section id="result">
-<h2>📖 البروشور</h2>
 <div id="book"></div>
-
-<button onclick="downloadPDF()">📄 تحميل PDF</button>
-<button onclick="autoFlip()">🎥 عرض تلقائي</button>
-<button onclick="show('form')">🔁 تعديل البيانات</button>
+<button onclick="downloadPDF()">📄 PDF</button>
+<button onclick="autoFlip()">🎥 عرض</button>
+<button onclick="show('form')">🔁 تعديل</button>
 </section>
 
 <script>
 let flip;
 
-/* التنقل */
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* محتوى ذكي غير مكرر */
-const content = {
-school:[
-["بيئة تعليمية حديثة.","فصول مجهزة.","تعليم تفاعلي.","تحفيز مستمر.","دعم شامل.","مستقبل واعد."],
-["كادر تعليمي محترف.","خبرات معتمدة.","تطوير دائم.","أساليب حديثة.","تفاعل إيجابي.","جودة عالية."],
-["مناهج متطورة.","مواكبة المستقبل.","دمج التقنية.","خطط مرنة.","تركيز مهاري.","نتائج قوية."],
-["أنشطة طلابية.","اكتشاف المواهب.","تنمية الإبداع.","عمل جماعي.","شخصية متوازنة.","بيئة ممتعة."],
-["رعاية نفسية.","متابعة سلوكية.","تواصل أسري.","دعم مستمر.","أمان كامل.","استقرار."],
-["قيم تربوية.","انضباط.","احترام.","مسؤولية.","أخلاق.","جيل واعٍ."],
-["تقنيات ذكية.","تعليم رقمي.","منصات حديثة.","تفاعل مباشر.","مرونة.","سهولة تعلم."],
-["مرافق متكاملة.","معامل حديثة.","ملاعب.","قاعات.","بيئة آمنة.","راحة الطلاب."],
-["تقييم مستمر.","متابعة الأداء.","تحسين دائم.","تطوير.","نتائج ملموسة.","نجاح."],
-["شراكة مجتمعية.","مبادرات.","تفاعل.","دعم محلي.","تأثير إيجابي.","انتماء."],
-["إدارة فعالة.","تنظيم عالي.","تخطيط.","حوكمة.","استدامة.","استقرار."],
-["رؤية مستقبلية.","تطوير شامل.","ابتكار.","تميز.","ريادة.","تفوق."]
-],
-
-restaurant:[
-["أطباق مميزة.","نكهات غنية.","تحضير يومي.","تقديم أنيق.","جودة عالية.","تجربة فريدة."],
-["مكونات طازجة.","اختيار دقيق.","سلامة غذائية.","طعم أصيل.","ثقة.","رضا."],
-["خدمة راقية.","سرعة تنفيذ.","طاقم محترف.","تنظيم ممتاز.","راحة.","اهتمام."],
-["أجواء مريحة.","تصميم أنيق.","جلسات عائلية.","هدوء.","راحة نفسية.","استمتاع."],
-["أسعار مناسبة.","قيمة حقيقية.","عروض.","خيارات.","توازن.","رضا."],
-["قائمة متنوعة.","أصناف متعددة.","ابتكار.","تجديد.","ذوق مختلف.","تميّز."],
-["طلبات سريعة.","توصيل.","تغليف.","دقة.","جودة.","راحة."],
-["نظافة عالية.","معايير صحية.","تعقيم.","أمان.","ثقة.","اطمئنان."],
-["تقييمات عالية.","سمعة ممتازة.","عملاء دائمون.","ولاء.","نجاح.","استمرارية."],
-["مناسب للعائلة.","مناسب للأفراد.","مرونة.","اختيار مثالي.","راحة.","سعادة."],
-["إدارة احترافية.","تنظيم.","تخطيط.","جودة.","استقرار.","تميز."],
-["هوية قوية.","علامة مميزة.","حضور.","انتشار.","نمو.","نجاح."]
-],
-
-store:[
-["منتجات متنوعة.","اختيار ذكي.","جودة عالية.","تصاميم عصرية.","أسعار مناسبة.","رضا."],
-["تنظيم ممتاز.","عرض جذاب.","سهولة تصفح.","وضوح.","راحة.","سرعة."],
-["خدمة احترافية.","استجابة فورية.","دعم.","احترام.","ثقة.","تجربة."],
-["عروض مستمرة.","خصومات.","قيمة إضافية.","توفير.","فرص.","سعادة."],
-["تحديث دائم.","منتجات جديدة.","مواكبة السوق.","تنوع.","ابتكار.","جاذبية."],
-["تجربة تسوق.","سهولة.","سلاسة.","راحة.","متعة.","تميز."],
-["سياسات واضحة.","ضمان.","إرجاع.","مرونة.","أمان.","ثقة."],
-["متجر عصري.","تصميم أنيق.","هوية واضحة.","جاذبية.","راحة.","احتراف."],
-["دفع سهل.","خيارات متعددة.","أمان.","سرعة.","مرونة.","اطمئنان."],
-["عملاء دائمون.","ولاء.","ثقة.","سمعة.","انتشار.","نجاح."],
-["إدارة فعالة.","تنظيم.","تخطيط.","تطوير.","استدامة.","استقرار."],
-["علامة موثوقة.","حضور قوي.","نمو.","توسع.","ريادة.","تفوق."]
-]
-};
+/* نص طويل */
+function longText(){
+return `
+نحن نعمل على تقديم أفضل جودة ممكنة من خلال الابتكار والتطوير المستمر.
+نركز على تحقيق أعلى المعايير في الأداء والخدمة.
+نسعى دائماً لتقديم تجربة مميزة ترضي تطلعات الجميع.
+نؤمن بأن النجاح يبدأ من التفاصيل الصغيرة والعمل المتقن.
+نحرص على بناء علاقة طويلة قائمة على الثقة والجودة.
+رؤيتنا مستقبل متطور مليء بالإنجازات والتميز.
+`;
+}
 
 function generate(){
+
 const book=document.getElementById("book");
 book.innerHTML="";
 
 let typeVal=type.value;
 let nameVal=name.value||"اسم الجهة";
-let aboutVal=about.value||"بروشور تعريفي احترافي";
-let texts=content[typeVal];
+let aboutVal=about.value||"بروشور احترافي";
 
 let imgs=[];
+
+/* صور المستخدم */
 if(upload.files.length){
 for(let f of upload.files) imgs.push(URL.createObjectURL(f));
-}else{
-for(let i=0;i<14;i++) imgs.push(`https://picsum.photos/600/400?${typeVal}${i}`);
+}
+
+/* صور حسب الاختيار */
+const keywords={
+school:"school classroom students education",
+restaurant:"restaurant food kitchen dishes",
+store:"store shop products market"
+};
+
+while(imgs.length<14){
+imgs.push(`https://source.unsplash.com/900x1200/?${keywords[typeVal]}&sig=${Math.random()}`);
 }
 
 /* غلاف */
 book.innerHTML+=`
 <div class="page cover">
+<div class="content">
 <h1>${nameVal}</h1>
 <p>${aboutVal}</p>
+</div>
 </div>`;
 
-/* 12 صفحات محتوى */
+/* 12 صفحات */
 for(let i=0;i<12;i++){
 book.innerHTML+=`
-<div class="page">
-<img src="${imgs[i]}">
+<div class="page" style="--img:url('${imgs[i]}')">
 <div class="content">
 <div class="badge">${nameVal}</div>
-<p>${texts[i].join("<br>")}</p>
+<p>${longText()} ${longText()}</p>
 </div>
 </div>`;
 }
 
 /* خاتمة */
 book.innerHTML+=`
-<div class="page">
-<img src="${imgs[13]}">
+<div class="page" style="--img:url('${imgs[13]}')">
 <div class="content">
 <div class="badge">تواصل معنا</div>
 <p>
-نرحب بتواصلكم.<br>
-نسعد بخدمتكم.<br>
-جاهزون دائماً.<br>
-ثقتكم تهمنا.<br>
-معاً للنجاح.<br>
+نرحب بتواصلكم في أي وقت.
+فريقنا جاهز لخدمتكم دائماً.
+نسعد بثقتكم.
+معاً نحو النجاح.
 شكراً لكم.
 </p>
 </div>
@@ -254,26 +206,29 @@ book.innerHTML+=`
 
 show("result");
 
+/* تشغيل PageFlip */
 setTimeout(()=>{
-if(flip)flip.destroy();
-flip=new St.PageFlip(book,{width:370,height:600});
+if(flip) flip.destroy();
+flip=new St.PageFlip(book,{width:380,height:600,showCover:true});
 flip.loadFromHTML(document.querySelectorAll(".page"));
-},300);
+},400);
 }
 
+/* PDF */
 function downloadPDF(){
-html2pdf().from(book).save("TRANSCENDENCE.pdf");
+html2pdf().from(book).save("BROCHURE.pdf");
 }
 
+/* عرض تلقائي */
 function autoFlip(){
 let i=0;
 let t=setInterval(()=>{
 if(i>=14){clearInterval(t);return;}
-flip.flipNext();i++;
+flip.flipNext();
+i++;
 },1200);
 }
 </script>
 
 </body>
 </html>
-
