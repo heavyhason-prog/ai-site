@@ -149,24 +149,26 @@ button{
 <div id="book"></div>
 
 <script>
-const images={
-  school:"school,classroom,education,students",
-  company:"business,office,corporate,meeting",
-  project:"technology,startup,innovation,futuristic"
+// كلمات البحث للصور لكل وضع
+const images = {
+  school: ["school","classroom","students","education","books","teacher"],
+  company: ["office","business","corporate","meeting","teamwork","workspace"],
+  project: ["technology","startup","innovation","futuristic","idea","creative"]
 };
 
-const articles={
-  school:(t,d)=>`
+// المقالات
+const articles = {
+  school: (t,d) => `
 هذا المحتوى موجه للبيئة التعليمية.
 يشرح "${t}" بأسلوب مبسط للطلاب والمعلمين.
 ${d || "يركز على الفهم، التطبيق، والتدرج المعرفي."}
 `,
-  company:(t,d)=>`
+  company: (t,d) => `
 هذا المحتوى مخصص لبيئة الشركات.
 يتناول "${t}" بأسلوب احترافي يعتمد على التحليل واتخاذ القرار.
 ${d || "يركز على الإنتاجية والنمو والاستدامة."}
 `,
-  project:(t,d)=>`
+  project: (t,d) => `
 هذا المحتوى موجه للمشاريع والريادة.
 يستعرض "${t}" بعقلية ابتكارية وتنفيذية.
 ${d || "يركز على الإبداع، السرعة، وبناء المستقبل."}
@@ -174,33 +176,36 @@ ${d || "يركز على الإبداع، السرعة، وبناء المستق�
 };
 
 function generateBook(){
-  const title=document.getElementById("title").value||"AI GOD BOOK";
-  const topic=document.getElementById("topic").value||"الذكاء الاصطناعي";
-  const details=document.getElementById("details").value;
-  const mode=document.getElementById("mode").value;
+  const title = document.getElementById("title").value || "AI GOD BOOK";
+  const topic = document.getElementById("topic").value || "الذكاء الاصطناعي";
+  const details = document.getElementById("details").value;
+  const mode = document.getElementById("mode").value;
 
-  // إخفاء شاشة البداية
-  document.getElementById("formScreen").style.opacity=0;
+  document.getElementById("formScreen").style.opacity = 0;
   setTimeout(()=>document.getElementById("formScreen").style.display="none",700);
 
-  const book=document.getElementById("book");
-  book.innerHTML="";
+  const book = document.getElementById("book");
+  book.innerHTML = "";
 
-  for(let i=1;i<=10;i++){
-    book.innerHTML+=`
+  // استخدام كلمات مختلفة لكل صفحة لضمان صور مختلفة
+  for(let i=0;i<10;i++){
+    const keyword = images[mode][i % images[mode].length]; // دورة على الكلمات
+    const imgURL = `https://source.unsplash.com/900x1400/?${keyword}&sig=${Date.now()+i}`;
+
+    book.innerHTML += `
       <div class="page">
-        <img src="https://source.unsplash.com/900x1400/?${images[mode]}&sig=${i}">
+        <img src="${imgURL}">
         <div class="text">
           <h2>${title}</h2>
           <p>${articles[mode](topic,details)}</p>
-          <p>القسم ${i}</p>
+          <p>القسم ${i+1}</p>
         </div>
       </div>`;
   }
 
-  book.style.display="block";
+  book.style.display = "block";
   setTimeout(()=>book.style.opacity=1,300);
-  document.getElementById("controls").style.display="flex";
+  document.getElementById("controls").style.display = "flex";
 
   new St.PageFlip(book,{
     width:900,
@@ -210,12 +215,12 @@ function generateBook(){
   }).loadFromHTML(document.querySelectorAll(".page"));
 }
 
-function goBack(){location.reload();}
+function goBack(){ location.reload(); }
 function exportPDF(){
   html2pdf().from(document.getElementById("book")).set({filename:"AI_GOD_SYSTEM.pdf"}).save();
 }
 
-document.addEventListener("mousemove",e=>{
+document.addEventListener("mousemove", e=>{
   document.documentElement.style.setProperty("--mx",(e.clientX/innerWidth)*100+"%");
   document.documentElement.style.setProperty("--my",(e.clientY/innerHeight)*100+"%");
 });
