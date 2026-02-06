@@ -2,17 +2,18 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI MASTER ENGINE ∞∞∞</title>
+<title>AI GOD SYSTEM ∞∞∞∞</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:#000;
+background:radial-gradient(circle at top,#050505,#000);
 color:#fff;
 overflow:hidden;
 }
@@ -20,45 +21,48 @@ overflow:hidden;
 /* شاشة الإدخال */
 #formScreen{
 position:fixed;
-width:100%;
-height:100%;
+inset:0;
 background:#000;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
+gap:10px;
 z-index:9999;
 }
 
-input, textarea{
-width:320px;
-margin:10px;
+input, textarea, select{
+width:340px;
 padding:12px;
 border:none;
-border-radius:10px;
+border-radius:12px;
 font-size:16px;
+outline:none;
 }
 
 button{
-padding:12px 28px;
+padding:14px 34px;
 font-size:18px;
 border:none;
-border-radius:10px;
+border-radius:14px;
 cursor:pointer;
-font-weight:700;
-background:#00eaff;
+font-weight:900;
+background:linear-gradient(135deg,#00eaff,#7cff00);
+box-shadow:0 0 25px rgba(0,234,255,.6);
 }
 
 #book{
 width:100vw;
 height:100vh;
 display:none;
+perspective:2000px;
 }
 
 .page{
 position:relative;
 width:100%;
 height:100%;
+transform-style:preserve-3d;
 }
 
 .page img{
@@ -66,7 +70,7 @@ position:absolute;
 width:100%;
 height:100%;
 object-fit:cover;
-filter:brightness(0.6);
+filter:brightness(.55);
 }
 
 .text{
@@ -78,7 +82,18 @@ width:85%;
 font-size:22px;
 line-height:2;
 text-align:center;
-text-shadow:0 0 10px #000;
+text-shadow:0 0 20px #000;
+}
+
+/* أزرار التحكم */
+#controls{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+gap:12px;
+z-index:999;
 }
 </style>
 </head>
@@ -87,95 +102,109 @@ text-shadow:0 0 10px #000;
 
 <!-- شاشة الإدخال -->
 <div id="formScreen">
-<h2>AI MASTER ENGINE ∞∞∞</h2>
+<h2>AI GOD SYSTEM ∞∞∞∞ 😈🚀</h2>
 
-<input id="title" placeholder="اكتب العنوان">
-<textarea id="topic" placeholder="اكتب الموضوع"></textarea>
-<textarea id="details" placeholder="تفاصيل إضافية (اختياري)"></textarea>
+<input id="title" placeholder="عنوان الكتاب">
+<textarea id="topic" placeholder="الموضوع الأساسي"></textarea>
+<textarea id="details" placeholder="تفاصيل إضافية"></textarea>
 
-<button onclick="generateBook()">إنشاء الكتاب</button>
+<select id="mode">
+<option value="school">🎓 مدرسة</option>
+<option value="company">🏢 شركة</option>
+<option value="project">🚀 مشروع</option>
+</select>
+
+<button onclick="generateBook()">إنشاء النظام</button>
+</div>
+
+<!-- أزرار -->
+<div id="controls" style="display:none">
+<button onclick="exportPDF()">📄 PDF</button>
+<button onclick="exportVideo()">🎬 VIDEO</button>
 </div>
 
 <!-- الكتاب -->
-<div id="book">
-
-<div class="page"><img src="https://picsum.photos/900/1400?1"><div class="text" id="p1"></div></div>
-<div class="page"><img src="https://picsum.photos/900/1400?2"><div class="text" id="p2"></div></div>
-<div class="page"><img src="https://picsum.photos/900/1400?3"><div class="text" id="p3"></div></div>
-<div class="page"><img src="https://picsum.photos/900/1400?4"><div class="text" id="p4"></div></div>
-<div class="page"><img src="https://picsum.photos/900/1400?5"><div class="text" id="p5"></div></div>
-<div class="page"><img src="https://picsum.photos/900/1400?6"><div class="text" id="p6"></div></div>
-
-</div>
+<div id="book"></div>
 
 <script>
+function aiTone(mode){
+if(mode==="school") return "بأسلوب تعليمي مبسط مع أمثلة";
+if(mode==="company") return "بأسلوب احترافي رسمي موجه للأعمال";
+return "بأسلوب إبداعي ريادي تحفيزي";
+}
 
-function generateLongArticle(title, topic, details){
+function generateLongArticle(title, topic, details, mode){
+let pages=[];
+let tone = aiTone(mode);
 
-return [
+for(let i=1;i<=12;i++){
+pages.push(`
+${title}
 
-`${title}
+القسم ${i}:
+هذا القسم يتناول "${topic}" ${tone}.
+${details || "يركز هذا الجزء على بناء فهم عميق ومتدرج للمفهوم."}
 
-مقدمة:
-يُعد موضوع "${topic}" من أهم المواضيع في العصر الحديث، حيث يؤثر بشكل مباشر على حياتنا اليومية ومستقبل المجتمعات. ${details || "هذا المجال يشهد تطوراً سريعاً ويحتاج إلى فهم عميق ومعرفة مستمرة."}
-إن التقدم في هذا المجال يفتح آفاقاً جديدة للابتكار والإبداع ويمنح الأفراد القدرة على التميز.`,
+يُعد هذا المحور من الركائز الأساسية التي تساعد القارئ على تطوير وعي شامل،
+واتخاذ قرارات أفضل مبنية على المعرفة والخبرة.
 
-`الأساسيات:
-يقوم "${topic}" على مجموعة من المبادئ المهمة التي تساعد على بناء فهم شامل. من خلال التعلم المستمر يمكن تطوير المهارات وتحقيق مستوى عالٍ من الاحتراف.
-هذا المجال يجمع بين المعرفة النظرية والتطبيق العملي مما يجعله من أكثر المجالات تأثيراً.`,
-
-`التفاصيل:
-مع تطور الزمن أصبح "${topic}" جزءاً أساسياً من الحياة. يتطلب النجاح فيه التركيز، التعلم، والممارسة المستمرة.
-الاهتمام بالتفاصيل الصغيرة هو ما يصنع الفرق الكبير ويقود إلى التميز الحقيقي.`,
-
-`الفوائد:
-يساعد هذا المجال على تنمية التفكير، تحسين الأداء، وبناء مستقبل قوي. كما يمنح القدرة على الإبداع واتخاذ القرارات الصحيحة.
-الاستثمار في التعلم هو أفضل طريق للنجاح.`,
-
-`التطبيق:
-يمكن تطبيق هذه المعرفة في الدراسة، العمل، المشاريع، وحتى الحياة اليومية. الممارسة المستمرة ترفع مستوى الفهم وتزيد من الخبرة.
-كل خطوة في التعلم تقربك من الاحتراف.`,
-
-`الخاتمة:
-في النهاية يبقى "${topic}" من أهم المجالات التي تستحق الاهتمام. النجاح يبدأ بالتعلم ثم العمل ثم الاستمرار.
-التميز ليس صدفة بل نتيجة جهد ومعرفة وإصرار.`
-
-];
-
+التحليل، التطبيق، والتفكير الاستراتيجي
+هي مفاتيح التفوق في هذا المجال.
+`);
+}
+return pages;
 }
 
 function generateBook(){
-
-const title = document.getElementById("title").value || "AI MASTER BOOK";
-const topic = document.getElementById("topic").value || "التقنية الحديثة";
+const title = titleInput();
+const topic = topicInput();
 const details = document.getElementById("details").value;
+const mode = document.getElementById("mode").value;
 
-const pages = generateLongArticle(title, topic, details);
+const pages = generateLongArticle(title, topic, details, mode);
+const book = document.getElementById("book");
+book.innerHTML="";
 
-for(let i=1;i<=6;i++){
-document.getElementById("p"+i).innerText = pages[i-1];
-}
+pages.forEach((p,i)=>{
+book.innerHTML+=`
+<div class="page">
+<img src="https://picsum.photos/900/1400?random=${i}">
+<div class="text">${p}</div>
+</div>`;
+});
 
 document.getElementById("formScreen").style.display="none";
-document.getElementById("book").style.display="block";
+book.style.display="block";
+document.getElementById("controls").style.display="flex";
 
-/* تشغيل التقليب */
-const pageFlip = new St.PageFlip(
-document.getElementById("book"),
-{
+const pageFlip = new St.PageFlip(book,{
 width:900,
 height:1400,
 size:"stretch",
 showCover:true,
-mobileScrollSupport:false,
-maxShadowOpacity:0.5
-}
-);
-
+maxShadowOpacity:.6
+});
 pageFlip.loadFromHTML(document.querySelectorAll(".page"));
-
 }
 
+function titleInput(){
+return document.getElementById("title").value || "AI GOD BOOK";
+}
+function topicInput(){
+return document.getElementById("topic").value || "الذكاء الاصطناعي المتقدم";
+}
+
+/* PDF */
+function exportPDF(){
+html2pdf().from(document.getElementById("book"))
+.set({margin:0,filename:'AI_GOD_SYSTEM.pdf',html2canvas:{scale:2}})
+.save();
+}
+
+/* VIDEO (محاكاة) */
+function exportVideo(){
+alert("🎬 نظام الفيديو جاهز للربط مع Canvas / MediaRecorder");
+}
 </script>
 
 </body>
