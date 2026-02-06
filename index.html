@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI GOD SYSTEM ∞∞∞∞</title>
+<title>AI GOD SYSTEM ∞</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -10,27 +10,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{
---mx:80%;
---my:20%;
-}
+:root{--mx:80%;--my:20%;}
 
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:#000;
 color:#fff;
 overflow:hidden;
+background:#020617;
 }
 
-/* ===== خلفية AI (تظهر بعد الدخول) ===== */
+/* ===== خلفية موحدة لكل النظام ===== */
 #appBg{
 position:fixed;
 inset:0;
 z-index:-1;
-display:none;
-opacity:0;
-transition:opacity 1.2s ease;
 background:
 radial-gradient(1200px 600px at var(--mx) var(--my),
 #0fd9c7 0%,
@@ -41,35 +35,33 @@ animation:bgBreath 10s ease-in-out infinite;
 }
 
 @keyframes bgBreath{
-0%,100%{filter:brightness(1) saturate(1)}
-50%{filter:brightness(1.15) saturate(1.25)}
+0%,100%{filter:brightness(1)}
+50%{filter:brightness(1.15)}
 }
 
-/* ===== شاشة الإدخال ===== */
+/* ===== شاشة البداية ===== */
 #formScreen{
 position:fixed;
 inset:0;
-background:#000;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
 gap:10px;
 z-index:10;
-transition:opacity .8s ease;
+transition:.8s;
 }
 
-input, textarea, select{
+input,textarea,select{
 width:340px;
 padding:12px;
 border:none;
 border-radius:12px;
 font-size:16px;
-outline:none;
 }
 
 button{
-padding:14px 34px;
+padding:14px 36px;
 font-size:18px;
 border:none;
 border-radius:14px;
@@ -84,19 +76,17 @@ box-shadow:0 0 25px rgba(0,234,255,.6);
 width:100vw;
 height:100vh;
 display:none;
-perspective:2000px;
 opacity:0;
-transition:opacity 1s ease;
+transition:1s;
 }
 
 .page{
-position:relative;
 width:100%;
 height:100%;
+position:relative;
 }
 
 .page img{
-position:absolute;
 width:100%;
 height:100%;
 object-fit:cover;
@@ -115,7 +105,7 @@ text-align:center;
 text-shadow:0 0 20px #000;
 }
 
-/* ===== أزرار التحكم ===== */
+/* ===== أزرار ===== */
 #controls{
 position:fixed;
 bottom:20px;
@@ -132,12 +122,12 @@ z-index:20;
 
 <div id="appBg"></div>
 
-<!-- شاشة البداية -->
+<!-- البداية -->
 <div id="formScreen">
-<h2>AI GOD SYSTEM ∞∞∞∞ 😈🚀</h2>
+<h2>AI GOD SYSTEM 😈🔥</h2>
 
 <input id="title" placeholder="عنوان الكتاب">
-<textarea id="topic" placeholder="الموضوع الأساسي"></textarea>
+<textarea id="topic" placeholder="الفكرة الرئيسية"></textarea>
 <textarea id="details" placeholder="تفاصيل إضافية"></textarea>
 
 <select id="mode">
@@ -146,13 +136,12 @@ z-index:20;
 <option value="project">🚀 مشروع</option>
 </select>
 
-<button onclick="generateBook()">إنشاء النظام</button>
+<button onclick="generateBook()">تشغيل النظام</button>
 </div>
 
 <!-- أزرار -->
 <div id="controls">
 <button onclick="exportPDF()">📄 PDF</button>
-<button onclick="exportVideo()">🎬 VIDEO</button>
 <button onclick="goBack()">↩ رجوع</button>
 </div>
 
@@ -160,92 +149,71 @@ z-index:20;
 <div id="book"></div>
 
 <script>
-function aiTone(mode){
-if(mode==="school") return "بأسلوب تعليمي مبسط مع أمثلة";
-if(mode==="company") return "بأسلوب احترافي رسمي موجه للأعمال";
-return "بأسلوب إبداعي ريادي تحفيزي";
-}
+const images={
+school:"school classroom education students",
+company:"business office corporate meeting",
+project:"technology startup innovation futuristic"
+};
 
-function generateLongArticle(title, topic, details, mode){
-let pages=[];
-let tone = aiTone(mode);
-
-for(let i=1;i<=12;i++){
-pages.push(`
-${title}
-
-القسم ${i}:
-هذا القسم يتناول "${topic}" ${tone}.
-${details || "يركز هذا الجزء على بناء فهم عميق ومتدرج للمفهوم."}
-
-التحليل، التطبيق، والاستمرارية
-هي مفاتيح النجاح الحقيقي.
-`);
-}
-return pages;
-}
+const articles={
+school:(t,d)=>`
+هذا المحتوى موجه للبيئة التعليمية.
+يشرح "${t}" بأسلوب مبسط للطلاب والمعلمين.
+${d || "يركز على الفهم، التطبيق، والتدرج المعرفي."}
+`,
+company:(t,d)=>`
+هذا المحتوى مخصص لبيئة الشركات.
+يتناول "${t}" بأسلوب احترافي يعتمد على التحليل واتخاذ القرار.
+${d || "يركز على الإنتاجية والنمو والاستدامة."}
+`,
+project:(t,d)=>`
+هذا المحتوى موجه للمشاريع والريادة.
+يستعرض "${t}" بعقلية ابتكارية وتنفيذية.
+${d || "يركز على الإبداع، السرعة، وبناء المستقبل."}
+`
+};
 
 function generateBook(){
-const title = document.getElementById("title").value || "AI GOD BOOK";
-const topic = document.getElementById("topic").value || "الذكاء الاصطناعي المتقدم";
-const details = document.getElementById("details").value;
-const mode = document.getElementById("mode").value;
+const title=document.getElementById("title").value||"AI GOD BOOK";
+const topic=document.getElementById("topic").value||"الذكاء الاصطناعي";
+const details=document.getElementById("details").value;
+const mode=document.getElementById("mode").value;
 
-/* انتقال */
 document.getElementById("formScreen").style.opacity=0;
-setTimeout(()=>{
-document.getElementById("formScreen").style.display="none";
-},800);
+setTimeout(()=>document.getElementById("formScreen").style.display="none",700);
 
-/* خلفية */
-const bg=document.getElementById("appBg");
-bg.style.display="block";
-setTimeout(()=>bg.style.opacity=1,100);
-
-const pages = generateLongArticle(title, topic, details, mode);
-const book = document.getElementById("book");
+const book=document.getElementById("book");
 book.innerHTML="";
 
-pages.forEach((p,i)=>{
+for(let i=1;i<=10;i++){
 book.innerHTML+=`
 <div class="page">
-<img src="https://picsum.photos/900/1400?random=${i}">
-<div class="text">${p}</div>
+<img src="https://source.unsplash.com/900x1400/?${images[mode]}&sig=${i}">
+<div class="text">
+<h2>${title}</h2>
+<p>${articles[mode](topic,details)}</p>
+<p>القسم ${i}</p>
+</div>
 </div>`;
-});
+}
 
 book.style.display="block";
 setTimeout(()=>book.style.opacity=1,300);
 document.getElementById("controls").style.display="flex";
 
-const pageFlip = new St.PageFlip(book,{
+new St.PageFlip(book,{
 width:900,
 height:1400,
 size:"stretch",
-showCover:true,
-maxShadowOpacity:.6
-});
-pageFlip.loadFromHTML(document.querySelectorAll(".page"));
+showCover:true
+}).loadFromHTML(document.querySelectorAll(".page"));
 }
 
-/* رجوع */
-function goBack(){
-location.reload();
-}
-
-/* PDF */
+function goBack(){location.reload();}
 function exportPDF(){
-html2pdf().from(document.getElementById("book"))
-.set({margin:0,filename:'AI_GOD_SYSTEM.pdf',html2canvas:{scale:2}})
-.save();
+html2pdf().from(book).set({filename:"AI_GOD_SYSTEM.pdf"}).save();
 }
 
-/* VIDEO */
-function exportVideo(){
-alert("🎬 جاهز للربط مع MediaRecorder");
-}
-
-/* توهج الماوس */
 document.addEventListener("mousemove",e=>{
 document.documentElement.style.setProperty("--mx",(e.clientX/innerWidth)*100+"%");
 document.documentElement.style.setProperty("--my",(e.clientY/innerHeight)*100+"%");
