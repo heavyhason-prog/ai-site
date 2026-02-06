@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI GOD SYSTEM ∞∞∞∞</title>
+<title>AI Brochure MAX</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -10,202 +10,179 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
+:root{--main:#00f5ff}
+*{box-sizing:border-box}
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:radial-gradient(circle at top,#050505,#000);
+background:#020617;
 color:#fff;
-overflow:hidden;
+overflow-x:hidden;
 }
 
-/* شاشة الإدخال */
-#formScreen{
+/* Glow effect */
+body::before{
+content:"";
 position:fixed;
 inset:0;
-background:#000;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-gap:10px;
-z-index:9999;
+background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.25),transparent 40%);
+pointer-events:none;
 }
 
-input, textarea, select{
-width:340px;
-padding:12px;
-border:none;
-border-radius:12px;
-font-size:16px;
-outline:none;
+section{display:none;padding:20px;max-width:1100px;margin:auto}
+section.active{display:block}
+
+input,textarea,select{
+width:100%;padding:14px;border:none;border-radius:12px;margin-bottom:12px;
+background:rgba(255,255,255,.08);color:#fff
 }
 
 button{
-padding:14px 34px;
-font-size:18px;
-border:none;
-border-radius:14px;
-cursor:pointer;
-font-weight:900;
-background:linear-gradient(135deg,#00eaff,#7cff00);
-box-shadow:0 0 25px rgba(0,234,255,.6);
+width:100%;padding:14px;border:none;border-radius:14px;
+background:linear-gradient(45deg,var(--main),#00ffa6);
+font-weight:900;cursor:pointer
 }
 
-#book{
-width:100vw;
-height:100vh;
-display:none;
-perspective:2000px;
-}
+#book{margin:auto;max-width:420px;height:560px}
 
 .page{
-position:relative;
-width:100%;
-height:100%;
-transform-style:preserve-3d;
+background:#fff;color:#000;border-radius:20px;overflow:hidden;
+display:flex;flex-direction:column;box-shadow:0 0 30px rgba(0,255,255,.2)
 }
+.page img{width:100%;height:230px;object-fit:cover}
+.content{padding:18px;line-height:1.8}
+.badge{background:var(--main);padding:6px 14px;border-radius:20px;display:inline-block;margin-bottom:8px;font-weight:700}
 
-.page img{
-position:absolute;
-width:100%;
-height:100%;
-object-fit:cover;
-filter:brightness(.55);
-}
-
-.text{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:85%;
-font-size:22px;
-line-height:2;
-text-align:center;
-text-shadow:0 0 20px #000;
-}
-
-/* أزرار التحكم */
-#controls{
-position:fixed;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-display:flex;
-gap:12px;
-z-index:999;
-}
 </style>
 </head>
 
 <body>
 
-<!-- شاشة الإدخال -->
-<div id="formScreen">
-<h2>AI GOD SYSTEM ∞∞∞∞ 😈🚀</h2>
+<section id="home" class="active">
+<h1>🔥 AI Brochure MAX</h1>
+<button onclick="show('form')">ابدأ</button>
+</section>
 
-<input id="title" placeholder="عنوان الكتاب">
-<textarea id="topic" placeholder="الموضوع الأساسي"></textarea>
-<textarea id="details" placeholder="تفاصيل إضافية"></textarea>
-
-<select id="mode">
-<option value="school">🎓 مدرسة</option>
-<option value="company">🏢 شركة</option>
-<option value="project">🚀 مشروع</option>
+<section id="form">
+<select id="type">
+<option value="school">مدرسة</option>
+<option value="restaurant">مطعم</option>
+<option value="store">متجر</option>
 </select>
 
-<button onclick="generateBook()">إنشاء النظام</button>
+<input id="name" placeholder="اسم الجهة">
+<textarea id="about" placeholder="نبذة"></textarea>
+<textarea id="services" placeholder="الخدمات"></textarea>
+<textarea id="goals" placeholder="الأهداف"></textarea>
+
+<input type="file" id="upload" multiple accept="image/*">
+
+<button onclick="generate()">✨ إنشاء MAX</button>
+</section>
+
+<section id="result">
+<h2>📖 البروشور</h2>
+
+<div id="book">
+
+<div class="page"><img id="img1"><div class="content"><div class="badge">العنوان</div><h2 id="title"></h2></div></div>
+
+<div class="page"><img id="img2"><div class="content"><div class="badge">من نحن</div><p id="aboutAr"></p></div></div>
+
+<div class="page"><img id="img3"><div class="content"><div class="badge">لماذا نحن</div><p id="whyAr"></p></div></div>
+
+<div class="page"><img id="img4"><div class="content"><div class="badge">الرؤية</div><p id="visionAr"></p></div></div>
+
+<div class="page"><div class="content"><div class="badge">إحصائيات</div><p id="stats"></p></div></div>
+
 </div>
 
-<!-- أزرار -->
-<div id="controls" style="display:none">
-<button onclick="exportPDF()">📄 PDF</button>
-<button onclick="exportVideo()">🎬 VIDEO</button>
-</div>
-
-<!-- الكتاب -->
-<div id="book"></div>
+<button onclick="downloadPDF()">📄 PDF</button>
+<button onclick="recordVideo()">🎥 تسجيل فيديو</button>
+<button onclick="show('form')">🔁 جديد</button>
+</section>
 
 <script>
-function aiTone(mode){
-if(mode==="school") return "بأسلوب تعليمي مبسط مع أمثلة";
-if(mode==="company") return "بأسلوب احترافي رسمي موجه للأعمال";
-return "بأسلوب إبداعي ريادي تحفيزي";
-}
+let flip;
 
-function generateLongArticle(title, topic, details, mode){
-let pages=[];
-let tone = aiTone(mode);
-
-for(let i=1;i<=12;i++){
-pages.push(`
-${title}
-
-القسم ${i}:
-هذا القسم يتناول "${topic}" ${tone}.
-${details || "يركز هذا الجزء على بناء فهم عميق ومتدرج للمفهوم."}
-
-يُعد هذا المحور من الركائز الأساسية التي تساعد القارئ على تطوير وعي شامل،
-واتخاذ قرارات أفضل مبنية على المعرفة والخبرة.
-
-التحليل، التطبيق، والتفكير الاستراتيجي
-هي مفاتيح التفوق في هذا المجال.
-`);
-}
-return pages;
-}
-
-function generateBook(){
-const title = titleInput();
-const topic = topicInput();
-const details = document.getElementById("details").value;
-const mode = document.getElementById("mode").value;
-
-const pages = generateLongArticle(title, topic, details, mode);
-const book = document.getElementById("book");
-book.innerHTML="";
-
-pages.forEach((p,i)=>{
-book.innerHTML+=`
-<div class="page">
-<img src="https://picsum.photos/900/1400?random=${i}">
-<div class="text">${p}</div>
-</div>`;
+/* Glow mouse */
+document.addEventListener("mousemove",e=>{
+document.body.style.setProperty("--x",e.clientX+"px");
+document.body.style.setProperty("--y",e.clientY+"px");
 });
 
-document.getElementById("formScreen").style.display="none";
-book.style.display="block";
-document.getElementById("controls").style.display="flex";
-
-const pageFlip = new St.PageFlip(book,{
-width:900,
-height:1400,
-size:"stretch",
-showCover:true,
-maxShadowOpacity:.6
-});
-pageFlip.loadFromHTML(document.querySelectorAll(".page"));
+function show(id){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
 }
 
-function titleInput(){
-return document.getElementById("title").value || "AI GOD BOOK";
-}
-function topicInput(){
-return document.getElementById("topic").value || "الذكاء الاصطناعي المتقدم";
+const imgsDefault=[
+"https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+"https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
+"https://images.unsplash.com/photo-1552664730-d307ca884978",
+"https://images.unsplash.com/photo-1503387762-592deb58ef4e"
+];
+
+function generate(){
+
+let nameVal=name.value||"مؤسستنا";
+let aboutVal=about.value||"نقدم تجربة احترافية متكاملة.";
+let servicesVal=services.value||"جودة، احتراف، تجربة.";
+let goalsVal=goals.value||"الريادة والابتكار.";
+
+let files=upload.files;
+let imgs=[...imgsDefault];
+if(files.length){
+imgs=[];
+for(let f of files){imgs.push(URL.createObjectURL(f))}
 }
 
-/* PDF */
-function exportPDF(){
-html2pdf().from(document.getElementById("book"))
-.set({margin:0,filename:'AI_GOD_SYSTEM.pdf',html2canvas:{scale:2}})
-.save();
+for(let i=1;i<=4;i++){
+document.getElementById("img"+i).src=imgs[i-1]||imgsDefault[i-1];
 }
 
-/* VIDEO (محاكاة) */
-function exportVideo(){
-alert("🎬 نظام الفيديو جاهز للربط مع Canvas / MediaRecorder");
+title.innerText=nameVal;
+aboutAr.innerText=aboutVal+" - خدماتنا: "+servicesVal;
+whyAr.innerText="نتميز بالجودة والابتكار وفريق احترافي.";
+visionAr.innerText="هدفنا: "+goalsVal;
+
+stats.innerHTML=`
+⭐ رضا العملاء: ${80+Math.floor(Math.random()*20)}%<br>
+📈 نمو سنوي: ${10+Math.floor(Math.random()*20)}%<br>
+🏆 مشاريع ناجحة: ${50+Math.floor(Math.random()*200)}
+`;
+
+show("result");
+
+setTimeout(()=>{
+if(flip)flip.destroy();
+flip=new St.PageFlip(book,{width:360,height:520});
+flip.loadFromHTML(document.querySelectorAll(".page"));
+},300);
+}
+
+function downloadPDF(){
+html2pdf().from(book).save("Brochure-MAX.pdf");
+}
+
+/* تسجيل فيديو */
+async function recordVideo(){
+let stream=await navigator.mediaDevices.getDisplayMedia({video:true});
+let recorder=new MediaRecorder(stream);
+let chunks=[];
+recorder.ondataavailable=e=>chunks.push(e.data);
+recorder.onstop=()=>{
+let blob=new Blob(chunks,{type:"video/webm"});
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="brochure-video.webm";
+a.click();
+};
+recorder.start();
+setTimeout(()=>recorder.stop(),8000);
 }
 </script>
 
 </body>
 </html>
+
