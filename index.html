@@ -3,76 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI BROCHURE — GODLIKE MODE</title>
+<title>AI BROCHURE GODLIKE</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{
---main:#00f5ff;
---bg:#000;
---text:#fff;
-}
-.light{--bg:#f2f2f2;--text:#000;}
-
+:root{--main:#00f5ff}
 *{box-sizing:border-box}
-
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:var(--bg);
-color:var(--text);
-transition:.3s;
+background:#000;
+color:#fff;
+overflow-x:hidden;
 }
 
+/* SECTIONS */
 section{display:none;padding:20px;max-width:1100px;margin:auto}
 section.active{display:block}
 
-input,textarea,select{
-width:100%;padding:14px;border:none;border-radius:14px;
-margin-bottom:12px;background:rgba(255,255,255,.08);color:var(--text);
+input,textarea,select,button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+margin-bottom:12px;
+font-size:15px;
 }
-
+input,textarea,select{background:#111;color:#fff}
 button{
-width:100%;padding:14px;border:none;border-radius:14px;
 background:linear-gradient(45deg,var(--main),#00ffa6);
-font-weight:900;cursor:pointer;margin-top:10px;
+font-weight:900;cursor:pointer;
 }
 
+/* BOOK */
 #book{margin:auto;max-width:420px;height:640px}
 
+/* PAGE FULL IMAGE */
 .page{
 position:relative;
 border-radius:22px;
 overflow:hidden;
 display:flex;
 align-items:flex-end;
-}
-
-.page::before{
-content:"";
-position:absolute;
-inset:0;
-background-image:var(--img);
+color:#fff;
 background-size:cover;
 background-position:center;
+box-shadow:0 0 35px rgba(0,255,255,.35);
 }
 
 .page::after{
 content:"";
 position:absolute;
 inset:0;
-background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.25));
+background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.2));
 }
 
 .content{
 position:relative;
 z-index:2;
 padding:22px;
-color:#fff;
-line-height:1.9;
+width:100%;
 }
 
 .badge{
@@ -81,103 +74,86 @@ padding:6px 16px;
 border-radius:20px;
 display:inline-block;
 margin-bottom:10px;
-color:#000;
 font-weight:700;
 }
 
+.content p{
+line-height:1.9;
+font-size:15px;
+}
+
+/* COVER */
 .cover{
-background:linear-gradient(135deg,#020617,#000);
-display:flex;
-justify-content:center;
 align-items:center;
+justify-content:center;
 text-align:center;
+background:linear-gradient(135deg,#000,#020617);
 }
 </style>
 </head>
 
 <body>
 
+<!-- HOME -->
 <section id="home" class="active">
-<h1>😈 GODLIKE AI BROCHURE</h1>
+<h1>🚀 AI BROCHURE GODLIKE</h1>
 <button onclick="show('form')">ابدأ</button>
-<button onclick="toggleMode()">🌙 / ☀️</button>
 </section>
 
+<!-- FORM -->
 <section id="form">
 <select id="type">
 <option value="school">🏫 مدرسة</option>
-<option value="restaurant">🍽️ مطعم</option>
-<option value="store">🏪 متجر</option>
+<option value="company">🏢 شركة</option>
+<option value="tech">💻 تقنية</option>
+<option value="gaming">🎮 ألعاب</option>
 </select>
 
 <input id="name" placeholder="اسم الجهة">
 <textarea id="about" placeholder="نبذة"></textarea>
-<input type="file" id="upload" multiple accept="image/*">
 
-<button onclick="generate()">🔥 إنشاء</button>
+<button onclick="generate()">🔥 إنشاء البروشور</button>
 </section>
 
+<!-- RESULT -->
 <section id="result">
+<h2>📖 البروشور</h2>
 <div id="book"></div>
+
 <button onclick="downloadPDF()">📄 PDF</button>
-<button onclick="autoFlip()">🎬 عرض</button>
-<button onclick="recordVideo()">📹 فيديو</button>
+<button onclick="autoFlip()">🎥 عرض تلقائي</button>
 <button onclick="show('form')">🔁 تعديل</button>
 </section>
 
 <script>
 let flip;
 
-/* تنقل */
+/* NAV */
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* Dark/Light */
-function toggleMode(){
-document.body.classList.toggle("light");
-}
-
-/* AI نصوص مختلفة */
-function generateSmartText(type,name){
-const base={
-school:["بيئة تعليمية متطورة","كادر تعليمي متميز","مناهج حديثة","أنشطة تنمي الإبداع","تعليم رقمي","قيم وأخلاق","مرافق متكاملة","تقييم مستمر","شراكة مجتمعية","إدارة احترافية","تطوير دائم","رؤية مستقبلية"],
-restaurant:["نكهات فريدة","مكونات طازجة","خدمة راقية","أجواء مريحة","أسعار مناسبة","قائمة متنوعة","توصيل سريع","نظافة عالية","تقييم ممتاز","تجربة فريدة","إدارة قوية","هوية مميزة"],
-store:["منتجات متنوعة","جودة عالية","خدمة احترافية","عروض مستمرة","تحديث دائم","تجربة تسوق رائعة","ثقة وضمان","متجر عصري","دفع آمن","عملاء دائمون","إدارة فعالة","نمو ونجاح"]
+/* IMAGE KEYWORDS */
+const imgMap={
+school:"school classroom students education",
+company:"office business corporate meeting",
+tech:"technology futuristic ai digital",
+gaming:"gaming neon cyberpunk game"
 };
 
-return base[type].map(t=>`${t} — ${name} يقدم تجربة احترافية متكاملة تركز على الجودة والابتكار وتحقيق أفضل النتائج وبناء ثقة طويلة مع العملاء وتقديم قيمة حقيقية ومستوى عالي من الأداء والتطور المستمر.`)
-}
-
-/* توليد */
+/* GENERATE */
 function generate(){
-
 const book=document.getElementById("book");
 book.innerHTML="";
 
 let typeVal=type.value;
 let nameVal=name.value||"اسم الجهة";
-let aboutVal=about.value||"بروشور احترافي متكامل";
-let texts=generateSmartText(typeVal,nameVal);
+let aboutVal=about.value||"بروشور احترافي";
 
-/* صور ذكية */
-const keywords={
-school:"school students classroom",
-restaurant:"restaurant food",
-store:"store shop products"
-};
+let keyword=imgMap[typeVal];
 
-let imgs=[];
-if(upload.files.length){
-for(let f of upload.files) imgs.push(URL.createObjectURL(f));
-}
-
-while(imgs.length<14){
-imgs.push(`https://source.unsplash.com/900x1200/?${keywords[typeVal]}&sig=${Math.random()}`);
-}
-
-/* غلاف */
+/* COVER */
 book.innerHTML+=`
 <div class="page cover">
 <div class="content">
@@ -186,23 +162,36 @@ book.innerHTML+=`
 </div>
 </div>`;
 
-/* صفحات */
-for(let i=0;i<12;i++){
+/* 12 PAGES DIFFERENT TEXT */
+for(let i=1;i<=12;i++){
+let img=`https://source.unsplash.com/600x900/?${keyword}&sig=${i}`;
 book.innerHTML+=`
-<div class="page" style="--img:url('${imgs[i]}')">
+<div class="page" style="background-image:url('${img}')">
 <div class="content">
-<div class="badge">${nameVal}</div>
-<p>${texts[i]}</p>
+<div class="badge">القسم ${i}</div>
+<p>
+نقدم تجربة احترافية متكاملة تعتمد على الجودة والابتكار.
+نعمل باستمرار على تطوير الأداء وتحقيق أفضل النتائج.
+نلتزم بأعلى المعايير لضمان رضا المستخدمين.
+نؤمن بأن النجاح يأتي من العمل الجاد والتخطيط السليم.
+هدفنا بناء مستقبل قوي قائم على التميز والاستمرارية.
+نطمح دائماً للوصول إلى مستوى أعلى من الإنجاز.
+</p>
 </div>
 </div>`;
 }
 
-/* خاتمة */
+/* END PAGE */
 book.innerHTML+=`
-<div class="page" style="--img:url('${imgs[13]}')">
+<div class="page" style="background-image:url('https://source.unsplash.com/600x900/?success business')">
 <div class="content">
-<div class="badge">تواصل معنا</div>
-<p>نسعد بخدمتكم دائماً — فريق ${nameVal}</p>
+<div class="badge">النهاية</div>
+<p>
+شكراً لاهتمامكم.
+نسعد بخدمتكم دائماً.
+جاهزون للتواصل معكم.
+معاً نحو النجاح.
+</p>
 </div>
 </div>`;
 
@@ -210,9 +199,9 @@ show("result");
 
 setTimeout(()=>{
 if(flip)flip.destroy();
-flip=new St.PageFlip(book,{width:390,height:620,showCover:true});
+flip=new St.PageFlip(book,{width:400,height:620,showCover:true});
 flip.loadFromHTML(document.querySelectorAll(".page"));
-},400);
+},300);
 }
 
 /* PDF */
@@ -220,31 +209,14 @@ function downloadPDF(){
 html2pdf().from(book).save("GODLIKE.pdf");
 }
 
-/* عرض */
+/* AUTO FLIP */
 function autoFlip(){
 let i=0;
 let t=setInterval(()=>{
-if(i>=14){clearInterval(t);return;}
+if(i>13){clearInterval(t);return;}
 flip.flipNext();
 i++;
 },1200);
-}
-
-/* فيديو */
-async function recordVideo(){
-let stream=await navigator.mediaDevices.getDisplayMedia({video:true});
-let recorder=new MediaRecorder(stream);
-let chunks=[];
-recorder.ondataavailable=e=>chunks.push(e.data);
-recorder.onstop=()=>{
-let blob=new Blob(chunks,{type:"video/webm"});
-let a=document.createElement("a");
-a.href=URL.createObjectURL(blob);
-a.download="brochure-video.webm";
-a.click();
-};
-recorder.start();
-setTimeout(()=>recorder.stop(),10000);
 }
 </script>
 
