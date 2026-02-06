@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Brochure FINAL BOSS</title>
+<title>AI Brochure MAX PRO</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -10,57 +10,87 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
+:root{--main:#00f5ff}
+*{box-sizing:border-box}
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:#020617;
+background:radial-gradient(circle at 50% 50%,#020617,#000);
 color:#fff;
+overflow-x:hidden;
 }
 
-/* الصفحات */
-section{display:none;padding:20px;max-width:500px;margin:auto}
+/* Glow */
+body::before{
+content:"";
+position:fixed;inset:0;
+background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.25),transparent 40%);
+pointer-events:none;
+}
+
+section{display:none;padding:20px;max-width:1100px;margin:auto}
 section.active{display:block}
 
 input,textarea,select{
-width:100%;padding:14px;border:none;border-radius:12px;margin-bottom:12px;
-background:rgba(255,255,255,.08);color:#fff
+width:100%;padding:14px;border:none;border-radius:14px;margin-bottom:12px;
+background:rgba(255,255,255,.08);color:#fff;
+backdrop-filter:blur(10px)
 }
 
 button{
 width:100%;padding:14px;border:none;border-radius:14px;
-background:linear-gradient(45deg,#00f5ff,#00ffa6);
-font-weight:900;cursor:pointer;margin-top:8px
+background:linear-gradient(45deg,var(--main),#00ffa6);
+font-weight:900;cursor:pointer;
+box-shadow:0 0 15px rgba(0,255,255,.5);
+transition:.2s
 }
+button:hover{transform:scale(1.03)}
 
-/* الكتاب */
-#book{margin:auto;max-width:420px;height:640px}
+#book{margin:auto;max-width:430px;height:620px}
 
+/* الصفحة */
 .page{
 background:#fff;color:#000;border-radius:20px;overflow:hidden;
-display:flex;flex-direction:column
+display:flex;flex-direction:column;
+box-shadow:0 0 30px rgba(0,255,255,.3)
 }
 
+/* صورة تملأ الصفحة */
 .page img{
 width:100%;
-height:360px;
-object-fit:cover;
-background:#ddd;
+height:320px;
+object-fit:cover
 }
 
 .content{
-padding:20px;
+padding:18px;
 line-height:2;
 font-size:15px;
-flex:1
+flex:1;
+display:flex;
+flex-direction:column;
+justify-content:space-between
+}
+
+.badge{
+background:var(--main);
+padding:6px 14px;
+border-radius:20px;
+display:inline-block;
+margin-bottom:8px;
+font-weight:700
 }
 </style>
 </head>
 
 <body>
 
-<!-- صفحة الإدخال -->
-<section id="form" class="active">
-<h2>🔥 FINAL BOSS</h2>
+<section id="home" class="active">
+<h1>🚀 AI Brochure MAX PRO</h1>
+<button onclick="show('form')">ابدأ</button>
+</section>
+
+<section id="form">
 
 <select id="type">
 <option value="school">مدرسة</option>
@@ -73,98 +103,175 @@ flex:1
 <textarea id="services" placeholder="الخدمات"></textarea>
 <textarea id="goals" placeholder="الأهداف"></textarea>
 
-<button onclick="generate()">🚀 إنشاء</button>
+<input type="file" id="upload" multiple accept="image/*">
+
+<button onclick="smartFill()">🤖 تعبئة تلقائية</button>
+<button onclick="generate()">✨ إنشاء MAX PRO</button>
+
 </section>
 
-<!-- صفحة النتيجة -->
 <section id="result">
+<h2>📖 البروشور</h2>
 
-<div id="book"></div>
+<div id="book">
+
+<div class="page">
+<img id="img1">
+<div class="content">
+<div>
+<div class="badge">العنوان</div>
+<h2 id="title"></h2>
+<p id="desc1"></p>
+</div>
+</div>
+</div>
+
+<div class="page">
+<img id="img2">
+<div class="content">
+<div>
+<div class="badge">من نحن</div>
+<p id="aboutAr"></p>
+</div>
+</div>
+</div>
+
+<div class="page">
+<img id="img3">
+<div class="content">
+<div>
+<div class="badge">لماذا نحن</div>
+<p id="whyAr"></p>
+</div>
+</div>
+</div>
+
+<div class="page">
+<img id="img4">
+<div class="content">
+<div>
+<div class="badge">الرؤية</div>
+<p id="visionAr"></p>
+</div>
+</div>
+</div>
+
+<div class="page">
+<div class="content">
+<div>
+<div class="badge">إحصائيات</div>
+<p id="stats"></p>
+</div>
+</div>
+</div>
+
+</div>
 
 <button onclick="downloadPDF()">📄 PDF</button>
-<button onclick="location.reload()">🔁 جديد</button>
-
+<button onclick="autoFlip()">🎥 عرض تلقائي</button>
+<button onclick="recordVideo()">🎬 تسجيل فيديو</button>
+<button onclick="show('form')">🔁 جديد</button>
 </section>
 
 <script>
-
 let flip;
 
-/* بنك الصور حسب النوع */
-const imageBank={
-school:[
-"https://images.pexels.com/photos/256490/pexels-photo-256490.jpeg",
-"https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg",
-"https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg",
-"https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg"
-],
-restaurant:[
-"https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg",
-"https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg",
-"https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg",
-"https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg"
-],
-store:[
-"https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg",
-"https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg",
-"https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg",
-"https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg"
-]
-};
+/* Glow */
+document.addEventListener("mousemove",e=>{
+document.body.style.setProperty("--x",e.clientX+"px");
+document.body.style.setProperty("--y",e.clientY+"px");
+});
+
+function show(id){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+/* تعبئة ذكية */
+function smartFill(){
+name.value="مؤسسة المستقبل";
+about.value="نقدم خدمات احترافية مبتكرة بجودة عالية.";
+services.value="تطوير، تصميم، حلول ذكية، دعم.";
+goals.value="الريادة والابتكار.";
+}
+
+/* صور افتراضية */
+const imgsDefault=[
+"https://picsum.photos/600/400?1",
+"https://picsum.photos/600/400?2",
+"https://picsum.photos/600/400?3",
+"https://picsum.photos/600/400?4"
+];
 
 function generate(){
 
-let type=type.value;
-let nameVal=name.value||"مؤسستنا";
-let aboutVal=about.value||"نقدم خدمات عالية الجودة.";
-let servicesVal=services.value||"جودة، احتراف، سرعة.";
-let goalsVal=goals.value||"الريادة والابتكار.";
-
-let book=document.getElementById("book");
-book.innerHTML="";
-
-let imgs=imageBank[type];
-
-/* إنشاء 12 صفحة */
-for(let i=0;i<12;i++){
-
-let img=imgs[i%imgs.length];
-
-book.innerHTML+=`
-<div class="page">
-<img src="${img}" onerror="this.src='https://picsum.photos/600/400?random=${i}'">
-<div class="content">
-<h3>${nameVal}</h3>
-<p>
-${aboutVal} نعمل على تقديم أفضل مستوى من الجودة والابتكار والخدمة المتميزة لضمان رضا العملاء الكامل وتحقيق أعلى معايير الأداء والاحترافية.
-</p>
-<p>
-خدماتنا: ${servicesVal} — نركز على التطوير المستمر واستخدام أحدث التقنيات لتحقيق نتائج استثنائية وتجربة مميزة.
-</p>
-<p>
-رؤيتنا: ${goalsVal} — نسعى إلى النمو والتوسع وتحقيق الريادة في المجال من خلال الابتكار والعمل الجماعي.
-</p>
-<p>الصفحة ${i+1} / 12</p>
-</div>
-</div>`;
+let files=upload.files;
+let imgs=[...imgsDefault];
+if(files.length){
+imgs=[];
+for(let f of files){imgs.push(URL.createObjectURL(f))}
 }
 
-/* عرض الصفحة */
-document.getElementById("form").classList.remove("active");
-document.getElementById("result").classList.add("active");
+for(let i=1;i<=4;i++){
+document.getElementById("img"+i).src=imgs[i-1]||imgsDefault[i-1];
+}
 
-/* PageFlip */
+title.innerText=name.value||"مؤسستنا";
+
+desc1.innerText="نحن جهة متخصصة تقدم خدمات عالية الجودة باستخدام أحدث التقنيات لتحقيق أفضل النتائج.";
+
+aboutAr.innerText=about.value||"نقدم تجربة متكاملة ونسعى لرضا العملاء.";
+
+whyAr.innerText="جودة عالية، فريق محترف، سرعة تنفيذ، دعم مستمر.";
+
+visionAr.innerText=goals.value||"نسعى للريادة.";
+
+stats.innerHTML=`
+⭐ رضا العملاء: ${85+Math.floor(Math.random()*15)}%<br>
+📈 نمو سنوي: ${10+Math.floor(Math.random()*20)}%<br>
+🏆 مشاريع: ${50+Math.floor(Math.random()*200)}
+`;
+
+show("result");
+
 setTimeout(()=>{
 if(flip)flip.destroy();
-flip=new St.PageFlip(book,{width:370,height:620});
+flip=new St.PageFlip(book,{width:370,height:600,showCover:true});
 flip.loadFromHTML(document.querySelectorAll(".page"));
-},200);
+},300);
 }
 
+/* PDF */
 function downloadPDF(){
-html2pdf().from(book).save("FINAL-BOSS.pdf");
+html2pdf().set({margin:0,filename:"MAX-PRO.pdf",html2canvas:{scale:2}}).from(book).save();
 }
 
+/* تقليب تلقائي */
+function autoFlip(){
+let i=0;
+let interval=setInterval(()=>{
+if(i>=5){clearInterval(interval);return;}
+flip.flipNext();
+i++;
+},1500);
+}
+
+/* تسجيل فيديو */
+async function recordVideo(){
+let stream=await navigator.mediaDevices.getDisplayMedia({video:true});
+let recorder=new MediaRecorder(stream);
+let chunks=[];
+recorder.ondataavailable=e=>chunks.push(e.data);
+recorder.onstop=()=>{
+let blob=new Blob(chunks,{type:"video/webm"});
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="MAX-PRO-video.webm";
+a.click();
+};
+recorder.start();
+setTimeout(()=>recorder.stop(),10000);
+}
 </script>
 
 </body>
