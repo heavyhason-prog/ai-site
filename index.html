@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Brochure ULTRA</title>
+<title>AI Brochure GOD MODE</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -12,52 +12,96 @@
 <style>
 :root{--main:#00f5ff}
 *{box-sizing:border-box}
+
+/* IMPORTANT FIX */
+section{position:relative;z-index:1}
+button{pointer-events:auto}
+body::before{pointer-events:none}
+
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
 background:radial-gradient(circle,#020617,#000);
 color:#fff;
 }
-section{display:none;padding:20px;max-width:1100px;margin:auto}
+
+section{
+display:none;
+padding:20px;
+max-width:1100px;
+margin:auto;
+}
+
 section.active{display:block}
 
 input,textarea,select{
-width:100%;padding:14px;border:none;border-radius:14px;
-margin-bottom:12px;background:rgba(255,255,255,.08);color:#fff;
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+margin-bottom:12px;
+background:rgba(255,255,255,.08);
+color:#fff;
 }
 
 button{
-width:100%;padding:14px;border:none;border-radius:14px;
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
 background:linear-gradient(45deg,var(--main),#00ffa6);
-font-weight:900;cursor:pointer;margin-top:10px;
+font-weight:900;
+cursor:pointer;
+margin-top:10px;
 }
 
-#book{margin:auto;max-width:430px;height:620px}
+#book{
+margin:auto;
+max-width:430px;
+height:620px;
+position:relative;
+z-index:2;
+}
 
 .page{
-background:#fff;color:#000;border-radius:22px;
-overflow:hidden;display:flex;flex-direction:column;
+background:#fff;
+color:#000;
+border-radius:22px;
+overflow:hidden;
+display:flex;
+flex-direction:column;
 box-shadow:0 0 35px rgba(0,255,255,.35)
 }
 
 .page img{
-width:100%;height:260px;object-fit:cover;
+width:100%;
+height:260px;
+object-fit:cover;
 }
 
 .cover{
 background:linear-gradient(135deg,#020617,#000);
-color:#fff;justify-content:center;align-items:center;
+color:#fff;
+justify-content:center;
+align-items:center;
 text-align:center;
 }
 
 .cover h1{font-size:28px;margin:0}
 .cover p{opacity:.85}
 
-.content{padding:18px;text-align:right}
+.content{
+padding:18px;
+text-align:right;
+}
 
 .badge{
-background:var(--main);padding:6px 16px;border-radius:20px;
-display:inline-block;margin-bottom:10px;font-weight:700;
+background:var(--main);
+padding:6px 16px;
+border-radius:20px;
+display:inline-block;
+margin-bottom:10px;
+font-weight:700;
 }
 
 .content p{
@@ -65,7 +109,8 @@ display:-webkit-box;
 -webkit-line-clamp:6;
 -webkit-box-orient:vertical;
 overflow:hidden;
-line-height:1.8;font-size:15px;
+line-height:1.8;
+font-size:15px;
 }
 </style>
 </head>
@@ -74,7 +119,7 @@ line-height:1.8;font-size:15px;
 
 <!-- HOME -->
 <section id="home" class="active">
-<h1>🚀 AI Brochure ULTRA</h1>
+<h1>🚀 AI Brochure GOD MODE</h1>
 <button onclick="show('form')">ابدأ</button>
 </section>
 
@@ -90,7 +135,7 @@ line-height:1.8;font-size:15px;
 <textarea id="about" placeholder="نبذة مختصرة"></textarea>
 <input type="file" id="upload" multiple accept="image/*">
 
-<button onclick="generate()">✨ إنشاء ULTRA</button>
+<button onclick="generate()">🔥 إنشاء GOD MODE</button>
 </section>
 
 <!-- RESULT -->
@@ -100,7 +145,7 @@ line-height:1.8;font-size:15px;
 
 <button onclick="downloadPDF()">📄 PDF</button>
 <button onclick="autoFlip()">🎥 عرض تلقائي</button>
-<button onclick="show('form')">🔁 تعديل</button>
+<button onclick="show('form')">🔁 تعديل البيانات</button>
 </section>
 
 <script>
@@ -113,12 +158,12 @@ document.getElementById(id).classList.add("active");
 
 const data={
 school:[
-"بيئة تعليمية حديثة ومتطورة.",
-"كادر تعليمي معتمد.",
-"مناهج معاصرة.",
-"رعاية شاملة للطلاب.",
+"بيئة تعليمية حديثة.",
+"كادر تعليمي محترف.",
+"مناهج متطورة.",
+"رعاية شاملة.",
 "تقنيات تعليم ذكية.",
-"بناء مستقبل واعد."
+"مستقبل مشرق."
 ],
 restaurant:[
 "أطباق مميزة.",
@@ -142,25 +187,26 @@ function generate(){
 const book=document.getElementById("book");
 book.innerHTML="";
 
-let type=typeSelect.value=type.value;
-let nameVal=name.value||"اسم الجهة";
-let texts=data[type];
+let typeVal=document.getElementById("type").value;
+let nameVal=document.getElementById("name").value||"اسم الجهة";
+let aboutVal=document.getElementById("about").value||"بروشور احترافي";
+let texts=data[typeVal];
 
 let imgs=[];
 if(upload.files.length){
 for(let f of upload.files) imgs.push(URL.createObjectURL(f));
 }else{
-for(let i=0;i<14;i++) imgs.push(`https://picsum.photos/600/400?${type}${i}`);
+for(let i=0;i<14;i++) imgs.push(`https://picsum.photos/600/400?${typeVal}${i}`);
 }
 
-/* غلاف */
+/* COVER */
 book.innerHTML+=`
 <div class="page cover">
 <h1>${nameVal}</h1>
-<p>${about.value||"بروشور تعريفي احترافي"}</p>
+<p>${aboutVal}</p>
 </div>`;
 
-/* 12 صفحة محتوى */
+/* 12 CONTENT PAGES */
 for(let i=0;i<12;i++){
 book.innerHTML+=`
 <div class="page">
@@ -172,7 +218,7 @@ book.innerHTML+=`
 </div>`;
 }
 
-/* خاتمة */
+/* END PAGE */
 book.innerHTML+=`
 <div class="page">
 <img src="${imgs[13]}">
@@ -180,11 +226,11 @@ book.innerHTML+=`
 <div class="badge">تواصل معنا</div>
 <p>
 نرحب بتواصلكم معنا.<br>
-نحن دائماً في خدمتكم.<br>
-جاهزون للإجابة على استفساراتكم.<br>
-نسعد بخدمتكم.<br>
-ثقتكم محل تقديرنا.<br>
-نحو شراكة ناجحة.
+نسعد بخدمتكم دائماً.<br>
+جاهزون للإجابة.<br>
+ثقتكم محل تقدير.<br>
+معاً للنجاح.<br>
+شكراً لكم.
 </p>
 </div>
 </div>`;
@@ -199,7 +245,7 @@ flip.loadFromHTML(document.querySelectorAll(".page"));
 }
 
 function downloadPDF(){
-html2pdf().from(book).save("ULTRA-BROCHURE.pdf");
+html2pdf().from(book).save("GOD-MODE.pdf");
 }
 
 function autoFlip(){
