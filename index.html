@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI School Brochure</title>
+<title>AI School Brochure Enhanced</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Almarai:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
@@ -23,30 +23,32 @@ margin:0;
 font-family:'Cairo',sans-serif;
 background:linear-gradient(135deg,var(--blue),var(--green));
 color:var(--text);
+transition:.3s;
 }
 
 section{display:none;padding:20px;max-width:1100px;margin:auto}
 section.active{display:block}
 
-input,textarea{
+input,textarea,select{
 width:100%;
-padding:14px;
+padding:12px;
 border:none;
-border-radius:14px;
-margin-bottom:12px;
+border-radius:12px;
+margin-bottom:10px;
 background:rgba(255,255,255,.15);
 color:#fff;
 }
 
 button{
 width:100%;
-padding:14px;
+padding:12px;
 border:none;
-border-radius:14px;
+border-radius:12px;
 background:linear-gradient(45deg,#22d3ee,#22c55e);
 font-weight:900;
 cursor:pointer;
 color:#022;
+margin-top:6px;
 }
 
 #book{margin:auto;max-width:420px;height:640px}
@@ -60,7 +62,7 @@ display:flex;
 align-items:flex-end;
 }
 
-/* الصورة */
+/* الصور */
 .page img{
 position:absolute;
 inset:0;
@@ -88,7 +90,7 @@ text-align:justify;
 font-size:15px;
 }
 
-/* الشارة */
+/* شارة */
 .badge{
 background:linear-gradient(45deg,#22d3ee,#22c55e);
 color:#022;
@@ -112,6 +114,13 @@ text-align:center;
 background:linear-gradient(135deg,rgba(15,76,129,.95),rgba(14,165,164,.95));
 border-radius:22px;
 }
+
+.logo{
+width:90px;
+height:90px;
+object-fit:contain;
+margin-bottom:16px;
+}
 </style>
 </head>
 
@@ -126,6 +135,12 @@ border-radius:22px;
 <input id="name" placeholder="اسم المدرسة">
 <textarea id="about" placeholder="نبذة عن المدرسة"></textarea>
 <input type="file" id="upload" multiple accept="image/*">
+<input type="file" id="logoInput" accept="image/*">
+<select id="fontSelect">
+<option value="'Cairo',sans-serif">Cairo</option>
+<option value="'Almarai',sans-serif">Almarai</option>
+</select>
+<input type="color" id="textColor" value="#ffffff">
 <button onclick="generate()">إنشاء البروشور</button>
 </section>
 
@@ -139,13 +154,12 @@ border-radius:22px;
 <script>
 let flip;
 
-/* تنقل */
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* النص (كما هو) */
+/* النص الطويل */
 function generateSmartText(name){
 const base=[
 "بيئة تعليمية متطورة",
@@ -165,25 +179,24 @@ const base=[
 return base.map(t=>`${t} — ${name} تقدم منظومة تعليمية متكاملة ترتكز على أسس علمية وتربوية حديثة، وتهدف إلى بناء شخصية الطالب بشكل متوازن يجمع بين التحصيل الأكاديمي العالي وتنمية المهارات الفكرية وتعزيز القيم الأخلاقية، في بيئة تعليمية آمنة ومحفزة تدعم الإبداع والتميز والاستدامة التعليمية على المدى الطويل.`);
 }
 
-/* صور مدرسية مختلفة 100% (بدون تكرار) */
+/* صور سعودية أكثر واقعية */
 const fallbackImages=[
-"https://images.unsplash.com/photo-1519452575417-564c1401ecc0",
-"https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
-"https://images.unsplash.com/photo-1509062522246-3755977927d7",
-"https://images.unsplash.com/photo-1588072432836-e10032774350",
-"https://images.unsplash.com/photo-1580582932707-520aed937b7b",
-"https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
-"https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
-"https://images.unsplash.com/photo-1531482615713-2afd69097998",
-"https://images.unsplash.com/photo-1596495577886-d920f1fb7238",
+"https://images.unsplash.com/photo-1601582589907-f92af5ed9db8",
+"https://images.unsplash.com/photo-1558021212-51b6ecfa0db9",
 "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+"https://images.unsplash.com/photo-1596495577886-d920f1fb7238",
+"https://images.unsplash.com/photo-1513258496099-48168024aec0",
+"https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
+"https://images.unsplash.com/photo-1531482615713-2afd69097998",
+"https://images.unsplash.com/photo-1588072432836-e10032774350",
+"https://images.unsplash.com/photo-1509062522246-3755977927d7",
 "https://images.unsplash.com/photo-1516979187457-637abb4f9353",
 "https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
 "https://images.unsplash.com/photo-1509062522246-3755977927d7",
-"https://images.unsplash.com/photo-1558021212-51b6ecfa0db9"
+"https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
+"https://images.unsplash.com/photo-1571260899304-425eee4c7efc"
 ].map(u=>u+"?auto=format&fit=crop&w=900&q=80");
 
-/* توليد */
 function generate(){
 const book=document.getElementById("book");
 book.innerHTML="";
@@ -191,6 +204,9 @@ book.innerHTML="";
 let nameVal=name.value||"المدرسة النموذجية";
 let aboutVal=about.value||"مؤسسة تعليمية تقدم تعليمًا نوعيًا وفق أعلى المعايير";
 let texts=generateSmartText(nameVal);
+let fontVal=document.getElementById("fontSelect").value;
+let colorVal=document.getElementById("textColor").value;
+let logoURL=logoInput.files[0]?URL.createObjectURL(logoInput.files[0]):"";
 
 /* الصور */
 let imgs=[];
@@ -200,7 +216,7 @@ imgs.push(URL.createObjectURL(f));
 }
 }
 
-/* استخدام صور مختلفة بدون تكرار */
+/* استخدام الصور الواقعية بدون تكرار */
 for(let i=0;i<fallbackImages.length && imgs.length<14;i++){
 imgs.push(fallbackImages[i]);
 }
@@ -208,7 +224,8 @@ imgs.push(fallbackImages[i]);
 /* الغلاف */
 book.innerHTML+=`
 <div class="page cover">
-<div class="content">
+<div class="content" style="font-family:${fontVal}; color:${colorVal};">
+${logoURL?`<img src="${logoURL}" class="logo">`:""}
 <h1>${nameVal}</h1>
 <p>${aboutVal}</p>
 </div>
@@ -219,7 +236,7 @@ for(let i=0;i<12;i++){
 book.innerHTML+=`
 <div class="page">
 <img src="${imgs[i]}">
-<div class="content">
+<div class="content" style="font-family:${fontVal}; color:${colorVal};">
 <div class="badge">${nameVal}</div>
 <p>${texts[i]}</p>
 </div>
@@ -230,7 +247,7 @@ book.innerHTML+=`
 book.innerHTML+=`
 <div class="page">
 <img src="${imgs[13]}">
-<div class="content">
+<div class="content" style="font-family:${fontVal}; color:${colorVal};">
 <div class="badge">تواصل معنا</div>
 <p>نسعد بخدمتكم دائمًا — إدارة ${nameVal}</p>
 </div>
@@ -245,12 +262,10 @@ flip.loadFromHTML(document.querySelectorAll(".page"));
 },400);
 }
 
-/* PDF */
 function downloadPDF(){
 html2pdf().from(book).save("School-Brochure.pdf");
 }
 
-/* عرض */
 function autoFlip(){
 let i=0;
 let t=setInterval(()=>{
