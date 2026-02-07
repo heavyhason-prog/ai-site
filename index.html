@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Saudi Boys School Brochure</title>
+<title>AI School Brochure</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
@@ -13,7 +13,7 @@
 :root{
 --blue:#0f4c81;
 --green:#0ea5a4;
---text:#ffffff;
+--text:#fff;
 }
 
 *{box-sizing:border-box}
@@ -31,8 +31,8 @@ section.active{display:block}
 input,textarea{
 width:100%;
 padding:14px;
-border-radius:14px;
 border:none;
+border-radius:14px;
 margin-bottom:12px;
 background:rgba(255,255,255,.15);
 color:#fff;
@@ -60,7 +60,7 @@ display:flex;
 align-items:flex-end;
 }
 
-/* الصورة */
+/* الصورة (مضمونة) */
 .page img{
 position:absolute;
 inset:0;
@@ -75,7 +75,7 @@ z-index:0;
 content:"";
 position:absolute;
 inset:0;
-background:linear-gradient(to top,rgba(2,6,23,.92),rgba(2,6,23,.45));
+background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.35));
 z-index:1;
 }
 
@@ -85,20 +85,10 @@ z-index:2;
 padding:26px;
 line-height:2.05;
 text-align:justify;
+font-size:15px;
 }
 
-.content p{
-font-size:15.2px;
-}
-
-/* العنوان */
-.title{
-font-size:18px;
-font-weight:900;
-margin-bottom:12px;
-}
-
-/* الشارة */
+/* شارة */
 .badge{
 background:linear-gradient(45deg,#22d3ee,#22c55e);
 color:#022;
@@ -122,27 +112,20 @@ text-align:center;
 background:linear-gradient(135deg,rgba(15,76,129,.95),rgba(14,165,164,.95));
 border-radius:22px;
 }
-
-.logo{
-width:90px;
-height:90px;
-object-fit:contain;
-margin-bottom:16px;
-}
 </style>
 </head>
 
 <body>
 
 <section id="home" class="active">
-<h2>📘 بروشور مدرسة بنين (سعودية)</h2>
+<h2>📘 بروشور مدرسة</h2>
 <button onclick="show('form')">ابدأ</button>
 </section>
 
 <section id="form">
 <input id="name" placeholder="اسم المدرسة">
-<textarea id="about" placeholder="نبذة رسمية عن المدرسة"></textarea>
-<input type="file" id="logoInput" accept="image/*">
+<textarea id="about" placeholder="نبذة عن المدرسة"></textarea>
+<input type="file" id="upload" multiple accept="image/*">
 <button onclick="generate()">إنشاء البروشور</button>
 </section>
 
@@ -156,62 +139,58 @@ margin-bottom:16px;
 <script>
 let flip;
 
+/* تنقل */
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-const titles=[
-"رؤيتنا التعليمية",
-"الرسالة التربوية",
-"المنهج المعتمد",
-"الكادر التعليمي",
-"البيئة المدرسية",
-"الأنشطة الطلابية",
-"التعليم الرقمي",
-"المرافق التعليمية",
-"الشراكة مع الأسرة",
-"القيم والانضباط",
-"الإدارة المدرسية",
-"إعداد المستقبل"
+/* النص الأصلي (كما هو) */
+function generateSmartText(name){
+const base=[
+"بيئة تعليمية متطورة",
+"كادر تعليمي متميز",
+"مناهج حديثة",
+"أنشطة تنمي الإبداع",
+"تعليم رقمي متكامل",
+"قيم وأخلاق",
+"مرافق مدرسية متكاملة",
+"تقييم مستمر",
+"شراكة مجتمعية",
+"إدارة احترافية",
+"تطوير دائم",
+"رؤية مستقبلية"
 ];
 
-function longTexts(name){
-return titles.map(t=>`
-تقدم ${name} من خلال ${t} منظومة تعليمية متكاملة ترتكز على أسس علمية وتربوية حديثة، وتهدف إلى بناء شخصية الطالب بناءً متوازنًا يجمع بين التفوق الأكاديمي وتنمية المهارات الفكرية وتعزيز القيم الإسلامية والوطنية، في بيئة تعليمية آمنة ومحفزة تسهم في إعداد جيل واعٍ وقادر على الإسهام في خدمة دينه ووطنه.
-`);
+return base.map(t=>`${t} — ${name} تقدم منظومة تعليمية متكاملة ترتكز على أسس علمية وتربوية حديثة، وتهدف إلى بناء شخصية الطالب بشكل متوازن يجمع بين التحصيل الأكاديمي العالي وتنمية المهارات الفكرية وتعزيز القيم الأخلاقية، في بيئة تعليمية آمنة ومحفزة تدعم الإبداع والتميز والاستدامة التعليمية على المدى الطويل.`);
 }
 
-/* صور مدارس سعودية (طلاب بنين فقط) */
-const images=[
-"https://images.unsplash.com/photo-1601582589907-f92af5ed9db8",
-"https://images.unsplash.com/photo-1558021212-51b6ecfa0db9",
-"https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
-"https://images.unsplash.com/photo-1596495577886-d920f1fb7238",
-"https://images.unsplash.com/photo-1513258496099-48168024aec0",
-"https://images.unsplash.com/photo-1509062522246-3755977927d7",
-"https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
-"https://images.unsplash.com/photo-1588072432836-e10032774350",
-"https://images.unsplash.com/photo-1580582932707-520aed937b7b",
-"https://images.unsplash.com/photo-1531482615713-2afd69097998",
-"https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
-"https://images.unsplash.com/photo-1571260899304-425eee4c7efc"
-].map(u=>u+"?auto=format&fit=crop&w=900&q=80");
-
+/* توليد */
 function generate(){
 const book=document.getElementById("book");
 book.innerHTML="";
 
-let nameVal=name.value||"مدارس الرواد الأهلية";
-let aboutVal=about.value||"مؤسسة تعليمية سعودية رائدة تقدم تعليمًا نوعيًا وفق أعلى المعايير";
-let texts=longTexts(nameVal);
-let logoURL=logoInput.files[0]?URL.createObjectURL(logoInput.files[0]):"";
+let nameVal=name.value||"المدرسة النموذجية";
+let aboutVal=about.value||"مؤسسة تعليمية تقدم تعليمًا نوعيًا وفق أعلى المعايير";
+let texts=generateSmartText(nameVal);
+
+/* الصور */
+let imgs=[];
+if(upload.files.length){
+for(let f of upload.files){
+imgs.push(URL.createObjectURL(f));
+}
+}
+
+/* صور احتياطية بدون أشخاص */
+while(imgs.length<14){
+imgs.push("https://images.unsplash.com/photo-1519452575417-564c1401ecc0?auto=format&fit=crop&w=900&q=80");
+}
 
 /* الغلاف */
 book.innerHTML+=`
 <div class="page cover">
 <div class="content">
-${logoURL?`<img src="${logoURL}" class="logo">`:""}
 <h1>${nameVal}</h1>
 <p>${aboutVal}</p>
 </div>
@@ -221,14 +200,23 @@ ${logoURL?`<img src="${logoURL}" class="logo">`:""}
 for(let i=0;i<12;i++){
 book.innerHTML+=`
 <div class="page">
-<img src="${images[i]}">
+<img src="${imgs[i]}">
 <div class="content">
 <div class="badge">${nameVal}</div>
-<div class="title">${titles[i]}</div>
 <p>${texts[i]}</p>
 </div>
 </div>`;
 }
+
+/* الخاتمة */
+book.innerHTML+=`
+<div class="page">
+<img src="${imgs[13]}">
+<div class="content">
+<div class="badge">تواصل معنا</div>
+<p>نسعد بخدمتكم دائمًا — إدارة ${nameVal}</p>
+</div>
+</div>`;
 
 show("result");
 
@@ -239,14 +227,16 @@ flip.loadFromHTML(document.querySelectorAll(".page"));
 },400);
 }
 
+/* PDF */
 function downloadPDF(){
-html2pdf().from(book).save("Saudi-Boys-School-Brochure.pdf");
+html2pdf().from(book).save("School-Brochure.pdf");
 }
 
+/* عرض */
 function autoFlip(){
 let i=0;
 let t=setInterval(()=>{
-if(i>=13){clearInterval(t);return;}
+if(i>=14){clearInterval(t);return;}
 flip.flipNext();
 i++;
 },1200);
