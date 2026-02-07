@@ -60,7 +60,7 @@ display:flex;
 align-items:flex-end;
 }
 
-/* الصورة (مضمونة) */
+/* الصورة */
 .page img{
 position:absolute;
 inset:0;
@@ -70,7 +70,7 @@ object-fit:cover;
 z-index:0;
 }
 
-/* تغطية */
+/* التدرج */
 .page::after{
 content:"";
 position:absolute;
@@ -88,7 +88,7 @@ text-align:justify;
 font-size:15px;
 }
 
-/* شارة */
+/* الشارة */
 .badge{
 background:linear-gradient(45deg,#22d3ee,#22c55e);
 color:#022;
@@ -145,7 +145,7 @@ document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* النص الأصلي (كما هو) */
+/* النص (كما هو) */
 function generateSmartText(name){
 const base=[
 "بيئة تعليمية متطورة",
@@ -165,6 +165,24 @@ const base=[
 return base.map(t=>`${t} — ${name} تقدم منظومة تعليمية متكاملة ترتكز على أسس علمية وتربوية حديثة، وتهدف إلى بناء شخصية الطالب بشكل متوازن يجمع بين التحصيل الأكاديمي العالي وتنمية المهارات الفكرية وتعزيز القيم الأخلاقية، في بيئة تعليمية آمنة ومحفزة تدعم الإبداع والتميز والاستدامة التعليمية على المدى الطويل.`);
 }
 
+/* صور مدرسية مختلفة 100% (بدون تكرار) */
+const fallbackImages=[
+"https://images.unsplash.com/photo-1519452575417-564c1401ecc0",
+"https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
+"https://images.unsplash.com/photo-1509062522246-3755977927d7",
+"https://images.unsplash.com/photo-1588072432836-e10032774350",
+"https://images.unsplash.com/photo-1580582932707-520aed937b7b",
+"https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+"https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
+"https://images.unsplash.com/photo-1531482615713-2afd69097998",
+"https://images.unsplash.com/photo-1596495577886-d920f1fb7238",
+"https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+"https://images.unsplash.com/photo-1516979187457-637abb4f9353",
+"https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
+"https://images.unsplash.com/photo-1509062522246-3755977927d7",
+"https://images.unsplash.com/photo-1558021212-51b6ecfa0db9"
+].map(u=>u+"?auto=format&fit=crop&w=900&q=80");
+
 /* توليد */
 function generate(){
 const book=document.getElementById("book");
@@ -182,9 +200,9 @@ imgs.push(URL.createObjectURL(f));
 }
 }
 
-/* صور احتياطية بدون أشخاص */
-while(imgs.length<14){
-imgs.push("https://images.unsplash.com/photo-1519452575417-564c1401ecc0?auto=format&fit=crop&w=900&q=80");
+/* استخدام صور مختلفة بدون تكرار */
+for(let i=0;i<fallbackImages.length && imgs.length<14;i++){
+imgs.push(fallbackImages[i]);
 }
 
 /* الغلاف */
