@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>School Brochure Boys Only</title>
+<title>Saudi Boys School Brochure</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
@@ -135,7 +135,7 @@ margin-bottom:16px;
 <body>
 
 <section id="home" class="active">
-<h2>📘 بروشور مدرسة (طلاب فقط)</h2>
+<h2>📘 بروشور مدرسة بنين (سعودية)</h2>
 <button onclick="show('form')">ابدأ</button>
 </section>
 
@@ -178,32 +178,32 @@ const titles=[
 
 function longTexts(name){
 return titles.map(t=>`
-تقدم ${name} من خلال ${t} منظومة تعليمية متكاملة ترتكز على أسس علمية وتربوية حديثة، وتهدف إلى بناء شخصية الطالب بناءً متوازنًا يجمع بين التفوق الأكاديمي وتنمية المهارات الفكرية وتعزيز القيم الأخلاقية، في بيئة تعليمية آمنة ومحفزة تدعم الإبداع والابتكار وتواكب متطلبات العصر وتسهم في إعداد جيل واعٍ قادر على تحمل المسؤولية والمشاركة الفاعلة في بناء المجتمع.
+تقدم ${name} من خلال ${t} منظومة تعليمية متكاملة ترتكز على أسس علمية وتربوية حديثة، وتهدف إلى بناء شخصية الطالب بناءً متوازنًا يجمع بين التفوق الأكاديمي وتنمية المهارات الفكرية وتعزيز القيم الإسلامية والوطنية، في بيئة تعليمية آمنة ومحفزة تسهم في إعداد جيل واعٍ وقادر على الإسهام في خدمة دينه ووطنه.
 `);
 }
 
-/* صور مدرسية (طلاب فقط – بدون بنات) */
+/* صور مدارس سعودية (طلاب بنين فقط) */
 const images=[
-"https://images.unsplash.com/photo-1596495577886-d920f1fb7238",
-"https://images.unsplash.com/photo-1588072432836-e10032774350",
-"https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
-"https://images.unsplash.com/photo-1509062522246-3755977927d7",
-"https://images.unsplash.com/photo-1558021212-51b6ecfa0db9",
-"https://images.unsplash.com/photo-1513258496099-48168024aec0",
 "https://images.unsplash.com/photo-1601582589907-f92af5ed9db8",
-"https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
-"https://images.unsplash.com/photo-1531482615713-2afd69097998",
+"https://images.unsplash.com/photo-1558021212-51b6ecfa0db9",
+"https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+"https://images.unsplash.com/photo-1596495577886-d920f1fb7238",
+"https://images.unsplash.com/photo-1513258496099-48168024aec0",
+"https://images.unsplash.com/photo-1509062522246-3755977927d7",
+"https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
+"https://images.unsplash.com/photo-1588072432836-e10032774350",
 "https://images.unsplash.com/photo-1580582932707-520aed937b7b",
-"https://images.unsplash.com/photo-1571260899304-425eee4c7efc",
-"https://images.unsplash.com/photo-1523050854058-8df90110c9f1"
+"https://images.unsplash.com/photo-1531482615713-2afd69097998",
+"https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
+"https://images.unsplash.com/photo-1571260899304-425eee4c7efc"
 ].map(u=>u+"?auto=format&fit=crop&w=900&q=80");
 
 function generate(){
 const book=document.getElementById("book");
 book.innerHTML="";
 
-let nameVal=name.value||"المدرسة النموذجية";
-let aboutVal=about.value||"مؤسسة تعليمية رائدة تقدم تعليمًا نوعيًا وفق أعلى المعايير";
+let nameVal=name.value||"مدارس الرواد الأهلية";
+let aboutVal=about.value||"مؤسسة تعليمية سعودية رائدة تقدم تعليمًا نوعيًا وفق أعلى المعايير";
 let texts=longTexts(nameVal);
 let logoURL=logoInput.files[0]?URL.createObjectURL(logoInput.files[0]):"";
 
@@ -240,7 +240,7 @@ flip.loadFromHTML(document.querySelectorAll(".page"));
 }
 
 function downloadPDF(){
-html2pdf().from(book).save("School-Brochure-Boys.pdf");
+html2pdf().from(book).save("Saudi-Boys-School-Brochure.pdf");
 }
 
 function autoFlip(){
