@@ -3,25 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI School Brochure Enhanced</title>
+<title>AI BROCHURE — GODLIKE MODE</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Almarai:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 :root{
---blue:#0f4c81;
---green:#0ea5a4;
+--main:#00f5ff;
+--bg:#000;
 --text:#fff;
 }
+.light{--bg:#f2f2f2;--text:#000;}
 
 *{box-sizing:border-box}
 
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:linear-gradient(135deg,var(--blue),var(--green));
+background:var(--bg);
 color:var(--text);
 transition:.3s;
 }
@@ -30,30 +31,18 @@ section{display:none;padding:20px;max-width:1100px;margin:auto}
 section.active{display:block}
 
 input,textarea,select{
-width:100%;
-padding:12px;
-border:none;
-border-radius:12px;
-margin-bottom:10px;
-background:rgba(255,255,255,.15);
-color:#fff;
+width:100%;padding:14px;border:none;border-radius:14px;
+margin-bottom:12px;background:rgba(255,255,255,.08);color:var(--text);
 }
 
 button{
-width:100%;
-padding:12px;
-border:none;
-border-radius:12px;
-background:linear-gradient(45deg,#22d3ee,#22c55e);
-font-weight:900;
-cursor:pointer;
-color:#022;
-margin-top:6px;
+width:100%;padding:14px;border:none;border-radius:14px;
+background:linear-gradient(45deg,var(--main),#00ffa6);
+font-weight:900;cursor:pointer;margin-top:10px;
 }
 
 #book{margin:auto;max-width:420px;height:640px}
 
-/* الصفحة */
 .page{
 position:relative;
 border-radius:22px;
@@ -62,64 +51,46 @@ display:flex;
 align-items:flex-end;
 }
 
-/* الصور */
-.page img{
+.page::before{
+content:"";
 position:absolute;
 inset:0;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:0;
+background-image:var(--img);
+background-size:cover;
+background-position:center;
 }
 
-/* التدرج */
 .page::after{
 content:"";
 position:absolute;
 inset:0;
-background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.35));
-z-index:1;
+background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.25));
 }
 
 .content{
 position:relative;
 z-index:2;
-padding:26px;
-line-height:2.05;
-text-align:justify;
-font-size:15px;
+padding:22px;
+color:#fff;
+line-height:1.9;
 }
 
-/* شارة */
 .badge{
-background:linear-gradient(45deg,#22d3ee,#22c55e);
-color:#022;
-padding:6px 18px;
-border-radius:22px;
-font-weight:800;
-margin-bottom:14px;
+background:var(--main);
+padding:6px 16px;
+border-radius:20px;
 display:inline-block;
+margin-bottom:10px;
+color:#000;
+font-weight:700;
 }
 
-/* الغلاف */
 .cover{
-align-items:center;
+background:linear-gradient(135deg,#020617,#000);
+display:flex;
 justify-content:center;
-}
-
-.cover::after{display:none}
-
-.cover .content{
+align-items:center;
 text-align:center;
-background:linear-gradient(135deg,rgba(15,76,129,.95),rgba(14,165,164,.95));
-border-radius:22px;
-}
-
-.logo{
-width:90px;
-height:90px;
-object-fit:contain;
-margin-bottom:16px;
 }
 </style>
 </head>
@@ -127,129 +98,111 @@ margin-bottom:16px;
 <body>
 
 <section id="home" class="active">
-<h2>📘 بروشور مدرسة</h2>
+<h1>😈 GODLIKE AI BROCHURE</h1>
 <button onclick="show('form')">ابدأ</button>
+<button onclick="toggleMode()">🌙 / ☀️</button>
 </section>
 
 <section id="form">
-<input id="name" placeholder="اسم المدرسة">
-<textarea id="about" placeholder="نبذة عن المدرسة"></textarea>
-<input type="file" id="upload" multiple accept="image/*">
-<input type="file" id="logoInput" accept="image/*">
-<select id="fontSelect">
-<option value="'Cairo',sans-serif">Cairo</option>
-<option value="'Almarai',sans-serif">Almarai</option>
+<select id="type">
+<option value="school">🏫 مدرسة</option>
+<option value="restaurant">🍽️ مطعم</option>
+<option value="store">🏪 متجر</option>
 </select>
-<input type="color" id="textColor" value="#ffffff">
-<button onclick="generate()">إنشاء البروشور</button>
+
+<input id="name" placeholder="اسم الجهة">
+<textarea id="about" placeholder="نبذة"></textarea>
+<input type="file" id="upload" multiple accept="image/*">
+
+<button onclick="generate()">🔥 إنشاء</button>
 </section>
 
 <section id="result">
 <div id="book"></div>
-<button onclick="downloadPDF()">تحميل PDF</button>
-<button onclick="autoFlip()">عرض تلقائي</button>
-<button onclick="show('form')">تعديل</button>
+<button onclick="downloadPDF()">📄 PDF</button>
+<button onclick="autoFlip()">🎬 عرض</button>
+<button onclick="recordVideo()">📹 فيديو</button>
+<button onclick="show('form')">🔁 تعديل</button>
 </section>
 
 <script>
 let flip;
 
+/* تنقل */
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* النص الطويل */
-function generateSmartText(name){
-const base=[
-"بيئة تعليمية متطورة",
-"كادر تعليمي متميز",
-"مناهج حديثة",
-"أنشطة تنمي الإبداع",
-"تعليم رقمي متكامل",
-"قيم وأخلاق",
-"مرافق مدرسية متكاملة",
-"تقييم مستمر",
-"شراكة مجتمعية",
-"إدارة احترافية",
-"تطوير دائم",
-"رؤية مستقبلية"
-];
-
-return base.map(t=>`${t} — ${name} تقدم منظومة تعليمية متكاملة ترتكز على أسس علمية وتربوية حديثة، وتهدف إلى بناء شخصية الطالب بشكل متوازن يجمع بين التحصيل الأكاديمي العالي وتنمية المهارات الفكرية وتعزيز القيم الأخلاقية، في بيئة تعليمية آمنة ومحفزة تدعم الإبداع والتميز والاستدامة التعليمية على المدى الطويل.`);
+/* Dark/Light */
+function toggleMode(){
+document.body.classList.toggle("light");
 }
 
-/* صور سعودية أكثر واقعية */
-const fallbackImages=[
-"https://images.unsplash.com/photo-1601582589907-f92af5ed9db8",
-"https://images.unsplash.com/photo-1558021212-51b6ecfa0db9",
-"https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
-"https://images.unsplash.com/photo-1596495577886-d920f1fb7238",
-"https://images.unsplash.com/photo-1513258496099-48168024aec0",
-"https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
-"https://images.unsplash.com/photo-1531482615713-2afd69097998",
-"https://images.unsplash.com/photo-1588072432836-e10032774350",
-"https://images.unsplash.com/photo-1509062522246-3755977927d7",
-"https://images.unsplash.com/photo-1516979187457-637abb4f9353",
-"https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
-"https://images.unsplash.com/photo-1509062522246-3755977927d7",
-"https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
-"https://images.unsplash.com/photo-1571260899304-425eee4c7efc"
-].map(u=>u+"?auto=format&fit=crop&w=900&q=80");
+/* AI نصوص مختلفة */
+function generateSmartText(type,name){
+const base={
+school:["بيئة تعليمية متطورة","كادر تعليمي متميز","مناهج حديثة","أنشطة تنمي الإبداع","تعليم رقمي","قيم وأخلاق","مرافق متكاملة","تقييم مستمر","شراكة مجتمعية","إدارة احترافية","تطوير دائم","رؤية مستقبلية"],
+restaurant:["نكهات فريدة","مكونات طازجة","خدمة راقية","أجواء مريحة","أسعار مناسبة","قائمة متنوعة","توصيل سريع","نظافة عالية","تقييم ممتاز","تجربة فريدة","إدارة قوية","هوية مميزة"],
+store:["منتجات متنوعة","جودة عالية","خدمة احترافية","عروض مستمرة","تحديث دائم","تجربة تسوق رائعة","ثقة وضمان","متجر عصري","دفع آمن","عملاء دائمون","إدارة فعالة","نمو ونجاح"]
+};
 
+return base[type].map(t=>`${t} — ${name} يقدم تجربة احترافية متكاملة تركز على الجودة والابتكار وتحقيق أفضل النتائج وبناء ثقة طويلة مع العملاء وتقديم قيمة حقيقية ومستوى عالي من الأداء والتطور المستمر.`)
+}
+
+/* توليد */
 function generate(){
+
 const book=document.getElementById("book");
 book.innerHTML="";
 
-let nameVal=name.value||"المدرسة النموذجية";
-let aboutVal=about.value||"مؤسسة تعليمية تقدم تعليمًا نوعيًا وفق أعلى المعايير";
-let texts=generateSmartText(nameVal);
-let fontVal=document.getElementById("fontSelect").value;
-let colorVal=document.getElementById("textColor").value;
-let logoURL=logoInput.files[0]?URL.createObjectURL(logoInput.files[0]):"";
+let typeVal=type.value;
+let nameVal=name.value||"اسم الجهة";
+let aboutVal=about.value||"بروشور احترافي متكامل";
+let texts=generateSmartText(typeVal,nameVal);
 
-/* الصور */
+/* صور ذكية */
+const keywords={
+school:"school students classroom",
+restaurant:"restaurant food",
+store:"store shop products"
+};
+
 let imgs=[];
 if(upload.files.length){
-for(let f of upload.files){
-imgs.push(URL.createObjectURL(f));
-}
+for(let f of upload.files) imgs.push(URL.createObjectURL(f));
 }
 
-/* استخدام الصور الواقعية بدون تكرار */
-for(let i=0;i<fallbackImages.length && imgs.length<14;i++){
-imgs.push(fallbackImages[i]);
+while(imgs.length<14){
+imgs.push(`https://source.unsplash.com/900x1200/?${keywords[typeVal]}&sig=${Math.random()}`);
 }
 
-/* الغلاف */
+/* غلاف */
 book.innerHTML+=`
 <div class="page cover">
-<div class="content" style="font-family:${fontVal}; color:${colorVal};">
-${logoURL?`<img src="${logoURL}" class="logo">`:""}
+<div class="content">
 <h1>${nameVal}</h1>
 <p>${aboutVal}</p>
 </div>
 </div>`;
 
-/* الصفحات */
+/* صفحات */
 for(let i=0;i<12;i++){
 book.innerHTML+=`
-<div class="page">
-<img src="${imgs[i]}">
-<div class="content" style="font-family:${fontVal}; color:${colorVal};">
+<div class="page" style="--img:url('${imgs[i]}')">
+<div class="content">
 <div class="badge">${nameVal}</div>
 <p>${texts[i]}</p>
 </div>
 </div>`;
 }
 
-/* الخاتمة */
+/* خاتمة */
 book.innerHTML+=`
-<div class="page">
-<img src="${imgs[13]}">
-<div class="content" style="font-family:${fontVal}; color:${colorVal};">
+<div class="page" style="--img:url('${imgs[13]}')">
+<div class="content">
 <div class="badge">تواصل معنا</div>
-<p>نسعد بخدمتكم دائمًا — إدارة ${nameVal}</p>
+<p>نسعد بخدمتكم دائماً — فريق ${nameVal}</p>
 </div>
 </div>`;
 
@@ -262,10 +215,12 @@ flip.loadFromHTML(document.querySelectorAll(".page"));
 },400);
 }
 
+/* PDF */
 function downloadPDF(){
-html2pdf().from(book).save("School-Brochure.pdf");
+html2pdf().from(book).save("GODLIKE.pdf");
 }
 
+/* عرض */
 function autoFlip(){
 let i=0;
 let t=setInterval(()=>{
@@ -273,6 +228,23 @@ if(i>=14){clearInterval(t);return;}
 flip.flipNext();
 i++;
 },1200);
+}
+
+/* فيديو */
+async function recordVideo(){
+let stream=await navigator.mediaDevices.getDisplayMedia({video:true});
+let recorder=new MediaRecorder(stream);
+let chunks=[];
+recorder.ondataavailable=e=>chunks.push(e.data);
+recorder.onstop=()=>{
+let blob=new Blob(chunks,{type:"video/webm"});
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="brochure-video.webm";
+a.click();
+};
+recorder.start();
+setTimeout(()=>recorder.stop(),10000);
 }
 </script>
 
