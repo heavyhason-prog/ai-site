@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Brochure GODLIKE</title>
+<title>AI Smart Brochure</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
@@ -13,7 +13,6 @@
 :root{
 --blue:#0f4c81;
 --green:#10e6b1;
---text:#fff;
 }
 
 body{
@@ -23,9 +22,32 @@ background:linear-gradient(135deg,var(--blue),var(--green));
 color:#fff;
 }
 
-/* الصفحات */
+section{display:none;padding:20px;max-width:900px;margin:auto}
+section.active{display:block}
+
+input,textarea{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+margin-bottom:10px;
+background:rgba(255,255,255,.15);
+color:#fff;
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+background:linear-gradient(45deg,#22d3ee,#22c55e);
+font-weight:bold;
+cursor:pointer;
+}
+
 #book{margin:auto;width:400px;height:640px}
 
+/* الصفحة */
 .page{
 position:relative;
 border-radius:20px;
@@ -40,7 +62,7 @@ height:100%;
 object-fit:cover;
 }
 
-/* التدرج فوق الصورة */
+/* التدرج */
 .page::after{
 content:"";
 position:absolute;
@@ -48,12 +70,12 @@ inset:0;
 background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.3));
 }
 
-/* المحتوى */
 .content{
 position:absolute;
 bottom:0;
 padding:25px;
 z-index:2;
+line-height:2;
 }
 
 .cover{
@@ -70,32 +92,62 @@ background:linear-gradient(135deg,#0f4c81,#10e6b1);
 padding:30px;
 border-radius:20px;
 }
-
-button{
-margin:10px auto;
-display:block;
-padding:12px 18px;
-border:none;
-border-radius:12px;
-background:linear-gradient(45deg,#22d3ee,#22c55e);
-font-weight:bold;
-cursor:pointer;
-}
 </style>
 </head>
 
 <body>
 
-<div id="book"></div>
+<section id="home" class="active">
+<h2>📘 بروشور</h2>
+<button onclick="show('form')">ابدأ</button>
+</section>
 
+<section id="form">
+<input id="name" placeholder="اسم المؤسسة">
+<textarea id="about" placeholder="نبذة"></textarea>
+<input type="file" id="upload" multiple accept="image/*">
+<button onclick="generate()">إنشاء البروشور</button>
+</section>
+
+<section id="result">
+<div id="book"></div>
 <button onclick="pdf()">تحميل PDF</button>
 <button onclick="autoFlip()">عرض تلقائي</button>
+<button onclick="show('form')">تعديل</button>
+</section>
 
 <script>
 let flip;
 
-/* صور جاهزة لكل الصفحات */
-const images=[
+function show(id){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+/* نص طويل */
+function generateText(name){
+const base=[
+"بيئة تعليمية متطورة",
+"كادر تعليمي متميز",
+"مناهج حديثة",
+"أنشطة تنمي الإبداع",
+"تعليم رقمي متكامل",
+"قيم وأخلاق",
+"مرافق متكاملة",
+"تقييم مستمر",
+"شراكة مجتمعية",
+"إدارة احترافية",
+"تطوير دائم",
+"رؤية مستقبلية",
+"ابتكار وتميز",
+"نجاح مستمر"
+];
+
+return base.map(t=>`${t} — ${name} تقدم منظومة متكاملة تعتمد على أساليب حديثة في التعليم والتطوير، وتركز على بناء شخصية متوازنة تجمع بين المعرفة والمهارة والقيم، في بيئة محفزة وآمنة تدعم الإبداع والتميز والاستدامة.`);
+}
+
+/* صور احتياطية مضمونة */
+const fallback=[
 "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=80",
 "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=900&q=80",
 "https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=900&q=80",
@@ -112,32 +164,31 @@ const images=[
 "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=80"
 ];
 
-/* نص */
-const texts=[
-"بيئة تعليمية متطورة تدعم الإبداع والتميز.",
-"كادر تعليمي محترف يطور مهارات الطلاب.",
-"مناهج حديثة تعتمد التعلم الذكي.",
-"أنشطة تنمي التفكير والإبداع.",
-"تعليم رقمي متكامل.",
-"قيم وأخلاق عالية.",
-"مرافق مدرسية حديثة.",
-"تقييم مستمر.",
-"شراكة مجتمعية.",
-"إدارة احترافية.",
-"تطوير دائم.",
-"رؤية مستقبلية.",
-"ابتكار وتميز.",
-"نصنع القادة."
-];
-
+function generate(){
 const book=document.getElementById("book");
+book.innerHTML="";
+
+let nameVal=name.value||"المؤسسة";
+let aboutVal=about.value||"وصف المؤسسة";
+let texts=generateText(nameVal);
+
+/* صور المستخدم */
+let imgs=[];
+for(let f of upload.files){
+imgs.push(URL.createObjectURL(f));
+}
+
+/* اكمل بالبك اب */
+for(let i=0;i<fallback.length && imgs.length<14;i++){
+imgs.push(fallback[i]);
+}
 
 /* الغلاف */
 book.innerHTML+=`
 <div class="page cover">
 <div class="coverBox">
-<h1>AI GOD BOOK</h1>
-<p>بروشور احترافي تفاعلي</p>
+<h1>${nameVal}</h1>
+<p>${aboutVal}</p>
 </div>
 </div>`;
 
@@ -145,26 +196,27 @@ book.innerHTML+=`
 for(let i=0;i<14;i++){
 book.innerHTML+=`
 <div class="page">
-<img src="${images[i]}">
+<img src="${imgs[i]}">
 <div class="content">
-<h3>AI GOD BOOK</h3>
+<h3>${nameVal}</h3>
 <p>${texts[i]}</p>
 </div>
 </div>`;
 }
 
-/* تشغيل PageFlip */
+show("result");
+
 setTimeout(()=>{
+if(flip)flip.destroy();
 flip=new St.PageFlip(book,{width:400,height:640,showCover:true});
 flip.loadFromHTML(document.querySelectorAll(".page"));
 },300);
-
-/* PDF */
-function pdf(){
-html2pdf().from(book).save("AI-Brochure.pdf");
 }
 
-/* AutoFlip */
+function pdf(){
+html2pdf().from(book).save("Brochure.pdf");
+}
+
 function autoFlip(){
 let i=0;
 let t=setInterval(()=>{
