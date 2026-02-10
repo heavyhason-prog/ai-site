@@ -2,217 +2,188 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<title>AI Smart Brochure GOD++</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Brochure ULTIMATE GOD MODE</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{--main:#00f5ff}
-*{box-sizing:border-box}
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-margin:0;
-font-family:'Cairo',sans-serif;
-background:#000;
-color:#fff;
+  font-family:'Cairo',sans-serif;
+  background:#0f172a;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
 }
 
-section{display:none;padding:20px;max-width:1100px;margin:auto}
-section.active{display:block}
-
-input,textarea,select{
-width:100%;padding:14px;border:none;border-radius:14px;
-margin-bottom:12px;background:rgba(255,255,255,.08);color:#fff;
+/* الكتاب */
+#book{
+  width:900px;
+  max-width:95vw;
+  height:600px;
+  max-height:95vh;
 }
 
-button{
-width:100%;padding:14px;border:none;border-radius:14px;
-background:linear-gradient(45deg,var(--main),#00ffa6);
-font-weight:900;cursor:pointer;margin-top:10px;
-}
-
-#book{margin:auto;max-width:420px;height:620px}
-
+/* الصفحة */
 .page{
-position:relative;
-border-radius:22px;
-overflow:hidden;
-display:flex;
-align-items:flex-end;
-color:#fff;
+  width:100%;
+  height:100%;
+  background:linear-gradient(135deg,#020617,#0f172a,#020617);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:40px;
+  text-align:center;
+  border-radius:14px;
 }
 
-.page::before{
-content:"";
-position:absolute;
-inset:0;
-background-image:var(--img);
-background-size:cover;
-background-position:center;
+/* العناوين */
+h1{
+  font-size:38px;
+  margin-bottom:20px;
 }
 
-.page::after{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.25));
+p{
+  font-size:20px;
+  line-height:1.8;
+  max-width:700px;
 }
 
-.content{
-position:relative;
-z-index:2;
-padding:20px;
+/* المدخلات */
+input,select{
+  width:80%;
+  padding:14px;
+  margin:10px 0;
+  border-radius:10px;
+  border:none;
+  font-size:18px;
+  text-align:center;
 }
 
-.badge{
-background:var(--main);
-padding:6px 16px;
-border-radius:20px;
-display:inline-block;
-margin-bottom:10px;
-color:#000;
-font-weight:700;
+/* زر */
+button{
+  margin-top:15px;
+  padding:12px 26px;
+  font-size:18px;
+  border:none;
+  border-radius:10px;
+  background:#22c55e;
+  color:#fff;
+  cursor:pointer;
+  transition:.2s;
+}
+button:hover{transform:scale(1.05)}
+
+/* صورة */
+img{
+  max-width:80%;
+  max-height:260px;
+  border-radius:12px;
+  margin-top:20px;
+  object-fit:cover;
 }
 
-.cover{
-background:linear-gradient(135deg,#020617,#000);
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
+/* مهم جداً لحل مشكلة الضغط */
+.stf__parent{
+  pointer-events:auto !important;
+}
+.stf__block{
+  pointer-events:auto !important;
 }
 </style>
 </head>
 
 <body>
 
-<section id="home" class="active">
-<h1>🚀 ULTIMATE GOD MODE</h1>
-<button onclick="show('form')">ابدأ</button>
-</section>
+<div id="book">
 
-<section id="form">
-<select id="type">
-<option value="school">🏫 مدرسة</option>
-<option value="restaurant">🍽️ مطعم</option>
-<option value="store">🏪 متجر</option>
-</select>
+  <!-- الصفحة 1 (البيانات) -->
+  <div class="page">
+    <h1>📋 أدخل بياناتك</h1>
+    <input id="name" placeholder="اسمك">
+    <select id="type">
+      <option value="school">مدرسة</option>
+      <option value="tech">تقنية</option>
+      <option value="business">أعمال</option>
+      <option value="design">تصميم</option>
+    </select>
+    <button onclick="generate()">ابدأ</button>
+  </div>
 
-<input id="name" placeholder="اسم الجهة">
-<textarea id="about" placeholder="نبذة"></textarea>
-<input type="file" id="upload" multiple accept="image/*">
+  <!-- الصفحات 2 → 12 -->
+  <div class="page"><h1 id="title1"></h1><p id="text1"></p><img id="img1"></div>
+  <div class="page"><h1 id="title2"></h1><p id="text2"></p><img id="img2"></div>
+  <div class="page"><h1 id="title3"></h1><p id="text3"></p><img id="img3"></div>
+  <div class="page"><h1 id="title4"></h1><p id="text4"></p><img id="img4"></div>
+  <div class="page"><h1 id="title5"></h1><p id="text5"></p><img id="img5"></div>
+  <div class="page"><h1 id="title6"></h1><p id="text6"></p><img id="img6"></div>
+  <div class="page"><h1 id="title7"></h1><p id="text7"></p><img id="img7"></div>
+  <div class="page"><h1 id="title8"></h1><p id="text8"></p><img id="img8"></div>
+  <div class="page"><h1 id="title9"></h1><p id="text9"></p><img id="img9"></div>
+  <div class="page"><h1 id="title10"></h1><p id="text10"></p><img id="img10"></div>
+  <div class="page"><h1 id="title11"></h1><p id="text11"></p><img id="img11"></div>
 
-<button onclick="generate()">🔥 إنشاء</button>
-</section>
-
-<section id="result">
-<div id="book"></div>
-<button onclick="downloadPDF()">📄 PDF</button>
-<button onclick="autoFlip()">🎥 عرض</button>
-<button onclick="show('form')">🔁 تعديل</button>
-</section>
+</div>
 
 <script>
-let flip;
+/* تشغيل الكتاب */
+const pageFlip = new St.PageFlip(
+  document.getElementById("book"),
+  {
+    width:450,
+    height:600,
+    size:"stretch",
+    minWidth:315,
+    maxWidth:900,
+    minHeight:420,
+    maxHeight:1200,
+    showCover:true,
+    mobileScrollSupport:false,
+    useMouseEvents:true,
+    clickEventForward:true
+  }
+);
 
-function show(id){
-document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).classList.add("active");
-}
+pageFlip.loadFromHTML(document.querySelectorAll(".page"));
 
-/* نصوص مختلفة بالكامل */
-const texts=[
-"نقدم تجربة احترافية متكاملة تركز على الجودة والابتكار والتطوير المستمر لتحقيق أفضل النتائج.",
-"نعمل وفق أعلى المعايير لضمان تقديم خدمات متميزة تلبي جميع الاحتياجات بكفاءة عالية.",
-"نؤمن بأن النجاح يبدأ من التخطيط الصحيح والعمل المتقن وتحقيق رؤية واضحة للمستقبل.",
-"فريقنا يتميز بالخبرة والاحترافية والالتزام بتقديم أفضل تجربة ممكنة للجميع.",
-"نركز على بناء علاقة طويلة قائمة على الثقة والجودة والاستمرارية.",
-"نقدم حلول متطورة تعتمد على الابتكار والتكنولوجيا الحديثة.",
-"نحرص على تحقيق التميز في كل تفاصيل العمل لضمان رضا العملاء.",
-"هدفنا هو الوصول إلى أعلى مستويات الأداء والجودة في كل خطوة.",
-"نؤمن بأن التطوير المستمر هو مفتاح النجاح والاستمرارية.",
-"نقدم قيمة حقيقية وتجربة مميزة تجعلنا الخيار الأفضل دائماً.",
-"نعمل بشغف لتحقيق الإنجازات وتطوير الأداء وتحقيق النجاح.",
-"رؤيتنا مستقبل متطور مليء بالابتكار والتميز والريادة."
-];
-
+/* إنشاء المحتوى */
 function generate(){
+  const name = document.getElementById("name").value || "المستخدم";
+  const type = document.getElementById("type").value;
 
-const book=document.getElementById("book");
-book.innerHTML="";
+  const topics = {
+    school:"المدرسة",
+    tech:"التقنية",
+    business:"الأعمال",
+    design:"التصميم"
+  };
 
-let typeVal=type.value;
-let nameVal=name.value||"اسم الجهة";
-let aboutVal=about.value||"بروشور احترافي";
+  const keyword = topics[type];
 
-/* صور */
-let imgs=[];
-if(upload.files.length){
-for(let f of upload.files) imgs.push(URL.createObjectURL(f));
-}
+  for(let i=1;i<=11;i++){
+    document.getElementById("title"+i).innerText =
+      `${keyword} - الصفحة ${i}`;
 
-const keywords={
-school:"school classroom students",
-restaurant:"restaurant food dishes",
-store:"store shop products"
-};
+    document.getElementById("text"+i).innerText =
+      `مرحباً ${name} 👋  
+هذه صفحة رقم ${i} تتحدث عن ${keyword}.  
+تم إنشاء هذا الكتيب الذكي تلقائياً باستخدام الذكاء الاصطناعي.  
+يمكنك تطويره، إضافة معلومات، أو تحويله إلى مشروع حقيقي.  
+كل صفحة تحتوي على نص وصورة مرتبطة بالموضوع لملء الصفحة بالكامل.`;
 
-while(imgs.length<14){
-imgs.push(`https://source.unsplash.com/900x1200/?${keywords[typeVal]}&sig=${Math.random()}`);
-}
+    document.getElementById("img"+i).src =
+      `https://source.unsplash.com/800x600/?${type}`;
+  }
 
-/* غلاف */
-book.innerHTML+=`
-<div class="page cover">
-<div class="content">
-<h1>${nameVal}</h1>
-<p>${aboutVal}</p>
-</div>
-</div>`;
-
-/* 12 صفحات مختلفة */
-for(let i=0;i<12;i++){
-book.innerHTML+=`
-<div class="page" style="--img:url('${imgs[i]}')">
-<div class="content">
-<div class="badge">${nameVal}</div>
-<p>${texts[i]}</p>
-</div>
-</div>`;
-}
-
-/* خاتمة */
-book.innerHTML+=`
-<div class="page" style="--img:url('${imgs[13]}')">
-<div class="content">
-<div class="badge">تواصل معنا</div>
-<p>نسعد بخدمتكم دائماً. شكراً لثقتكم.</p>
-</div>
-</div>`;
-
-show("result");
-
-setTimeout(()=>{
-if(flip) flip.destroy();
-flip=new St.PageFlip(book,{width:380,height:600,showCover:true});
-flip.loadFromHTML(document.querySelectorAll(".page"));
-},400);
-}
-
-function downloadPDF(){
-html2pdf().from(book).save("ULTIMATE.pdf");
-}
-
-function autoFlip(){
-let i=0;
-let t=setInterval(()=>{
-if(i>=14){clearInterval(t);return;}
-flip.flipNext();
-i++;
-},1200);
+  /* يقلب للصفحة الثانية بعد التوليد */
+  pageFlip.flip(1);
 }
 </script>
 
