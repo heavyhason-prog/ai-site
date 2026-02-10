@@ -2,160 +2,243 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>OMEGA ∞ SMART BOOK</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI GOD TIER BROCHURE</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
+:root{
+--main1:#0f4c81;
+--main2:#10e6b1;
+}
+
 body{
 margin:0;
-background:#0b132b;
 font-family:'Cairo',sans-serif;
-overflow:hidden;
+background:linear-gradient(135deg,var(--main1),var(--main2));
+color:#fff;
 }
 
-#book{
-width:100vw;
-height:100vh;
+section{display:none;padding:20px;max-width:950px;margin:auto}
+section.active{display:block}
+
+input,textarea{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+margin-bottom:10px;
+background:rgba(255,255,255,.15);
+color:#fff;
 }
 
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+background:linear-gradient(45deg,#22d3ee,#22c55e);
+font-weight:900;
+cursor:pointer;
+margin-top:6px;
+}
+
+#book{margin:auto;width:400px;height:640px}
+
+/* الصفحة */
 .page{
-background:#ffffff;
-width:100%;
-height:100%;
-padding:40px;
-box-sizing:border-box;
-display:flex;
-flex-direction:column;
-justify-content:flex-start;
-align-items:center;
+position:relative;
+border-radius:20px;
 overflow:hidden;
 }
 
-h1{
-margin:0;
-font-size:32px;
-color:#111;
-}
-
-p{
-font-size:18px;
-line-height:1.9;
-text-align:center;
-max-width:900px;
-}
-
-.images{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-margin-top:20px;
-width:100%;
-height:420px;
-}
-
-.images img{
+/* الصورة */
+.page img{
+position:absolute;
+inset:0;
 width:100%;
 height:100%;
 object-fit:cover;
-border-radius:12px;
 }
 
-.title{
-background:#00e5ff;
-color:#000;
-padding:6px 20px;
+/* طبقة الظل */
+.page::after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.35));
+}
+
+/* المحتوى */
+.content{
+position:absolute;
+bottom:0;
+padding:24px;
+z-index:2;
+line-height:2.05;
+font-size:15px;
+}
+
+/* الغلاف */
+.cover{
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+}
+
+.cover::after{display:none}
+
+.coverBox{
+background:linear-gradient(135deg,#0f4c81,#10e6b1);
+padding:30px;
 border-radius:20px;
-font-weight:bold;
-margin-bottom:10px;
 }
-
 </style>
 </head>
 
 <body>
 
-<div id="book">
-
 <!-- الصفحة الأولى -->
-<div class="page">
-<div class="title">اسم المدرسة</div>
-<h1>مدرستي الذكية</h1>
+<section id="home" class="active">
+<h2>🚀 AI GOD TIER BROCHURE</h2>
+<button onclick="show('form')">ابدأ</button>
+</section>
 
-<p>
-نحن مدرسة متقدمة نعمل على تقديم أفضل جودة تعليم ممكنة باستخدام أحدث التقنيات
-والابتكار المستمر. نركز على تطوير الطلاب علمياً وعملياً لبناء مستقبل قوي مليء
-بالنجاحات. نوفر بيئة تعليمية حديثة، فصول ذكية، وأنشطة تفاعلية تساعد الطلاب على
-التعلم بطريقة ممتعة واحترافية. هدفنا هو بناء جيل مبدع قادر على قيادة المستقبل.
-</p>
+<!-- نموذج البيانات -->
+<section id="form">
+<input id="name" placeholder="اسم المؤسسة">
+<textarea id="about" placeholder="نبذة عن المؤسسة"></textarea>
+<input type="file" id="upload" multiple accept="image/*">
+<button onclick="generate()">إنشاء البروشور</button>
+</section>
 
-<div class="images">
-
-<!-- مدرسة -->
-<img src="https://images.unsplash.com/photo-1588072432836-e10032774350">
-
-<!-- شركة -->
-<img src="https://images.unsplash.com/photo-1556761175-b413da4baf72">
-
-<!-- تقنية -->
-<img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f">
-
-<!-- ألعاب -->
-<img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437d1">
-
-</div>
-</div>
-
-
-<!-- الصفحات الباقية -->
-<script>
-for(let i=2;i<=12;i++){
-document.write(`
-<div class="page">
-<div class="title">صفحة رقم ${i}</div>
-
-<p>
-هذه صفحة ذكية تحتوي على محتوى احترافي طويل لعرض المعلومات بشكل واضح وجذاب.
-يتم استخدام هذا النظام في المدارس، الشركات، العروض التقديمية، والكتالوجات
-الرقمية. يوفر تجربة تفاعلية حديثة مع تصميم أنيق وسهل الاستخدام.
-يمكنك إضافة أي محتوى تريده هنا مثل النصوص، الصور، أو المعلومات التعليمية
-والتقنية، مما يجعل العرض احترافي بالكامل.
-</p>
-
-<div class="images">
-<img src="https://source.unsplash.com/800x600/?school">
-<img src="https://source.unsplash.com/800x600/?technology">
-</div>
-
-</div>
-`);
-}
-</script>
-
-</div>
-
+<!-- النتيجة -->
+<section id="result">
+<div id="book"></div>
+<button onclick="downloadPDF()">تحميل PDF</button>
+<button onclick="autoFlip()">عرض تلقائي</button>
+<button onclick="show('form')">تعديل البيانات</button>
+</section>
 
 <script>
-const pageFlip = new St.PageFlip(
-document.getElementById("book"),
-{
-width:550,
-height:750,
-size:"stretch",
-minWidth:315,
-minHeight:420,
-maxWidth:2000,
-maxHeight:2000,
-showCover:true,
-mobileScrollSupport:false
-}
-);
+let flip;
 
-pageFlip.loadFromHTML(document.querySelectorAll(".page"));
+/* تنقل الصفحات */
+function show(id){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+/* نص ذكي طويل */
+function smartText(name){
+const topics=[
+"بيئة تعليمية متقدمة",
+"كادر احترافي",
+"مناهج حديثة",
+"ابتكار وتطوير",
+"تعليم رقمي",
+"قيم وأخلاق",
+"مرافق متكاملة",
+"متابعة مستمرة",
+"شراكة مجتمعية",
+"إدارة قوية",
+"تطوير دائم",
+"رؤية مستقبلية",
+"تميز واستدامة",
+"نجاح مستمر"
+];
+
+return topics.map(t=>`${t} — ${name} تقدم منظومة متكاملة ترتكز على أساليب حديثة في التطوير والتخطيط، وتهدف إلى بناء تجربة متقدمة تجمع بين الجودة العالية والابتكار والاستدامة، مع التركيز على تحقيق أفضل النتائج ورفع مستوى الأداء في بيئة محفزة وآمنة تدعم الإبداع والتميز.`)
+}
+
+/* صور مضمونة بدون كسر */
+const backupImages=[
+"https://picsum.photos/900/1200?random=1",
+"https://picsum.photos/900/1200?random=2",
+"https://picsum.photos/900/1200?random=3",
+"https://picsum.photos/900/1200?random=4",
+"https://picsum.photos/900/1200?random=5",
+"https://picsum.photos/900/1200?random=6",
+"https://picsum.photos/900/1200?random=7",
+"https://picsum.photos/900/1200?random=8",
+"https://picsum.photos/900/1200?random=9",
+"https://picsum.photos/900/1200?random=10",
+"https://picsum.photos/900/1200?random=11",
+"https://picsum.photos/900/1200?random=12",
+"https://picsum.photos/900/1200?random=13",
+"https://picsum.photos/900/1200?random=14"
+];
+
+function generate(){
+const book=document.getElementById("book");
+book.innerHTML="";
+
+let nameVal=name.value||"المؤسسة";
+let aboutVal=about.value||"وصف تعريفي";
+let texts=smartText(nameVal);
+
+/* صور المستخدم */
+let imgs=[];
+for(let f of upload.files){
+imgs.push(URL.createObjectURL(f));
+}
+
+/* اكمل بالاحتياط */
+for(let i=0;i<backupImages.length && imgs.length<14;i++){
+imgs.push(backupImages[i]);
+}
+
+/* الغلاف */
+book.innerHTML+=`
+<div class="page cover">
+<div class="coverBox">
+<h1>${nameVal}</h1>
+<p>${aboutVal}</p>
+</div>
+</div>`;
+
+/* الصفحات */
+for(let i=0;i<14;i++){
+book.innerHTML+=`
+<div class="page">
+<img src="${imgs[i]}">
+<div class="content">
+<h3>${nameVal}</h3>
+<p>${texts[i]}</p>
+</div>
+</div>`;
+}
+
+show("result");
+
+/* تشغيل PageFlip */
+setTimeout(()=>{
+if(flip)flip.destroy();
+flip=new St.PageFlip(book,{width:400,height:640,showCover:true});
+flip.loadFromHTML(document.querySelectorAll(".page"));
+},300);
+}
+
+/* PDF */
+function downloadPDF(){
+html2pdf().from(book).save("GOD-TIER-Brochure.pdf");
+}
+
+/* تقليب تلقائي */
+function autoFlip(){
+let i=0;
+let t=setInterval(()=>{
+if(i>=14){clearInterval(t);return;}
+flip.flipNext();
+i++;
+},1200);
+}
 </script>
 
 </body>
 </html>
+
