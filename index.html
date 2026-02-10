@@ -10,119 +10,109 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root {--mx:80%; --my:20%;}
+:root{--mx:80%;--my:20%;}
 
-body {
-  margin: 0;
-  font-family: 'Cairo', sans-serif;
-  color: #fff;
-  overflow: hidden;
-  background: #020617;
+body{
+  margin:0;
+  font-family:'Cairo',sans-serif;
+  color:#fff;
+  overflow:hidden;
+  background:#020617;
 }
 
-#appBg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
+#appBg{
+  position:fixed;
+  inset:0;
+  z-index:-1;
   background:
     radial-gradient(1200px 600px at var(--mx) var(--my),
     #0fd9c7 0%,
     rgba(15,217,199,.18) 35%,
     transparent 70%),
     linear-gradient(135deg,#020617 0%,#020617 45%,#042f3a 100%);
-  animation: bgBreath 10s ease-in-out infinite;
+  animation:bgBreath 10s ease-in-out infinite;
 }
 
-@keyframes bgBreath {
+@keyframes bgBreath{
   0%,100%{filter:brightness(1)}
   50%{filter:brightness(1.15)}
 }
 
-#formScreen {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  z-index: 10;
-  transition: .8s;
+#formScreen{
+  position:fixed;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  z-index:10;
+  transition:.8s;
 }
 
-input,textarea,select {
-  width: 340px;
-  padding: 12px;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
+input,textarea,select{
+  width:340px;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
 }
 
-button {
-  padding: 14px 36px;
-  font-size: 18px;
-  border: none;
-  border-radius: 14px;
-  cursor: pointer;
-  font-weight: 900;
-  background: linear-gradient(135deg,#00eaff,#7cff00);
-  box-shadow: 0 0 25px rgba(0,234,255,.6);
+button{
+  padding:14px 36px;
+  font-size:18px;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:900;
+  background:linear-gradient(135deg,#00eaff,#7cff00);
+  box-shadow:0 0 25px rgba(0,234,255,.6);
 }
 
-#book {
-  width: 100vw;
-  height: 100vh;
-  display: none;
-  opacity: 0;
-  transition: 1s;
+#book{
+  width:100vw;
+  height:100vh;
+  display:none;
+  opacity:0;
+  transition:1s;
 }
 
-.page {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.page{
+  width:100%;
+  height:100%;
+  position:relative;
 }
 
-.page img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.7);
-  z-index: 1;
+.page img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:brightness(.55);
 }
 
-.text {
-  position: relative;
-  z-index: 2;
-  width: 90%;
-  height: 90%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-size: 22px;
-  line-height: 1.8;
-  text-shadow: 0 0 20px #000;
-  background: rgba(0,0,0,0.35);
-  padding: 30px;
-  border-radius: 12px;
-  overflow-y: auto;
+.text{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:85%;
+  font-size:22px;
+  line-height:2;
+  text-align:center;
+  text-shadow:0 0 20px #000;
+  background: rgba(0,0,0,0.35); /* خلفية شفافة للنص لضمان وضوحه */
+  padding:20px;
+  border-radius:12px;
 }
 
-#controls {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: none;
-  gap: 12px;
-  z-index: 20;
+#controls{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  display:none;
+  gap:12px;
+  z-index:20;
 }
 </style>
 </head>
@@ -154,12 +144,14 @@ button {
 <div id="book"></div>
 
 <script>
+// كلمات البحث للصور
 const images = {
   school: ["school","classroom","students","education","books","teacher"],
   company: ["office","business","corporate","meeting","teamwork","workspace"],
   project: ["technology","startup","innovation","futuristic","idea","creative"]
 };
 
+// نصوص مختلفة لكل قسم - ثلاث جمل لكل صفحة
 const texts = {
   school:[
     "هذا المحتوى موجه للبيئة التعليمية. يشرح الدرس بطريقة مبسطة. يهدف لفهم الطلاب وتطبيقهم.",
@@ -248,3 +240,5 @@ document.addEventListener("mousemove", e=>{
 
 </body>
 </html>
+حل مشكلة الصورة + خليه الكلام على الصفحة كامل
+في هذا الكود
