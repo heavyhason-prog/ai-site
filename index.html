@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Brochure GOD MODE</title>
+<title>AI Brochure ULTRA</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -10,143 +10,252 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
+:root{--main:#00f5ff}
+*{box-sizing:border-box}
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
 background:#020617;
 color:#fff;
+overflow-x:hidden;
 }
 
-#book{margin:auto;max-width:420px;height:640px}
+/* Glow */
+body::before{
+content:"";
+position:fixed;inset:0;
+background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,245,255,.2),transparent 40%);
+pointer-events:none;
+}
 
+section{display:none;padding:20px;max-width:1100px;margin:auto}
+section.active{display:block}
+
+input,textarea,select{
+width:100%;padding:14px;border:none;border-radius:14px;margin-bottom:12px;
+background:rgba(255,255,255,.08);color:#fff
+}
+
+button{
+width:100%;padding:14px;border:none;border-radius:14px;
+background:linear-gradient(45deg,var(--main),#00ffa6);
+font-weight:900;cursor:pointer
+}
+
+#book{margin:auto;max-width:430px;height:640px}
+
+/* الصفحة */
 .page{
 background:#fff;color:#000;border-radius:20px;overflow:hidden;
 display:flex;flex-direction:column
 }
 
+/* صورة كبيرة */
 .page img{
 width:100%;
-height:360px;
-object-fit:cover;
-background:#ddd;
+height:340px;
+object-fit:cover
 }
 
 .content{
-padding:20px;
+padding:18px;
 line-height:2;
 font-size:15px;
-flex:1
+flex:1;
+display:flex;
+flex-direction:column;
+justify-content:space-between
 }
 
-button{
-width:100%;
-padding:14px;
-border:none;
-border-radius:14px;
-background:linear-gradient(45deg,#00f5ff,#00ffa6);
-font-weight:900;
-margin-top:8px;
-cursor:pointer
+.badge{
+background:var(--main);
+padding:6px 14px;
+border-radius:20px;
+display:inline-block;
+margin-bottom:8px;
+font-weight:700
 }
 </style>
 </head>
 
 <body>
 
+<section id="home" class="active">
+<h1>🚀 AI Brochure ULTRA</h1>
+<button onclick="show('form')">ابدأ</button>
+</section>
+
+<section id="form">
+
+<select id="type">
+<option value="school">مدرسة</option>
+<option value="restaurant">مطعم</option>
+<option value="store">متجر</option>
+</select>
+
+<input id="name" placeholder="اسم الجهة">
+<textarea id="about" placeholder="نبذة"></textarea>
+<textarea id="services" placeholder="الخدمات"></textarea>
+<textarea id="goals" placeholder="الأهداف"></textarea>
+
+<button onclick="smartFill()">🤖 تعبئة تلقائية</button>
+<button onclick="generate()">✨ إنشاء ULTRA</button>
+
+</section>
+
+<section id="result">
+<h2>📖 البروشور</h2>
+
 <div id="book">
 
 <div class="page">
 <img id="img1">
 <div class="content">
-<h2 id="title">مؤسستنا</h2>
-<p id="text1"></p>
+<div>
+<div class="badge">العنوان</div>
+<h2 id="title"></h2>
+<p id="desc1"></p>
+</div>
 </div>
 </div>
 
 <div class="page">
 <img id="img2">
 <div class="content">
-<p id="text2"></p>
+<div>
+<div class="badge">من نحن</div>
+<p id="aboutAr"></p>
+</div>
 </div>
 </div>
 
 <div class="page">
 <img id="img3">
 <div class="content">
-<p id="text3"></p>
+<div>
+<div class="badge">لماذا نحن</div>
+<p id="whyAr"></p>
+</div>
 </div>
 </div>
 
 <div class="page">
 <img id="img4">
 <div class="content">
-<p id="text4"></p>
+<div>
+<div class="badge">الرؤية</div>
+<p id="visionAr"></p>
+</div>
 </div>
 </div>
 
 </div>
 
-<button onclick="generate()">🔄 توليد</button>
 <button onclick="downloadPDF()">📄 PDF</button>
+<button onclick="autoFlip()">🎬 عرض تلقائي</button>
+<button onclick="show('form')">🔁 جديد</button>
+</section>
 
 <script>
-
 let flip;
 
-/* صور مضمونة */
-const imageBank={
-school:[
-"https://images.pexels.com/photos/256490/pexels-photo-256490.jpeg",
-"https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg",
-"https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg",
-"https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg"
-],
-restaurant:[
-"https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg",
-"https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg",
-"https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg",
-"https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg"
-],
-store:[
-"https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg",
-"https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg",
-"https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg",
-"https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg"
-]
-};
+/* Glow */
+document.addEventListener("mousemove",e=>{
+document.body.style.setProperty("--x",e.clientX+"px");
+document.body.style.setProperty("--y",e.clientY+"px");
+});
+
+function show(id){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+/* تعبئة ذكية */
+function smartFill(){
+if(type.value==="school"){
+name.value="مدارس التميز";
+about.value="مؤسسة تعليمية تقدم بيئة تعلم حديثة ومتطورة.";
+services.value="تعليم حديث، أنشطة، تطوير مهارات.";
+goals.value="إعداد جيل مبدع ومتميز.";
+}
+if(type.value==="restaurant"){
+name.value="مطعم الذواقة";
+about.value="نقدم أشهى الأطباق بأعلى جودة.";
+services.value="وجبات، توصيل، جودة.";
+goals.value="أفضل تجربة طعام.";
+}
+if(type.value==="store"){
+name.value="متجر الإبداع";
+about.value="نوفر منتجات عالية الجودة بأسعار مميزة.";
+services.value="منتجات متنوعة، عروض.";
+goals.value="رضا العملاء.";
+}
+}
+
+/* صور حسب النوع */
+function getImages(){
+if(type.value==="school"){
+return[
+"https://source.unsplash.com/600x400/?school,classroom",
+"https://source.unsplash.com/600x400/?students,learning",
+"https://source.unsplash.com/600x400/?education,school",
+"https://source.unsplash.com/600x400/?teacher,class"
+];
+}
+if(type.value==="restaurant"){
+return[
+"https://source.unsplash.com/600x400/?restaurant,food",
+"https://source.unsplash.com/600x400/?meal,dish",
+"https://source.unsplash.com/600x400/?kitchen,chef",
+"https://source.unsplash.com/600x400/?dinner,restaurant"
+];
+}
+return[
+"https://source.unsplash.com/600x400/?store,shop",
+"https://source.unsplash.com/600x400/?shopping,store",
+"https://source.unsplash.com/600x400/?products,shop",
+"https://source.unsplash.com/600x400/?market,store"
+];
+}
 
 function generate(){
 
-let type="school"; // تقدر تغيرها
-
-let imgs=imageBank[type];
-
+let imgs=getImages();
 for(let i=1;i<=4;i++){
-let img=document.getElementById("img"+i);
-img.src=imgs[i-1];
-
-img.onerror=function(){
-this.src="https://picsum.photos/600/400?random="+Math.random();
-}
+document.getElementById("img"+i).src=imgs[i-1];
 }
 
-text1.innerText="نقدم خدمات متكاملة بجودة عالية باستخدام أحدث التقنيات لتحقيق أفضل النتائج وبناء تجربة احترافية متكاملة تلبي احتياجات العملاء وتحقق التميز.";
-text2.innerText="نعمل بروح الفريق ونركز على الجودة والابتكار والتطوير المستمر لضمان أفضل مستوى من الأداء والخدمة.";
-text3.innerText="نتميز بالاحترافية والسرعة والجودة العالية والدعم المستمر وخبرة طويلة في المجال.";
-text4.innerText="هدفنا تحقيق الريادة والتميز وبناء مستقبل أفضل من خلال التطوير المستمر والابتكار.";
+title.innerText=name.value||"مؤسستنا";
+
+desc1.innerText="نقدم خدمات متكاملة بجودة عالية باستخدام أحدث التقنيات لضمان أفضل النتائج وتحقيق رضا العملاء وبناء تجربة احترافية مميزة.";
+
+aboutAr.innerText=(about.value||"نقدم أفضل الخدمات")+" نعمل بروح الفريق ونركز على الجودة والابتكار والاستمرارية.";
+
+whyAr.innerText="نتميز بالاحترافية، الجودة، الابتكار، سرعة التنفيذ، دعم مستمر، وخبرة طويلة في المجال.";
+
+visionAr.innerText=(goals.value||"نسعى للريادة")+" ونهدف إلى تحقيق أعلى معايير التميز والتطوير المستمر.";
+
+show("result");
 
 setTimeout(()=>{
 if(flip)flip.destroy();
-flip=new St.PageFlip(book,{width:370,height:620});
+flip=new St.PageFlip(book,{width:370,height:620,showCover:true});
 flip.loadFromHTML(document.querySelectorAll(".page"));
-},200);
+},300);
 }
 
 function downloadPDF(){
-html2pdf().from(book).save("GOD-MODE.pdf");
+html2pdf().set({margin:0,filename:"ULTRA.pdf",html2canvas:{scale:2}}).from(book).save();
 }
 
-generate();
+function autoFlip(){
+let i=0;
+let inter=setInterval(()=>{
+if(i>=4){clearInterval(inter);return;}
+flip.flipNext();
+i++;
+},1500);
+}
 </script>
 
 </body>
