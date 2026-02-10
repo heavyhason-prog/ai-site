@@ -10,113 +10,119 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{--mx:80%;--my:20%;}
+:root {--mx:80%; --my:20%;}
 
-body{
-  margin:0;
-  font-family:'Cairo',sans-serif;
-  color:#fff;
-  overflow:hidden;
-  background:#020617;
+body {
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+  color: #fff;
+  overflow: hidden;
+  background: #020617;
 }
 
-#appBg{
-  position:fixed;
-  inset:0;
-  z-index:-1;
+#appBg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
   background:
     radial-gradient(1200px 600px at var(--mx) var(--my),
     #0fd9c7 0%,
     rgba(15,217,199,.18) 35%,
     transparent 70%),
     linear-gradient(135deg,#020617 0%,#020617 45%,#042f3a 100%);
-  animation:bgBreath 10s ease-in-out infinite;
+  animation: bgBreath 10s ease-in-out infinite;
 }
 
-@keyframes bgBreath{
+@keyframes bgBreath {
   0%,100%{filter:brightness(1)}
   50%{filter:brightness(1.15)}
 }
 
-#formScreen{
-  position:fixed;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  z-index:10;
-  transition:.8s;
+#formScreen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  z-index: 10;
+  transition: .8s;
 }
 
-input,textarea,select{
-  width:340px;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  font-size:16px;
+input,textarea,select {
+  width: 340px;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
 }
 
-button{
-  padding:14px 36px;
-  font-size:18px;
-  border:none;
-  border-radius:14px;
-  cursor:pointer;
-  font-weight:900;
-  background:linear-gradient(135deg,#00eaff,#7cff00);
-  box-shadow:0 0 25px rgba(0,234,255,.6);
+button {
+  padding: 14px 36px;
+  font-size: 18px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 900;
+  background: linear-gradient(135deg,#00eaff,#7cff00);
+  box-shadow: 0 0 25px rgba(0,234,255,.6);
 }
 
-#book{
-  width:100vw;
-  height:100vh;
-  display:none;
-  opacity:0;
-  transition:1s;
+#book {
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  opacity: 0;
+  transition: 1s;
 }
 
-.page{
-  width:100%;
-  height:100%;
-  position:relative;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
+.page {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.text{
-  position:relative;
-  z-index:2;
-  width:92%;
-  height:92%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  font-size:24px;
-  line-height:2;
-  text-shadow:0 0 25px #000;
-  background:rgba(0,0,0,0.38);
-  padding:40px;
-  border-radius:14px;
-  overflow-y:auto;
-  backdrop-filter:blur(4px);
+.page img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+  z-index: 1;
 }
 
-#controls{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  display:none;
-  gap:12px;
-  z-index:20;
+.text {
+  position: relative;
+  z-index: 2;
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 22px;
+  line-height: 1.8;
+  text-shadow: 0 0 20px #000;
+  background: rgba(0,0,0,0.35);
+  padding: 30px;
+  border-radius: 12px;
+  overflow-y: auto;
+}
+
+#controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  gap: 12px;
+  z-index: 20;
 }
 </style>
 </head>
@@ -148,13 +154,13 @@ button{
 <div id="book"></div>
 
 <script>
-const images={
-  school:["school","classroom","students","education","books","teacher"],
-  company:["office","business","corporate","meeting","teamwork","workspace"],
-  project:["technology","startup","innovation","futuristic","idea","creative"]
+const images = {
+  school: ["school","classroom","students","education","books","teacher"],
+  company: ["office","business","corporate","meeting","teamwork","workspace"],
+  project: ["technology","startup","innovation","futuristic","idea","creative"]
 };
 
-const texts={
+const texts = {
   school:[
     "هذا المحتوى موجه للبيئة التعليمية. يشرح الدرس بطريقة مبسطة. يهدف لفهم الطلاب وتطبيقهم.",
     "أنشطة عملية وتمارين ممتعة للطلاب. تساعد على تثبيت المعلومات. تشجع على المشاركة.",
@@ -194,33 +200,34 @@ const texts={
 };
 
 function generateBook(){
-  const title=document.getElementById("title").value||"AI GOD BOOK";
-  const mode=document.getElementById("mode").value;
+  const title = document.getElementById("title").value || "AI GOD BOOK";
+  const mode = document.getElementById("mode").value;
 
-  document.getElementById("formScreen").style.opacity=0;
+  document.getElementById("formScreen").style.opacity = 0;
   setTimeout(()=>document.getElementById("formScreen").style.display="none",700);
 
-  const book=document.getElementById("book");
-  book.innerHTML="";
+  const book = document.getElementById("book");
+  book.innerHTML = "";
 
   for(let i=0;i<10;i++){
-    const keyword=images[mode][i%images[mode].length];
-    const imgURL=`https://source.unsplash.com/1600x2400/?${keyword}&sig=${Date.now()+i}`;
-    const textContent=texts[mode][i];
+    const keyword = images[mode][i % images[mode].length];
+    const imgURL = `https://source.unsplash.com/900x1400/?${keyword}&sig=${Date.now()+i}`;
+    const textContent = texts[mode][i];
 
-    book.innerHTML+=`
-    <div class="page" style="background-image:url('${imgURL}')">
-      <div class="text">
-        <h2>${title}</h2>
-        <p>${textContent}</p>
-        <p>القسم ${i+1}</p>
-      </div>
-    </div>`;
+    book.innerHTML += `
+      <div class="page">
+        <img src="${imgURL}">
+        <div class="text">
+          <h2>${title}</h2>
+          <p>${textContent}</p>
+          <p>القسم ${i+1}</p>
+        </div>
+      </div>`;
   }
 
-  book.style.display="block";
+  book.style.display = "block";
   setTimeout(()=>book.style.opacity=1,300);
-  document.getElementById("controls").style.display="flex";
+  document.getElementById("controls").style.display = "flex";
 
   new St.PageFlip(book,{
     width:900,
@@ -230,10 +237,10 @@ function generateBook(){
   }).loadFromHTML(document.querySelectorAll(".page"));
 }
 
-function goBack(){location.reload();}
-function exportPDF(){html2pdf().from(document.getElementById("book")).set({filename:"AI_GOD_SYSTEM.pdf"}).save();}
+function goBack(){ location.reload(); }
+function exportPDF(){ html2pdf().from(document.getElementById("book")).set({filename:"AI_GOD_SYSTEM.pdf"}).save(); }
 
-document.addEventListener("mousemove",e=>{
+document.addEventListener("mousemove", e=>{
   document.documentElement.style.setProperty("--mx",(e.clientX/innerWidth)*100+"%");
   document.documentElement.style.setProperty("--my",(e.clientY/innerHeight)*100+"%");
 });
