@@ -2,104 +2,134 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI OMEGA BROCHURE ∞</title>
+<title>OMEGA ∞ SMART BOOK</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 
 <style>
 body{
 margin:0;
+background:#0b132b;
 font-family:'Cairo',sans-serif;
-background:#0f172a;
-color:white;
 overflow:hidden;
 }
 
-/* اختيار النوع */
-.category{
-position:fixed;
-top:10px;
-left:50%;
-transform:translateX(-50%);
-z-index:999;
-}
-.category button{
-margin:4px;
-padding:8px 16px;
-border:none;
-border-radius:8px;
-background:#00c9ff;
-color:white;
-cursor:pointer;
-font-weight:bold;
-}
-
-/* الكتاب */
 #book{
-width:420px;
-height:600px;
-margin:80px auto;
-}
-.page{
-background:white;
-color:#111;
-padding:20px;
-box-sizing:border-box;
-border-radius:10px;
+width:100vw;
+height:100vh;
 }
 
-/* الصور */
-.page img{
+.page{
+background:#ffffff;
 width:100%;
-height:220px;
-object-fit:cover;
-border-radius:10px;
-margin-top:10px;
+height:100%;
+padding:40px;
+box-sizing:border-box;
+display:flex;
+flex-direction:column;
+justify-content:flex-start;
+align-items:center;
+overflow:hidden;
 }
-h1{font-size:22px;margin:0 0 10px;}
-p{font-size:14px;line-height:1.8;}
+
+h1{
+margin:0;
+font-size:32px;
+color:#111;
+}
+
+p{
+font-size:18px;
+line-height:1.9;
+text-align:center;
+max-width:900px;
+}
+
+.images{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-top:20px;
+width:100%;
+height:420px;
+}
+
+.images img{
+width:100%;
+height:100%;
+object-fit:cover;
+border-radius:12px;
+}
+
+.title{
+background:#00e5ff;
+color:#000;
+padding:6px 20px;
+border-radius:20px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- اختيار الصور -->
-<div class="category">
-<button onclick="setCategory('school')">مدرسة</button>
-<button onclick="setCategory('company')">شركة</button>
-<button onclick="setCategory('tech')">تقنية</button>
-<button onclick="setCategory('games')">ألعاب</button>
-</div>
-
-<!-- الكتاب -->
 <div id="book">
 
-<!-- الصفحة 1 -->
+<!-- الصفحة الأولى -->
 <div class="page">
-<h1>مدرستي المستقبلية</h1>
+<div class="title">اسم المدرسة</div>
+<h1>مدرستي الذكية</h1>
+
 <p>
-هذه المدرسة تمثل بيئة تعليمية متطورة تهدف إلى بناء جيل واعٍ ومبدع، حيث يتم استخدام أحدث التقنيات في التعليم،
-وتوفير بيئة محفزة للابتكار والتفكير. تسعى المدرسة إلى تطوير مهارات الطلاب العلمية والعملية،
-وتعزيز القيم الأخلاقية والاجتماعية لديهم، مما يساعدهم على النجاح في حياتهم الدراسية والمهنية.
-كما توفر المدرسة أنشطة متنوعة وبرامج تعليمية حديثة تواكب التطور التكنولوجي في العالم.
+نحن مدرسة متقدمة نعمل على تقديم أفضل جودة تعليم ممكنة باستخدام أحدث التقنيات
+والابتكار المستمر. نركز على تطوير الطلاب علمياً وعملياً لبناء مستقبل قوي مليء
+بالنجاحات. نوفر بيئة تعليمية حديثة، فصول ذكية، وأنشطة تفاعلية تساعد الطلاب على
+التعلم بطريقة ممتعة واحترافية. هدفنا هو بناء جيل مبدع قادر على قيادة المستقبل.
 </p>
-<img class="dynamic-img">
+
+<div class="images">
+
+<!-- مدرسة -->
+<img src="https://images.unsplash.com/photo-1588072432836-e10032774350">
+
+<!-- شركة -->
+<img src="https://images.unsplash.com/photo-1556761175-b413da4baf72">
+
+<!-- تقنية -->
+<img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f">
+
+<!-- ألعاب -->
+<img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437d1">
+
+</div>
 </div>
 
-<!-- الصفحات 2-12 -->
+
+<!-- الصفحات الباقية -->
 <script>
 for(let i=2;i<=12;i++){
 document.write(`
 <div class="page">
-<h1>صفحة رقم ${i}</h1>
+<div class="title">صفحة رقم ${i}</div>
+
 <p>
-هذه صفحة ذكية تحتوي على محتوى مختلف بالكامل. يتم عرض معلومات متنوعة ومفيدة تتغير حسب اختيار المستخدم.
-النظام الذكي يولد نصوصاً احترافية مع صور مرتبطة بالموضوع، مما يجعل التجربة تفاعلية وجذابة.
-يمكن استخدام هذا النظام في التعليم، الشركات، التقنية، أو حتى الألعاب لعرض المعلومات بشكل حديث واحترافي.
+هذه صفحة ذكية تحتوي على محتوى احترافي طويل لعرض المعلومات بشكل واضح وجذاب.
+يتم استخدام هذا النظام في المدارس، الشركات، العروض التقديمية، والكتالوجات
+الرقمية. يوفر تجربة تفاعلية حديثة مع تصميم أنيق وسهل الاستخدام.
+يمكنك إضافة أي محتوى تريده هنا مثل النصوص، الصور، أو المعلومات التعليمية
+والتقنية، مما يجعل العرض احترافي بالكامل.
 </p>
-<img class="dynamic-img">
+
+<div class="images">
+<img src="https://source.unsplash.com/800x600/?school">
+<img src="https://source.unsplash.com/800x600/?technology">
+</div>
+
 </div>
 `);
 }
@@ -107,80 +137,24 @@ document.write(`
 
 </div>
 
+
 <script>
-/* PageFlip */
 const pageFlip = new St.PageFlip(
 document.getElementById("book"),
-{width:420,height:600,showCover:true}
+{
+width:550,
+height:750,
+size:"stretch",
+minWidth:315,
+minHeight:420,
+maxWidth:2000,
+maxHeight:2000,
+showCover:true,
+mobileScrollSupport:false
+}
 );
+
 pageFlip.loadFromHTML(document.querySelectorAll(".page"));
-
-/* الصور الذكية */
-let category="school";
-
-const images={
-school:[
-"https://source.unsplash.com/800x600/?school",
-"https://source.unsplash.com/800x600/?classroom",
-"https://source.unsplash.com/800x600/?students",
-"https://source.unsplash.com/800x600/?education",
-"https://source.unsplash.com/800x600/?teacher",
-"https://source.unsplash.com/800x600/?library",
-"https://source.unsplash.com/800x600/?study",
-"https://source.unsplash.com/800x600/?graduation",
-"https://source.unsplash.com/800x600/?university",
-"https://source.unsplash.com/800x600/?school-building"
-],
-company:[
-"https://source.unsplash.com/800x600/?business",
-"https://source.unsplash.com/800x600/?office",
-"https://source.unsplash.com/800x600/?meeting",
-"https://source.unsplash.com/800x600/?corporate",
-"https://source.unsplash.com/800x600/?startup",
-"https://source.unsplash.com/800x600/?teamwork",
-"https://source.unsplash.com/800x600/?manager",
-"https://source.unsplash.com/800x600/?conference",
-"https://source.unsplash.com/800x600/?company",
-"https://source.unsplash.com/800x600/?work"
-],
-tech:[
-"https://source.unsplash.com/800x600/?technology",
-"https://source.unsplash.com/800x600/?coding",
-"https://source.unsplash.com/800x600/?computer",
-"https://source.unsplash.com/800x600/?ai",
-"https://source.unsplash.com/800x600/?robot",
-"https://source.unsplash.com/800x600/?programming",
-"https://source.unsplash.com/800x600/?server",
-"https://source.unsplash.com/800x600/?software",
-"https://source.unsplash.com/800x600/?cyber",
-"https://source.unsplash.com/800x600/?digital"
-],
-games:[
-"https://source.unsplash.com/800x600/?gaming",
-"https://source.unsplash.com/800x600/?video-game",
-"https://source.unsplash.com/800x600/?esports",
-"https://source.unsplash.com/800x600/?controller",
-"https://source.unsplash.com/800x600/?playstation",
-"https://source.unsplash.com/800x600/?xbox",
-"https://source.unsplash.com/800x600/?gamer",
-"https://source.unsplash.com/800x600/?arcade",
-"https://source.unsplash.com/800x600/?online-game",
-"https://source.unsplash.com/800x600/?game"
-]
-};
-
-function setCategory(c){
-category=c;
-loadImages();
-}
-
-function loadImages(){
-const imgs=document.querySelectorAll(".dynamic-img");
-imgs.forEach((img,i)=>{
-img.src=images[category][i%10];
-});
-}
-window.onload=loadImages;
 </script>
 
 </body>
