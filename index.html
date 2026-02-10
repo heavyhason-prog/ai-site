@@ -2,32 +2,45 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI Smart Brochure - GOD MODE</title>
+<title>AI OMEGA ∞</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 
 <style>
+:root{
+--bg:#0a0f1c;
+--page1:#111a2e;
+--page2:#0a0f1c;
+--text:#ffffff;
+--accent:#00eaff;
+}
+
+.light{
+--bg:#e9eef5;
+--page1:#ffffff;
+--page2:#f3f6fb;
+--text:#111;
+}
+
 body{
 margin:0;
-background:#0a0f1c;
+background:var(--bg);
 font-family:'Cairo',sans-serif;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
 overflow:hidden;
+transition:0.3s;
 }
 
-#book{
-width:380px;
-height:560px;
-}
+#book{width:380px;height:560px;}
 
 .page{
-background:linear-gradient(145deg,#111a2e,#0a0f1c);
-color:#fff;
+background:linear-gradient(145deg,var(--page1),var(--page2));
+color:var(--text);
 padding:20px;
 box-sizing:border-box;
 display:flex;
@@ -37,17 +50,8 @@ border-radius:12px;
 overflow:hidden;
 }
 
-h1{
-margin:0;
-font-size:22px;
-color:#00eaff;
-}
-
-p{
-font-size:14px;
-line-height:1.8;
-color:#ddd;
-}
+h1{margin:0;font-size:22px;color:var(--accent);}
+p{font-size:14px;line-height:1.9;}
 
 img{
 width:100%;
@@ -56,28 +60,23 @@ margin-top:10px;
 pointer-events:none;
 }
 
-.footer{
-text-align:center;
-font-size:12px;
-opacity:0.6;
-}
+.footer{text-align:center;font-size:12px;opacity:0.6;}
 
 button{
 position:fixed;
 bottom:20px;
-background:#00eaff;
 border:none;
-padding:12px 20px;
+padding:12px 18px;
 border-radius:8px;
 cursor:pointer;
 font-weight:bold;
 z-index:9999;
+background:var(--accent);
 }
 
 #next{right:20px;}
 #prev{left:20px;}
-
-button:hover{background:#00bcd4;}
+#mode{left:50%;transform:translateX(-50%);bottom:70px;}
 </style>
 </head>
 
@@ -87,114 +86,55 @@ button:hover{background:#00bcd4;}
 
 <button id="prev">◀</button>
 <button id="next">▶</button>
+<button id="mode">🌙 / ☀️</button>
+
+<audio id="flipSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9b9a0f.mp3?filename=page-flip-110997.mp3"></audio>
 
 <script>
 const book = document.getElementById("book");
+const sound = document.getElementById("flipSound");
 
-const pages = [
+function flipAudio(){
+sound.currentTime=0;
+sound.play();
+}
 
-`<div class="page">
-<h1>البيانات</h1>
+const pages=[];
+
+for(let i=1;i<=12;i++){
+pages.push(`
+<div class="page">
+<h1>${i===1?"البيانات":"AI OMEGA ∞"}</h1>
 <p>
-هذا البروشور الذكي هو نظام عرض احترافي متكامل مصمم ليقدم تجربة تفاعلية
-سلسة وقوية. تم تطويره باستخدام أحدث التقنيات ليعمل بدون أخطاء
-وبسرعة عالية جداً. يدعم تقليب الصفحات الواقعي، تصميم عصري،
-وأداء ثابت حتى على الأجهزة الضعيفة. هذا الإصدار يعتبر النسخة
-النهائية المطلقة التي تجمع بين القوة والجمال والاستقرار.
+هذا هو نظام البروشور الذكي المطور في وضع OMEGA.
+أداء خارق، استقرار كامل، سرعة عالية جداً، وتجربة
+تفاعلية احترافية بدون أي أخطاء. يمكنك التصفح بالسحب،
+الأزرار، أو اللمس. النظام قابل للتطوير بلا حدود.
 </p>
-<div class="footer">1 / 12</div>
-</div>`,
+${i%2==0?`<img src="https://picsum.photos/400/250?random=${i}">`:""}
+<div class="footer">${i} / 12</div>
+</div>
+`);
+}
 
-`<div class="page">
-<h1>الذكاء الاصطناعي</h1>
-<p>
-يعتمد النظام على مفاهيم الذكاء الاصطناعي الحديثة في عرض المعلومات
-وتنظيمها بطريقة سلسة تساعد المستخدم على الفهم بسرعة. كما يوفر
-تصميماً احترافياً يركز على تجربة المستخدم، ويمنحك تحكماً كاملاً
-في المحتوى، مع إمكانية التوسع والتطوير بدون حدود.
-</p>
-<img src="https://picsum.photos/400/250?1">
-<div class="footer">2 / 12</div>
-</div>`,
-
-`<div class="page">
-<h1>الأداء</h1>
-<p>
-تم تحسين الأداء بشكل كامل لضمان سرعة عالية جداً واستجابة فورية
-بدون أي تقطيع أو بطء. كل جزء من النظام مصمم ليعمل بكفاءة
-قصوى حتى في أصعب الظروف، مما يمنحك تجربة استخدام مستقرة
-وخالية من المشاكل.
-</p>
-<img src="https://picsum.photos/400/250?2">
-<div class="footer">3 / 12</div>
-</div>`,
-
-`<div class="page">
-<h1>التصميم</h1>
-<p>
-تصميم عصري مستوحى من واجهات المستقبل، ألوان مريحة للعين،
-وانسيابية في الحركة والتنقل بين الصفحات. كل عنصر تم ضبطه
-ليعطي إحساساً بالفخامة والاحترافية.
-</p>
-<img src="https://picsum.photos/400/250?3">
-<div class="footer">4 / 12</div>
-</div>`,
-
-`<div class="page"><h1>النظام</h1><p>
-النظام مرن وقابل للتطوير، يمكنك إضافة صفحات، صور، نصوص،
-أو حتى تحويله إلى تطبيق كامل بسهولة. كل شيء منظم
-ليمنحك أقصى تحكم ممكن.
-</p><div class="footer">5 / 12</div></div>`,
-
-`<div class="page"><h1>التفاعل</h1><p>
-تقليب الصفحات يعمل بسلاسة تامة بدون أخطاء، ويمكنك
-التحكم الكامل باستخدام الأزرار أو السحب.
-</p><div class="footer">6 / 12</div></div>`,
-
-`<div class="page"><h1>الاستقرار</h1><p>
-تم إصلاح جميع المشاكل، بما في ذلك مشكلة الضغط،
-والصور، والتجميد، لضمان تجربة مستقرة 100%.
-</p><div class="footer">7 / 12</div></div>`,
-
-`<div class="page"><h1>القوة</h1><p>
-هذا الإصدار يمثل أعلى مستوى من التطوير،
-أداء قوي، سرعة عالية، وتصميم احترافي.
-</p><div class="footer">8 / 12</div></div>`,
-
-`<div class="page"><h1>المرونة</h1><p>
-يمكنك تعديل أي شيء بسهولة، إضافة صفحات،
-تغيير النصوص، أو تطويره إلى مشروع كامل.
-</p><div class="footer">9 / 12</div></div>`,
-
-`<div class="page"><h1>المستقبل</h1><p>
-هذا النظام قابل للتطوير ليصبح منصة عرض
-ذكية متكاملة تعتمد على تقنيات المستقبل.
-</p><div class="footer">10 / 12</div></div>`,
-
-`<div class="page"><h1>النسخة النهائية</h1><p>
-تم ضبط كل شيء ليعمل بدون أخطاء،
-تجربة مثالية، واستقرار كامل.
-</p><div class="footer">11 / 12</div></div>`,
-
-`<div class="page"><h1>GOD MODE</h1><p>
-تهانينا، أنت الآن تستخدم النسخة المطلقة
-من البروشور الذكي — أقصى قوة، أقصى أداء،
-وأقصى استقرار.
-</p><div class="footer">12 / 12</div></div>`
-
-];
-
-const flipBook = new St.PageFlip(book, {
+const flipBook = new St.PageFlip(book,{
 width:380,
 height:560,
 showCover:true,
-mobileScrollSupport:false
+mobileScrollSupport:false,
+useMouseEvents:true
 });
 
 flipBook.loadFromHTML(pages);
 
-document.getElementById("next").onclick=()=>flipBook.flipNext();
-document.getElementById("prev").onclick=()=>flipBook.flipPrev();
+document.getElementById("next").onclick=()=>{flipBook.flipNext();flipAudio();}
+document.getElementById("prev").onclick=()=>{flipBook.flipPrev();flipAudio();}
+
+book.addEventListener("click",flipAudio);
+
+document.getElementById("mode").onclick=()=>{
+document.body.classList.toggle("light");
+};
 </script>
 
 </body>
