@@ -2,121 +2,178 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>AI OMEGA FINAL</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Brochure GODLIKE</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
+:root{
+--blue:#0f4c81;
+--green:#10e6b1;
+--text:#fff;
+}
+
 body{
 margin:0;
-background:#070d18;
 font-family:'Cairo',sans-serif;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
+background:linear-gradient(135deg,var(--blue),var(--green));
+color:#fff;
+}
+
+/* الصفحات */
+#book{margin:auto;width:400px;height:640px}
+
+.page{
+position:relative;
+border-radius:20px;
 overflow:hidden;
 }
 
-#book{
-width:400px;
-height:580px;
-}
-
-.page{
-background:linear-gradient(145deg,#0f1c33,#091424);
-color:#fff;
-padding:20px;
-box-sizing:border-box;
-border-radius:10px;
-display:flex;
-flex-direction:column;
-justify-content:space-between;
-}
-
-h1{margin:0;color:#00eaff;}
-p{font-size:14px;line-height:1.9;}
-
-img{
+/* الصورة */
+.page img{
+position:absolute;
 width:100%;
-border-radius:10px;
-margin-top:10px;
+height:100%;
+object-fit:cover;
 }
 
-.footer{
+/* التدرج فوق الصورة */
+.page::after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.3));
+}
+
+/* المحتوى */
+.content{
+position:absolute;
+bottom:0;
+padding:25px;
+z-index:2;
+}
+
+.cover{
+display:flex;
+align-items:center;
+justify-content:center;
 text-align:center;
-font-size:12px;
-opacity:0.6;
+}
+
+.cover::after{display:none}
+
+.coverBox{
+background:linear-gradient(135deg,#0f4c81,#10e6b1);
+padding:30px;
+border-radius:20px;
 }
 
 button{
-position:fixed;
-bottom:20px;
-background:#00eaff;
-border:none;
+margin:10px auto;
+display:block;
 padding:12px 18px;
-border-radius:8px;
-cursor:pointer;
+border:none;
+border-radius:12px;
+background:linear-gradient(45deg,#22d3ee,#22c55e);
 font-weight:bold;
-z-index:999;
+cursor:pointer;
 }
-
-#next{right:20px;}
-#prev{left:20px;}
 </style>
 </head>
 
 <body>
 
-<div id="book">
+<div id="book"></div>
 
-<!-- الصفحات الحقيقية (مهم جداً) -->
-
-<div class="page">
-<h1>البيانات</h1>
-<p>
-هذا هو الإصدار النهائي المستقر من نظام البروشور الذكي.
-تم إصلاح جميع المشاكل: الاختفاء، عدم الضغط، الصور،
-التقليب، التفاعل، والأداء. النظام الآن ثابت وسريع
-ويعمل على الجوال والكمبيوتر بدون أي أخطاء.
-</p>
-<img src="https://picsum.photos/400/250?1">
-<div class="footer">1 / 12</div>
-</div>
+<button onclick="pdf()">تحميل PDF</button>
+<button onclick="autoFlip()">عرض تلقائي</button>
 
 <script>
-for(let i=2;i<=12;i++){
-document.getElementById("book").innerHTML+=`
+let flip;
+
+/* صور جاهزة لكل الصفحات */
+const images=[
+"https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1558021212-51b6ecfa0db9?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1601582589907-f92af5ed9db8?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80",
+"https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=80"
+];
+
+/* نص */
+const texts=[
+"بيئة تعليمية متطورة تدعم الإبداع والتميز.",
+"كادر تعليمي محترف يطور مهارات الطلاب.",
+"مناهج حديثة تعتمد التعلم الذكي.",
+"أنشطة تنمي التفكير والإبداع.",
+"تعليم رقمي متكامل.",
+"قيم وأخلاق عالية.",
+"مرافق مدرسية حديثة.",
+"تقييم مستمر.",
+"شراكة مجتمعية.",
+"إدارة احترافية.",
+"تطوير دائم.",
+"رؤية مستقبلية.",
+"ابتكار وتميز.",
+"نصنع القادة."
+];
+
+const book=document.getElementById("book");
+
+/* الغلاف */
+book.innerHTML+=`
+<div class="page cover">
+<div class="coverBox">
+<h1>AI GOD BOOK</h1>
+<p>بروشور احترافي تفاعلي</p>
+</div>
+</div>`;
+
+/* الصفحات */
+for(let i=0;i<14;i++){
+book.innerHTML+=`
 <div class="page">
-<h1>AI OMEGA</h1>
-<p>
-نظام احترافي عالي الأداء يعمل بسرعة واستقرار.
-يمكنك التقليب بالسحب أو الأزرار. تم بناء هذا
-النظام ليكون خفيف وسريع وخالي من الأخطاء.
-الإصدار FINAL FORM هو النسخة النهائية المستقرة.
-</p>
-${i%2==0?`<img src="https://picsum.photos/400/250?${i}">`:""}
-<div class="footer">${i} / 12</div>
+<img src="${images[i]}">
+<div class="content">
+<h3>AI GOD BOOK</h3>
+<p>${texts[i]}</p>
+</div>
 </div>`;
 }
 
-const flipBook = new St.PageFlip(document.getElementById("book"),{
-width:400,
-height:580,
-showCover:true,
-mobileScrollSupport:false
-});
+/* تشغيل PageFlip */
+setTimeout(()=>{
+flip=new St.PageFlip(book,{width:400,height:640,showCover:true});
+flip.loadFromHTML(document.querySelectorAll(".page"));
+},300);
 
-flipBook.loadFromHTML(document.querySelectorAll(".page"));
+/* PDF */
+function pdf(){
+html2pdf().from(book).save("AI-Brochure.pdf");
+}
 
-document.getElementById("next").onclick=()=>flipBook.flipNext();
-document.getElementById("prev").onclick=()=>flipBook.flipPrev();
+/* AutoFlip */
+function autoFlip(){
+let i=0;
+let t=setInterval(()=>{
+if(i>=14){clearInterval(t);return;}
+flip.flipNext();
+i++;
+},1200);
+}
 </script>
-
-<button id="prev">◀</button>
-<button id="next">▶</button>
 
 </body>
 </html>
