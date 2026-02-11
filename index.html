@@ -3,29 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI GOD TIER BROCHURE</title>
+<title>OMEGA MAX PRO</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{
---main1:#0f4c81;
---main2:#10e6b1;
-}
-
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:linear-gradient(135deg,var(--main1),var(--main2));
+background:linear-gradient(135deg,#0f4c81,#10e6b1);
 color:#fff;
 }
 
 section{display:none;padding:20px;max-width:950px;margin:auto}
 section.active{display:block}
 
-input,textarea,select{
+input,textarea{
 width:100%;
 padding:12px;
 border:none;
@@ -52,6 +47,7 @@ margin-top:6px;
 position:relative;
 border-radius:20px;
 overflow:hidden;
+background:#0f4c81;
 }
 
 .page img{
@@ -60,6 +56,7 @@ inset:0;
 width:100%;
 height:100%;
 object-fit:cover;
+background:#0f4c81;
 }
 
 .page::after{
@@ -74,7 +71,7 @@ position:absolute;
 bottom:0;
 padding:24px;
 z-index:2;
-line-height:2.05;
+line-height:2;
 font-size:15px;
 }
 
@@ -98,20 +95,13 @@ border-radius:20px;
 <body>
 
 <section id="home" class="active">
-<h2>🚀 AI GOD TIER BROCHURE</h2>
+<h2>🚀 OMEGA MAX PRO</h2>
 <button onclick="show('form')">ابدأ</button>
 </section>
 
 <section id="form">
 <input id="name" placeholder="اسم المؤسسة">
 <textarea id="about" placeholder="نبذة عن المؤسسة"></textarea>
-
-<select id="type">
-<option value="school">🏫 مدرسة</option>
-<option value="company">🏢 شركة</option>
-<option value="tech">💻 تقنية</option>
-</select>
-
 <input type="file" id="upload" multiple accept="image/*">
 <button onclick="generate()">إنشاء البروشور</button>
 </section>
@@ -120,7 +110,7 @@ border-radius:20px;
 <div id="book"></div>
 <button onclick="downloadPDF()">تحميل PDF</button>
 <button onclick="autoFlip()">عرض تلقائي</button>
-<button onclick="show('form')">تعديل البيانات</button>
+<button onclick="show('form')">تعديل</button>
 </section>
 
 <script>
@@ -131,57 +121,20 @@ document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-function smartText(name,type){
-const texts={
-school:[
-"مدرسة حديثة توفر بيئة تعليمية متقدمة.",
-"تنمية مهارات الطلاب وصناعة المستقبل.",
-"تعليم رقمي متطور ومناهج حديثة.",
-"قيم وأخلاق مع تميز أكاديمي.",
-"رؤية تعليمية متقدمة لبناء جيل قوي.",
-"تعليم إبداعي مع دعم كامل.",
-"مدرسة تركز على الابتكار والنجاح.",
-"تعليم تفاعلي حديث.",
-"بيئة تعليمية محفزة.",
-"تطوير مهارات القرن 21."
-],
-company:[
-"شركة تقدم حلول مبتكرة.",
-"خدمات احترافية عالية الجودة.",
-"خبرة قوية في السوق.",
-"تطوير مستمر وابتكار.",
-"نجاح وشراكات قوية.",
-"حلول ذكية للأعمال.",
-"خدمات متكاملة.",
-"رؤية مستقبلية قوية.",
-"إدارة احترافية.",
-"شركة رائدة في المجال."
-],
-tech:[
-"تقنية متطورة وحديثة.",
-"ابتكار رقمي مستمر.",
-"حلول تكنولوجية متقدمة.",
-"ذكاء اصطناعي وتطوير.",
-"مستقبل رقمي ذكي.",
-"أنظمة ذكية قوية.",
-"تكنولوجيا متقدمة.",
-"برمجيات حديثة.",
-"تطوير رقمي.",
-"ابتكار تقني مستمر."
-]
-};
-return texts[type];
+function longText(name){
+return `تعد ${name} مؤسسة متقدمة تسعى إلى تقديم بيئة حديثة تعتمد على الجودة والابتكار والتطوير المستمر في جميع المجالات. تعمل المؤسسة على توفير نظام متكامل يركز على بناء المعرفة وتنمية المهارات وصناعة مستقبل قوي يعتمد على التفكير الإبداعي والعمل الجماعي والتخطيط الذكي. تهدف المؤسسة إلى خلق تجربة مميزة تجمع بين التعلم الحديث والتقنيات المتطورة لتقديم أفضل النتائج وتحقيق أعلى مستويات النجاح والتميز. كما تسعى إلى تعزيز القيم والأخلاق والانضباط مع دعم الابتكار والبحث والتطوير واستخدام أحدث الأساليب الحديثة لتحقيق النمو المستدام. توفر المؤسسة بيئة محفزة تشجع على الإبداع والإنجاز وتطوير القدرات وصناعة قادة المستقبل من خلال برامج متقدمة ورؤية واضحة تواكب التغيرات العالمية. تعتمد المؤسسة على نظام حديث في الإدارة والتخطيط يركز على الجودة والتميز والابتكار وبناء شراكات قوية لتحقيق النجاح المستمر.`;
 }
 
-/* صور حسب الاختيار */
-function getImages(type){
-const images={
-school:Array.from({length:10},(_,i)=>`https://source.unsplash.com/900x1200/?school,education&sig=${i}`),
-company:Array.from({length:10},(_,i)=>`https://source.unsplash.com/900x1200/?company,office&sig=${i}`),
-tech:Array.from({length:10},(_,i)=>`https://source.unsplash.com/900x1200/?technology,ai&sig=${i}`)
-};
-return images[type];
-}
+const backupImages=[
+"https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
+"https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
+"https://images.unsplash.com/photo-1519389950473-47ba0277781c",
+"https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+"https://images.unsplash.com/photo-1518779578993-ec3579fee39f",
+"https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+"https://images.unsplash.com/photo-1531297484001-80022131f5a1",
+"https://images.unsplash.com/photo-1521737604893-d14cc237f11d"
+];
 
 function generate(){
 const book=document.getElementById("book");
@@ -189,18 +142,13 @@ book.innerHTML="";
 
 let nameVal=name.value||"المؤسسة";
 let aboutVal=about.value||"وصف تعريفي";
-let typeVal=type.value;
+let long=longText(nameVal);
 
-let texts=smartText(nameVal,typeVal);
 let imgs=[];
-
-/* صور المستخدم */
 for(let f of upload.files){
 imgs.push(URL.createObjectURL(f));
 }
-
-/* صور تلقائية */
-imgs=imgs.concat(getImages(typeVal));
+while(imgs.length<8) imgs.push(backupImages[imgs.length]);
 
 book.innerHTML+=`
 <div class="page cover">
@@ -210,13 +158,13 @@ book.innerHTML+=`
 </div>
 </div>`;
 
-for(let i=0;i<10;i++){
+for(let i=0;i<8;i++){
 book.innerHTML+=`
 <div class="page">
-<img src="${imgs[i]}">
+<img src="${imgs[i]}" loading="lazy" onerror="this.src='${backupImages[i]}'">
 <div class="content">
 <h3>${nameVal}</h3>
-<p>${texts[i]}</p>
+<p>${long}</p>
 </div>
 </div>`;
 }
@@ -231,13 +179,13 @@ flip.loadFromHTML(document.querySelectorAll(".page"));
 }
 
 function downloadPDF(){
-html2pdf().from(book).save("GOD-TIER-Brochure.pdf");
+html2pdf().from(book).save("OMEGA-MAX-PRO.pdf");
 }
 
 function autoFlip(){
 let i=0;
 let t=setInterval(()=>{
-if(i>=10){clearInterval(t);return;}
+if(i>=8){clearInterval(t);return;}
 flip.flipNext();
 i++;
 },1200);
