@@ -3,22 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OMEGA GOD ULTIMATE ∞</title>
+<title>AI GOD TIER BROCHURE</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
+:root{
+--main1:#0f4c81;
+--main2:#10e6b1;
+}
+
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:linear-gradient(135deg,#0f172a,#020617);
+background:linear-gradient(135deg,var(--main1),var(--main2));
 color:#fff;
-overflow:hidden;
 }
 
-section{display:none;padding:20px;max-width:1000px;margin:auto}
+section{display:none;padding:20px;max-width:950px;margin:auto}
 section.active{display:block}
 
 input,textarea,select{
@@ -27,7 +31,7 @@ padding:12px;
 border:none;
 border-radius:12px;
 margin-bottom:10px;
-background:rgba(255,255,255,.1);
+background:rgba(255,255,255,.15);
 color:#fff;
 }
 
@@ -39,15 +43,15 @@ border-radius:12px;
 background:linear-gradient(45deg,#22d3ee,#22c55e);
 font-weight:900;
 cursor:pointer;
+margin-top:6px;
 }
 
-#book{margin:auto;width:420px;height:640px}
+#book{margin:auto;width:400px;height:640px}
 
 .page{
 position:relative;
-border-radius:18px;
+border-radius:20px;
 overflow:hidden;
-background:#000;
 }
 
 .page img{
@@ -62,15 +66,15 @@ object-fit:cover;
 content:"";
 position:absolute;
 inset:0;
-background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.3));
+background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.35));
 }
 
 .content{
 position:absolute;
 bottom:0;
-padding:20px;
+padding:24px;
 z-index:2;
-line-height:2;
+line-height:2.05;
 font-size:15px;
 }
 
@@ -79,7 +83,14 @@ display:flex;
 align-items:center;
 justify-content:center;
 text-align:center;
+}
+
+.cover::after{display:none}
+
+.coverBox{
 background:linear-gradient(135deg,#0f4c81,#10e6b1);
+padding:30px;
+border-radius:20px;
 }
 </style>
 </head>
@@ -87,108 +98,122 @@ background:linear-gradient(135deg,#0f4c81,#10e6b1);
 <body>
 
 <section id="home" class="active">
-<h2>OMEGA GOD ULTIMATE ∞</h2>
+<h2>🚀 AI GOD TIER BROCHURE</h2>
 <button onclick="show('form')">ابدأ</button>
 </section>
 
 <section id="form">
 <input id="name" placeholder="اسم المؤسسة">
-<textarea id="about" placeholder="نبذة"></textarea>
+<textarea id="about" placeholder="نبذة عن المؤسسة"></textarea>
 
 <select id="type">
 <option value="school">🏫 مدرسة</option>
 <option value="company">🏢 شركة</option>
 <option value="tech">💻 تقنية</option>
-<option value="games">🎮 ألعاب</option>
 </select>
 
 <input type="file" id="upload" multiple accept="image/*">
-<button onclick="generate()">إنشاء OMEGA</button>
+<button onclick="generate()">إنشاء البروشور</button>
 </section>
 
 <section id="result">
 <div id="book"></div>
-<button onclick="autoFlip()">عرض تلقائي</button>
 <button onclick="downloadPDF()">تحميل PDF</button>
-<button onclick="show('form')">تعديل</button>
+<button onclick="autoFlip()">عرض تلقائي</button>
+<button onclick="show('form')">تعديل البيانات</button>
 </section>
 
 <script>
 let flip;
 
-/* تنقل */
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* صور حسب النوع */
+function smartText(name,type){
+const texts={
+school:[
+"مدرسة حديثة توفر بيئة تعليمية متقدمة.",
+"تنمية مهارات الطلاب وصناعة المستقبل.",
+"تعليم رقمي متطور ومناهج حديثة.",
+"قيم وأخلاق مع تميز أكاديمي.",
+"رؤية تعليمية متقدمة لبناء جيل قوي.",
+"تعليم إبداعي مع دعم كامل.",
+"مدرسة تركز على الابتكار والنجاح.",
+"تعليم تفاعلي حديث.",
+"بيئة تعليمية محفزة.",
+"تطوير مهارات القرن 21."
+],
+company:[
+"شركة تقدم حلول مبتكرة.",
+"خدمات احترافية عالية الجودة.",
+"خبرة قوية في السوق.",
+"تطوير مستمر وابتكار.",
+"نجاح وشراكات قوية.",
+"حلول ذكية للأعمال.",
+"خدمات متكاملة.",
+"رؤية مستقبلية قوية.",
+"إدارة احترافية.",
+"شركة رائدة في المجال."
+],
+tech:[
+"تقنية متطورة وحديثة.",
+"ابتكار رقمي مستمر.",
+"حلول تكنولوجية متقدمة.",
+"ذكاء اصطناعي وتطوير.",
+"مستقبل رقمي ذكي.",
+"أنظمة ذكية قوية.",
+"تكنولوجيا متقدمة.",
+"برمجيات حديثة.",
+"تطوير رقمي.",
+"ابتكار تقني مستمر."
+]
+};
+return texts[type];
+}
+
+/* صور حسب الاختيار */
 function getImages(type){
-let base={
-school:"school",
-company:"business",
-tech:"technology",
-games:"gaming"
-}[type];
-
-let arr=[];
-for(let i=1;i<=40;i++){
-arr.push(`https://source.unsplash.com/900x1200/?${base}&sig=${i}`);
-}
-return arr;
+const images={
+school:Array.from({length:10},(_,i)=>`https://source.unsplash.com/900x1200/?school,education&sig=${i}`),
+company:Array.from({length:10},(_,i)=>`https://source.unsplash.com/900x1200/?company,office&sig=${i}`),
+tech:Array.from({length:10},(_,i)=>`https://source.unsplash.com/900x1200/?technology,ai&sig=${i}`)
+};
+return images[type];
 }
 
-/* جمل بدون تكرار */
-function generateTexts(name,type,count){
-let topics={
-school:["تعليم","طلاب","معلمين","مناهج","إبداع","أنشطة","تفوق","مستقبل","نجاح","قيم"],
-company:["إدارة","استثمار","جودة","فريق","تطوير","سوق","إنجاز","شراكة","قيادة","نمو"],
-tech:["تقنية","ذكاء","برمجة","أنظمة","تطوير","ابتكار","رقمي","بيانات","أمان","سرعة"],
-games:["ألعاب","مغامرة","تحدي","احتراف","متعة","بطولة","إثارة","أكشن","ذكاء","تصميم"]
-}[type];
-
-let texts=[];
-for(let i=0;i<count;i++){
-let t=topics[i%topics.length];
-texts.push(`${t} — ${name} يقدم تجربة متقدمة تعتمد على الابتكار والتطوير المستمر لتحقيق أعلى مستويات الجودة والأداء في بيئة احترافية متكاملة تدعم الإبداع والتميز.`);
-}
-return texts;
-}
-
-/* إنشاء الكتاب */
 function generate(){
-
 const book=document.getElementById("book");
 book.innerHTML="";
 
 let nameVal=name.value||"المؤسسة";
-let aboutVal=about.value||"نبذة تعريفية";
+let aboutVal=about.value||"وصف تعريفي";
 let typeVal=type.value;
 
-/* صور */
+let texts=smartText(nameVal,typeVal);
 let imgs=[];
+
+/* صور المستخدم */
 for(let f of upload.files){
 imgs.push(URL.createObjectURL(f));
 }
+
+/* صور تلقائية */
 imgs=imgs.concat(getImages(typeVal));
 
-/* نصوص */
-let texts=generateTexts(nameVal,typeVal,120);
-
-/* الغلاف */
 book.innerHTML+=`
 <div class="page cover">
-<div>
+<div class="coverBox">
 <h1>${nameVal}</h1>
 <p>${aboutVal}</p>
 </div>
 </div>`;
 
-/* الصفحات */
-for(let i=0;i<120;i++){
+for(let i=0;i<10;i++){
 book.innerHTML+=`
 <div class="page">
-<img src="${imgs[i%imgs.length]}">
+<img src="${imgs[i]}">
 <div class="content">
 <h3>${nameVal}</h3>
 <p>${texts[i]}</p>
@@ -198,33 +223,24 @@ book.innerHTML+=`
 
 show("result");
 
-/* تشغيل */
 setTimeout(()=>{
 if(flip)flip.destroy();
-flip=new St.PageFlip(book,{
-width:420,
-height:640,
-showCover:true,
-useMouseEvents:true,
-maxShadowOpacity:0.5
-});
+flip=new St.PageFlip(book,{width:400,height:640,showCover:true});
 flip.loadFromHTML(document.querySelectorAll(".page"));
 },300);
 }
 
-/* عرض تلقائي */
+function downloadPDF(){
+html2pdf().from(book).save("GOD-TIER-Brochure.pdf");
+}
+
 function autoFlip(){
 let i=0;
 let t=setInterval(()=>{
-if(i>120){clearInterval(t);return;}
+if(i>=10){clearInterval(t);return;}
 flip.flipNext();
 i++;
-},900);
-}
-
-/* PDF */
-function downloadPDF(){
-html2pdf().from(book).save("OMEGA-GOD.pdf");
+},1200);
 }
 </script>
 
