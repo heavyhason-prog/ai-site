@@ -3,172 +3,217 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Brochure GODLIKE</title>
+<title>AI BROCHURE GODLIKE</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{
---blue:#0f4c81;
---green:#10e6b1;
---text:#fff;
-}
-
+:root{--main:#00f5ff}
+*{box-sizing:border-box}
 body{
 margin:0;
 font-family:'Cairo',sans-serif;
-background:linear-gradient(135deg,var(--blue),var(--green));
+background:#000;
 color:#fff;
+overflow-x:hidden;
 }
 
-/* الصفحات */
-#book{margin:auto;width:400px;height:640px}
+/* SECTIONS */
+section{display:none;padding:20px;max-width:1100px;margin:auto}
+section.active{display:block}
 
+input,textarea,select,button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+margin-bottom:12px;
+font-size:15px;
+}
+input,textarea,select{background:#111;color:#fff}
+button{
+background:linear-gradient(45deg,var(--main),#00ffa6);
+font-weight:900;cursor:pointer;
+}
+
+/* BOOK */
+#book{margin:auto;max-width:420px;height:640px}
+
+/* PAGE FULL IMAGE */
 .page{
 position:relative;
-border-radius:20px;
+border-radius:22px;
 overflow:hidden;
+display:flex;
+align-items:flex-end;
+color:#fff;
+background-size:cover;
+background-position:center;
+box-shadow:0 0 35px rgba(0,255,255,.35);
 }
 
-/* الصورة */
-.page img{
-position:absolute;
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-/* التدرج فوق الصورة */
 .page::after{
 content:"";
 position:absolute;
 inset:0;
-background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.3));
+background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.2));
 }
 
-/* المحتوى */
 .content{
-position:absolute;
-bottom:0;
-padding:25px;
+position:relative;
 z-index:2;
+padding:22px;
+width:100%;
 }
 
+.badge{
+background:var(--main);
+padding:6px 16px;
+border-radius:20px;
+display:inline-block;
+margin-bottom:10px;
+font-weight:700;
+}
+
+.content p{
+line-height:1.9;
+font-size:15px;
+}
+
+/* COVER */
 .cover{
-display:flex;
 align-items:center;
 justify-content:center;
 text-align:center;
-}
-
-.cover::after{display:none}
-
-.coverBox{
-background:linear-gradient(135deg,#0f4c81,#10e6b1);
-padding:30px;
-border-radius:20px;
-}
-
-button{
-margin:10px auto;
-display:block;
-padding:12px 18px;
-border:none;
-border-radius:12px;
-background:linear-gradient(45deg,#22d3ee,#22c55e);
-font-weight:bold;
-cursor:pointer;
+background:linear-gradient(135deg,#000,#020617);
 }
 </style>
 </head>
 
 <body>
 
+<!-- HOME -->
+<section id="home" class="active">
+<h1>🚀 AI BROCHURE GODLIKE</h1>
+<button onclick="show('form')">ابدأ</button>
+</section>
+
+<!-- FORM -->
+<section id="form">
+<select id="type">
+<option value="school">🏫 مدرسة</option>
+<option value="company">🏢 شركة</option>
+<option value="tech">💻 تقنية</option>
+<option value="gaming">🎮 ألعاب</option>
+</select>
+
+<input id="name" placeholder="اسم الجهة">
+<textarea id="about" placeholder="نبذة"></textarea>
+
+<button onclick="generate()">🔥 إنشاء البروشور</button>
+</section>
+
+<!-- RESULT -->
+<section id="result">
+<h2>📖 البروشور</h2>
 <div id="book"></div>
 
-<button onclick="pdf()">تحميل PDF</button>
-<button onclick="autoFlip()">عرض تلقائي</button>
+<button onclick="downloadPDF()">📄 PDF</button>
+<button onclick="autoFlip()">🎥 عرض تلقائي</button>
+<button onclick="show('form')">🔁 تعديل</button>
+</section>
 
 <script>
 let flip;
 
-/* صور جاهزة لكل الصفحات */
-const images=[
-"https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=80",
-"https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=900&q=80",
-"https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=900&q=80",
-"https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=80",
-"https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80",
-"https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=900&q=80",
-"https://images.unsplash.com/photo-1558021212-51b6ecfa0db9?auto=format&fit=crop&w=900&q=80",
-"https://images.unsplash.com/photo-1601582589907-f92af5ed9db8?auto=format&fit=crop&w=900&q=80",
-"https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=900&q=80",
-"https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80",
-"https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=900&q=80",
-"https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=900&q=80",
-"https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80",
-"https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=80"
-];
+/* NAV */
+function show(id){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
 
-/* نص */
-const texts=[
-"بيئة تعليمية متطورة تدعم الإبداع والتميز.",
-"كادر تعليمي محترف يطور مهارات الطلاب.",
-"مناهج حديثة تعتمد التعلم الذكي.",
-"أنشطة تنمي التفكير والإبداع.",
-"تعليم رقمي متكامل.",
-"قيم وأخلاق عالية.",
-"مرافق مدرسية حديثة.",
-"تقييم مستمر.",
-"شراكة مجتمعية.",
-"إدارة احترافية.",
-"تطوير دائم.",
-"رؤية مستقبلية.",
-"ابتكار وتميز.",
-"نصنع القادة."
-];
+/* IMAGE KEYWORDS */
+const imgMap={
+school:"school classroom students education",
+company:"office business corporate meeting",
+tech:"technology futuristic ai digital",
+gaming:"gaming neon cyberpunk game"
+};
 
+/* GENERATE */
+function generate(){
 const book=document.getElementById("book");
+book.innerHTML="";
 
-/* الغلاف */
+let typeVal=type.value;
+let nameVal=name.value||"اسم الجهة";
+let aboutVal=about.value||"بروشور احترافي";
+
+let keyword=imgMap[typeVal];
+
+/* COVER */
 book.innerHTML+=`
 <div class="page cover">
-<div class="coverBox">
-<h1>AI GOD BOOK</h1>
-<p>بروشور احترافي تفاعلي</p>
+<div class="content">
+<h1>${nameVal}</h1>
+<p>${aboutVal}</p>
 </div>
 </div>`;
 
-/* الصفحات */
-for(let i=0;i<14;i++){
+/* 12 PAGES DIFFERENT TEXT */
+for(let i=1;i<=12;i++){
+let img=`https://source.unsplash.com/600x900/?${keyword}&sig=${i}`;
 book.innerHTML+=`
-<div class="page">
-<img src="${images[i]}">
+<div class="page" style="background-image:url('${img}')">
 <div class="content">
-<h3>AI GOD BOOK</h3>
-<p>${texts[i]}</p>
+<div class="badge">القسم ${i}</div>
+<p>
+نقدم تجربة احترافية متكاملة تعتمد على الجودة والابتكار.
+نعمل باستمرار على تطوير الأداء وتحقيق أفضل النتائج.
+نلتزم بأعلى المعايير لضمان رضا المستخدمين.
+نؤمن بأن النجاح يأتي من العمل الجاد والتخطيط السليم.
+هدفنا بناء مستقبل قوي قائم على التميز والاستمرارية.
+نطمح دائماً للوصول إلى مستوى أعلى من الإنجاز.
+</p>
 </div>
 </div>`;
 }
 
-/* تشغيل PageFlip */
+/* END PAGE */
+book.innerHTML+=`
+<div class="page" style="background-image:url('https://source.unsplash.com/600x900/?success business')">
+<div class="content">
+<div class="badge">النهاية</div>
+<p>
+شكراً لاهتمامكم.
+نسعد بخدمتكم دائماً.
+جاهزون للتواصل معكم.
+معاً نحو النجاح.
+</p>
+</div>
+</div>`;
+
+show("result");
+
 setTimeout(()=>{
-flip=new St.PageFlip(book,{width:400,height:640,showCover:true});
+if(flip)flip.destroy();
+flip=new St.PageFlip(book,{width:400,height:620,showCover:true});
 flip.loadFromHTML(document.querySelectorAll(".page"));
 },300);
-
-/* PDF */
-function pdf(){
-html2pdf().from(book).save("AI-Brochure.pdf");
 }
 
-/* AutoFlip */
+/* PDF */
+function downloadPDF(){
+html2pdf().from(book).save("GODLIKE.pdf");
+}
+
+/* AUTO FLIP */
 function autoFlip(){
 let i=0;
 let t=setInterval(()=>{
-if(i>=14){clearInterval(t);return;}
+if(i>13){clearInterval(t);return;}
 flip.flipNext();
 i++;
 },1200);
